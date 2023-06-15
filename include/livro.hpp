@@ -19,13 +19,13 @@ private:
 
 public:
     Livro (
-        std::string titulo;
-        std::string autor;
-        std::string genero;
-        std::string resumo;
-        std::string idioma;
-        unsigned int numpag;
-        unsigned int ano;
+        std::string titulo,
+        std::string autor,
+        std::string genero,
+        std::string resumo,
+        std::string idioma,
+        unsigned int numpag,
+        unsigned int ano,
         unsigned float avaliacao
     )
 };

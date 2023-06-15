@@ -1,14 +1,44 @@
 #ifndef ADM_HPP
 #define ADM_HPP
 
-#include "usuario.hpp"
+#include "acervo.hpp"
+#include "entidadebase.hpp"
+#include "livro.hpp"
 
-class Administrador :: Usuario
+#include <iostream>
+#include <set>
+#include <string>
+#include <vector>
+
+//TODO: Implementar
+/**
+ * possível carteira
+*/
+
+/**
+ * @brief Classe responsavel por criar um Administrador
+ */
+class Bibliotecario : public Entidadebase
 {
 private:
-
-public:
     
+public:
+    Bibliotecario(
+        const std::string nome,
+        const std::string senha,
+        const std::string email,
+        int id = 4
+    );
+
+    /**
+     * @brief Insere livro
+     */
+    void InserirLivro(Livro& livro);
+
+    /**
+     * @brief Remove livro
+     */
+    void RemoverLivro(Livro& livro);
 };
 
 #endif
