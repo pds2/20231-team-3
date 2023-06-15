@@ -1,7 +1,6 @@
 #ifndef USUARIO_HPP
 #define USUARIO_HPP
 
-#include "usuario_base.hpp"
 #include "livro.hpp"
 
 #include <iostream>
@@ -18,11 +17,13 @@ private:
     void devolver_livro(Livro &u) const;
     void avaliar_livro(Livro &u) const;
     // calcular por media aritmética, fazendo uma soma dinâmica e contabilizando o número de avaliações para dividir depois
+    std::vector<Livro> livrosPegos;
+    std::vector<Livro> livrosAvaliados;
 
 public:
     Usuario(
         const std::string nome,
-        const std::string senha,
+        const std::string seznha,
         const std::string email,
         int id
     );
