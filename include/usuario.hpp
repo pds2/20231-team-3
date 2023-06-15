@@ -1,33 +1,36 @@
 #ifndef USUARIO_HPP
 #define USUARIO_HPP
 
+#include "usuario_base.hpp"
 #include "livro.hpp"
 
 #include <iostream>
 #include <set>
 #include <string>
 
-class Usuario
+class Usuario : public Usuariobase
 {
 private:
-    virtual std::string _nome;
-    virtual std::string _senha;
-    virtual std::string _email;
-    virtual unsigned int _id;
-    virtual unsigned int _numerodelivros;
-    // possível multa
+    unsigned int _numerodelivros;
+    int _id;
+    void pegar_livro(Livro &u) const;
+    // aplicar limite de livros pegos por _id de usuário
+    void devolver_livro(Livro &u) const;
+    void avaliar_livro(Livro &u) const;
+    // calcular por media aritmética, fazendo uma soma dinâmica e contabilizando o número de avaliações para dividir depois
 
 public:
-    void cadastrar_usuario (Usuario &u);
-    void login_usuario (Usuario &u);
-    // implementação?
-    void pegar_livro (Livro &u);
-    // aplicar limite de livros pegos por _id de usuário
-    void devolver_livro (Livro &u);
-    void avaliar_livro (Livro &u);
-    // calcular por media aritmética, fazendo uma soma dinâmica e contabilizando o número de avaliações para dividir depois
+    Usuario(
+        const std::string nome,
+        const std::string senha,
+        const std::string email,
+        int id
+    );
+
+    int id = 1;
+    unsigned int get_numerolivros();
 };
 
-//lista de usuários
+// lista de usuários
 
 #endif

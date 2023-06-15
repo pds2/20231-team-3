@@ -3,7 +3,7 @@
 
 #include "usuario.hpp"
 
-class Usuariovip :: Usuario
+class Usuariovip :: public Usuariobase
 {
 private:
 
