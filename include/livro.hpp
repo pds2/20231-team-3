@@ -15,7 +15,7 @@ private:
     std::string _idioma;
     unsigned int _numpag;
     unsigned int _ano;
-    unsigned float _avaliacao;
+    float _avaliacao;
 
 public:
     Livro (
@@ -26,10 +26,10 @@ public:
         std::string idioma,
         unsigned int numpag,
         unsigned int ano,
-        unsigned float avaliacao
-    )
+        float avaliacao
+    );
 };
 
-std::set<string> Livros;
+std::set<std::string> Livros;
 
 #endif

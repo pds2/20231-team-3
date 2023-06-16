@@ -16,22 +16,23 @@
 class Entidadebase
 {
 private:
-    std::string _nome const;
-    std::string _email const;
-    unsigned int _id const;
-    std::string _senha const;
+    std::string _nome;
+    std::string _email;
+    unsigned int _id;
+    std::string _senha;
 
 public:
     Entidadebase(
         std::string nome,
         std::string email,
         unsigned int id,
-        std::string senha);
+        std::string senha
+    );
 
-    std::string getNome() const;
-    std::string getEmail() const;
-    unsigned int getId() const;
-    std::string getSenha() const;
+    std::string getNome();
+    std::string getEmail();
+    unsigned int getId();
+    std::string getSenha();
 
     void setNome(const std::string &nome);
     void setEmail(const std::string &email);

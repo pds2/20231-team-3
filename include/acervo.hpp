@@ -9,9 +9,9 @@
 class Acervo
 {
 private:
-    std::map<Livros> acervo;
+    std::map<std::string, Livro> acervo;
 public:
-    void buscar_livro(Livro &l);
+    Livro buscar_livro(std::string& titulo);
 };
 
 #endif

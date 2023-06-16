@@ -28,18 +28,18 @@ public:
         const std::string nome,
         const std::string senha,
         const std::string email,
-        int id = 3
+        unsigned int id = 3
     );
 
     /**
      * @brief Método deve retornar true se livro disponível e false se indisponivel
      */
-    bool EstaDisponivel(Acervo &acervo);
+    bool EstaDisponivel(Livro &livro);
 
     /**
      * @brief Se livro disponivel, emprestar, se nao, lancar erro
      */
-    void EmprestaLivro(Acervo &acervo);
+    Livro EmprestaLivro(Livro &livro);
 };
 
 #endif
