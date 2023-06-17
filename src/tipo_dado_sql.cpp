@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "tipo_dado_sql.hpp"
 
 TipoDadoSQL::TipoDadoSQL() : _tipo_sql("null") {}
@@ -29,4 +31,12 @@ std::string TipoDadoSQL::get_string() const
 {
     if(_tipo_sql != "text") throw metodo_incompativel_e();
     return _dado_string;
+}
+
+void TipoDadoSQL::imprime_valor()
+{
+    if(_tipo_sql == "integer") std::cout << "[" << _dado_int << "]";
+    else if(_tipo_sql == "real") std::cout << "[" << _dado_double << "]";
+    else if(_tipo_sql == "text") std::cout << "[" << _dado_string << "]";
+    else if(_tipo_sql == "null") std::cout << "[null]";
 }

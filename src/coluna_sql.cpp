@@ -1,6 +1,6 @@
 #include "coluna_sql.hpp"
 
-ColunaSQL::ColunaSQL(std::string nome_col, TipoDadoSQL tipo_col, std::string unique_col) :
+ColunaSQL::ColunaSQL(std::string&& nome_col, TipoDadoSQL&& tipo_col, std::string&& unique_col) :
     _nome_col(nome_col), _tipo_col(tipo_col), _unique_col(unique_col) {}
 
 std::string ColunaSQL::get_nome_col() const

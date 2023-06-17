@@ -12,7 +12,7 @@ class ColunaSQL
     
     public:
         // construtor que recebe o nome da ColunaSQL, o tipo e condição unique
-        ColunaSQL(std::string nome_col, TipoDadoSQL tipo_col, std::string unique_col);
+        ColunaSQL(std::string&& nome_col, TipoDadoSQL&& tipo_col, std::string&& unique_col = "");
 
         // getter para o nome da ColunaSQL
         std::string get_nome_col() const;

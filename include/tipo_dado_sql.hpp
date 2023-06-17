@@ -1,9 +1,7 @@
 #ifndef TIPO_DADO_SQL
 #define TIPO_DADO_SQL
 
-#include <stdexcept>
 #include <string>
-#include <typeinfo>
 // arquivo para generalizar os tipos de dados para inserção no banco de dados
 
 // exceção que impede o uso indevido de métodos não destinados ao seu tipo
@@ -43,6 +41,9 @@ class TipoDadoSQL
         
         // getter para tipo string
         std::string get_string() const;
+
+        // método para debug
+        void imprime_valor();
 };
 
 #endif
