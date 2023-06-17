@@ -6,22 +6,22 @@ Entidadebase::Entidadebase(const std::string nome,
                            const std::string senha)
     : _nome(nome), _email(email), _id(id), _senha(senha) {}
 
-std::string Entidadebase::getNome() const
+std::string Entidadebase::getNome()
 {
     return _nome;
 }
 
-std::string Entidadebase::getEmail() const
+std::string Entidadebase::getEmail()
 {
     return _email;
 }
 
-unsigned int Entidadebase::getId() const
+unsigned int Entidadebase::getId()
 {
     return _id;
 }
 
-std::string Entidadebase::getSenha() const
+std::string Entidadebase::getSenha()
 {
     return _senha;
 }

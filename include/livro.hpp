@@ -26,10 +26,23 @@ public:
         std::string idioma,
         unsigned int numpag,
         unsigned int ano,
-        float avaliacao
+        float avaliacao = 0
     );
-};
 
-std::set<std::string> Livros;
+    // Métodos de acesso para obter informações sobre o livro
+    std::string getTitulo() const;
+    std::string getAutor() const;
+    std::string getGenero() const;
+    std::string getResumo() const;
+    std::string getIdioma() const;
+    unsigned int getNumPaginas() const;
+    unsigned int getAno() const;
+    float getAvaliacao() const;
+
+    void setAvaliacao();
+
+    float somatoria_avaliacao(float &av);
+    float media_avaliacao(unsigned int &numavaliacoes);
+};
 
 #endif

@@ -1,4 +1,5 @@
 #include "../include/bibliotecario.hpp"
+#include "../include/usuario.hpp"
 
 // passar valor id
 
@@ -17,5 +18,23 @@ bool Bibliotecario::EstaDisponivel(Livro &livro) {
 }
 
 Livro Bibliotecario::EmprestaLivro(Livro &livro) {
-    // Implementar
+
+}
+
+Livro Bibliotecario::EmprestaLivro(Livro& livro) {
+    if (!Acervo::buscar_livro(livro)) {
+        throw LivroNaoEncontradoException(); // Lança exceção se o livro não estiver disponível
+    }
+
+    if (livro.isEmprestado()) {
+        throw LivroJaEmprestadoException(); // Lança exceção se o livro já estiver emprestado
+    }
+
+    // Realiza o empréstimo
+    // livro.setEmprestado(true);
+    // ponteiro pro acervo
+    livro.setUsuarioEmprestimo(_id); // Define o usuário que pegou o livro (neste caso, o bibliotecário)
+    livro.setDataEmprestimo(obterDataAtual()); // Define a data de empréstimo (implementação fictícia)
+
+    return livro;
 }

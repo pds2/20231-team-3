@@ -1,4 +1,4 @@
-/*#ifndef ADM_HPP
+#ifndef ADM_HPP
 #define ADM_HPP
 
 #include "acervo.hpp"
@@ -10,22 +10,20 @@
 #include <string>
 #include <vector>
 
-class Bibliotecario : public Entidadebase
+class Administrador : public Entidadebase
 {
 private:
     
 public:
-    Bibliotecario(
+    Administrador(
         const std::string nome,
         const std::string senha,
         const std::string email,
         int id = 4
     );
 
-    void InserirLivro(Livro& livro);
-
-    void RemoverLivro(Livro& livro);
+    void InserirLivro(Acervo& acervo, Livro& livro);
+    void RemoverLivro(Acervo& acervo, Livro& livro);
 };
 
 #endif
-*/
