@@ -2,13 +2,17 @@
     "tasks": [
         {
             "type": "cppbuild",
-            "label": "Tasks build Lucas",
-            "command": "/usr/bin/g++-11",
+            "label": "Tasks build PDS2-team3",
+            "command": "/usr/bin/g++",
             "args": [
+                "-std=c++17",
                 "-g",
                 "${workspaceFolder}/src/*.cpp",
                 "-I",
                 "${workspaceFolder}/include",
+                "-I",
+                "${workspaceFolder}/third-party",
+                "-lsqlite3",
                 "-o",
                 "${workspaceFolder}/main"
             ],

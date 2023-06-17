@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch debug Lucas",
+            "name": "Launch debug PDS2-team3",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/main",
@@ -29,7 +29,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "Tasks build Lucas",
+            "preLaunchTask": "Tasks build PDS2-team3",
             "miDebuggerPath": "/usr/bin/gdb"
         }
     ]
