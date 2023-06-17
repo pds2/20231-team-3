@@ -19,17 +19,18 @@ void Administrador::InserirLivro(Acervo& acervo, Livro& livro)
         livro.getIdioma(),
         livro.getNumPaginas(),
         livro.getAno(),
-        livro.getAvaliacao()
+        livro.getAvaliacao(),
+        livro.getId()
     );
 }
 
 void Administrador::RemoverLivro(Acervo& acervo, Livro& livro)
 {
-    std::string titulo = livro.getTitulo();
-    Livro livroEncontrado = acervo.buscar_livro(titulo);
+    unsigned int id = livro.getId();
+    Livro livroEncontrado = acervo.buscar_livro(id);
 
     if (!livroEncontrado.getTitulo().empty()) {
         // Livro encontrado no acervo, remover
-        acervo.remover_livro(titulo);
+        acervo.remover_livro(id);
     }
 }

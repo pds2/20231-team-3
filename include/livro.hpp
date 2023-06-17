@@ -16,6 +16,7 @@ private:
     unsigned int _numpag;
     unsigned int _ano;
     float _avaliacao;
+    unsigned int _id;
 
 public:
     Livro (
@@ -26,7 +27,8 @@ public:
         std::string idioma,
         unsigned int numpag,
         unsigned int ano,
-        float avaliacao = 0
+        float avaliacao = 0,
+        unsigned int id = 1
     );
 
     // Métodos de acesso para obter informações sobre o livro
@@ -38,6 +40,7 @@ public:
     unsigned int getNumPaginas() const;
     unsigned int getAno() const;
     float getAvaliacao() const;
+    unsigned int getId() const;
 
     void setAvaliacao(float &useravaliacao);
 

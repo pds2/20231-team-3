@@ -9,7 +9,7 @@
 class Acervo
 {
 private:
-    std::map<std::string, Livro*> _livros;
+    std::map<unsigned int, Livro*> _livros;
 
 public:
     void adicionarLivro(
@@ -20,11 +20,12 @@ public:
         std::string idioma,
         unsigned int numpag,
         unsigned int ano,
-        float avaliacao
+        float avaliacao,
+        unsigned int id
     );
     void inserir_livro(const Livro& livro);
-    void remover_livro(const std::string& livro);
-    Livro buscar_livro(const std::string& titulo);
+    void remover_livro(const unsigned int& id);
+    Livro buscar_livro(const unsigned int& id);
     std::size_t tamanho() const;
 };
 
