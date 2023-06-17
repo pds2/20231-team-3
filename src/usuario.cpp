@@ -18,9 +18,9 @@ Usuario::Usuario(const std::string nome,
                  std::vector<Livro> livrosPegos,
                  std::vector<Livro> livrosAvaliados,
                  unsigned int numerodelivros)
-    : _nome(nome), _email(email), _id(id), _senha(senha), _livrosPegos(livrosPegos), _livrosAvaliados(livrosAvaliados), _numerodelivros(numerodelivros) {}
+    : Entidadebase(nome, senha, email, id), _livrosPegos(livrosPegos), _livrosAvaliados(livrosAvaliados), _numerodelivros(numerodelivros) {}
 
-void Usuario::pegar_livro(Livro &u) const
+void Usuario::pegar_livro(Livro &u)
 {
     _numerodelivros--;
     _livrosPegos.push_back(u);

@@ -21,7 +21,7 @@ class Usuario : public Entidadebase
 {
 private:
     std::vector<Livro> _livrosPegos;
-    //std::vector<Livro> _livrosAvaliados;
+    std::vector<Livro> _livrosAvaliados;
     unsigned int _numerodelivros;
 
 public:
@@ -29,13 +29,13 @@ public:
         const std::string nome,
         const std::string senha,
         const std::string email,
-        int id = 1,
+        unsigned int id = 1,
         std::vector<Livro> livrosPegos = {},
         std::vector<Livro> livrosAvaliados = {},
         unsigned int numerodelivros = 3
     );
 
-    void pegar_livro(Livro &u) const;
+    void pegar_livro(Livro &u);
     void devolver_livro(Livro &u) const;
     void avaliar_livro(Livro &u) const;
     // calcular por media aritmética, fazendo uma soma dinâmica e contabilizando o número de avaliações para dividir depois

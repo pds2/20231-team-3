@@ -6,7 +6,7 @@ Administrador::Administrador(
     const std::string senha,
     const std::string email,
     int id
-) : Entidadebase(nome, email, id, senha) {}
+) : Entidadebase(nome, senha, email, id) {}
 
 
 void Administrador::InserirLivro(Acervo& acervo, Livro& livro)

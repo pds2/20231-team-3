@@ -39,7 +39,7 @@ public:
     unsigned int getAno() const;
     float getAvaliacao() const;
 
-    void setAvaliacao();
+    void setAvaliacao(float &useravaliacao);
 
     float somatoria_avaliacao(float &av);
     float media_avaliacao(unsigned int &numavaliacoes);

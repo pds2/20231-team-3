@@ -51,7 +51,7 @@ void Livro::setAvaliacao(float &useravaliacao) {
     return _avaliacao + av;
 }*/
 
-float Livro::somatoria_avaliacao() const {
+/*float Livro::somatoria_avaliacao() const {
     float soma = 0.0f;
     for (const auto& avaliacao : _avaliacoes) {
         soma += avaliacao;
@@ -76,4 +76,4 @@ void Livro::adicionar_avaliacao(float avaliacao) {
 
     // Atualiza a avaliação média
     _avaliacao = novaSomatoria / _numAvaliacoes;
-}
+}*/

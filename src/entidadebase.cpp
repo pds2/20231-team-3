@@ -1,10 +1,10 @@
 #include "../include/entidadebase.hpp"
 
-Entidadebase::Entidadebase(const std::string nome, 
-                           const std::string email, 
-                           unsigned int id, 
-                           const std::string senha)
-    : _nome(nome), _email(email), _id(id), _senha(senha) {}
+Entidadebase::Entidadebase(std::string nome,
+                           std::string senha,
+                           std::string email,
+                           unsigned int id)
+    : _nome(nome), _senha(senha), _email(email), _id(id) {}
 
 std::string Entidadebase::getNome()
 {
