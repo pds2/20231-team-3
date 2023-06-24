@@ -17,10 +17,6 @@ bool Bibliotecario::EstaDisponivel(Livro &livro) {
     return Acervo::buscar_livro(livro);
 }
 
-Livro Bibliotecario::EmprestaLivro(Livro &livro) {
-
-}
-
 Livro Bibliotecario::EmprestaLivro(Livro& livro) {
     if (!Acervo::buscar_livro(livro)) {
         throw LivroNaoEncontradoException(); // Lança exceção se o livro não estiver disponível

@@ -47,8 +47,14 @@ unsigned int Livro::getId() const {
     return _id;
 }
 
-void Livro::setAvaliacao(float &useravaliacao) {
-    _avaliacao = useravaliacao;
+void Livro::setAvaliacao(const float& useravaliacao) {
+    static unsigned int count = 0;
+    static float h = 0;
+
+    float temp = useravaliacao;  // Copia o valor para uma variável temporária
+    h += temp;
+    count++;
+    _avaliacao = h / count;
 }
 
 /*float Livro::somatoria_avaliacao(float &av) {

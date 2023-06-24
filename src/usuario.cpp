@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+#include "../include/livro.hpp"
 #include "../include/usuario.hpp"
 
 // TODO: Implementar
@@ -32,7 +33,7 @@ void Usuario::devolver_livro(Livro &u) const
 
 void Usuario::avaliar_livro(Livro &u) const
 {
-    // set
+    
 }
 // calcular por media aritmética, fazendo uma soma dinâmica e contabilizando o número de avaliações para dividir depois
 
