@@ -17,6 +17,7 @@ private:
     unsigned int _ano;
     float _avaliacao;
     unsigned int _id;
+    bool _emprestado; // indica se o livro está emprestado
 
 public:
     Livro (
@@ -40,12 +41,15 @@ public:
     unsigned int getNumPaginas() const;
     unsigned int getAno() const;
     float getAvaliacao() const;
-    unsigned int getId() const;
+    unsigned int getId();
 
     void setAvaliacao(const float& useravaliacao);
 
     float somatoria_avaliacao(float &av);
     float media_avaliacao(unsigned int &numavaliacoes);
+
+    void setEmprestado(bool status);
+    bool isEmprestado() const;
 };
 
 #endif

@@ -4,6 +4,8 @@
 #include "include/adm.hpp"
 #include "include/bibliotecario.hpp"
 #include "include/usuario.hpp"
+
+#include <iomanip>
 // #include "database_biblioteca.hpp"
 
 int main()
@@ -25,7 +27,7 @@ int main()
     adm.InserirLivro(acervo, livro3);
     adm.InserirLivro(acervo, livro4);
 
-    //Bibliotecario biblio("Biblio", "senha124", "biblio@example.com", 5);
+    Bibliotecario biblio("Biblio", "senha124", "biblio@example.com", 3);
 
     std::cout << "Acervo contém " << acervo.tamanho() << " livros." << std::endl;
 
@@ -53,20 +55,39 @@ int main()
         std::cout << "Livro não encontrado." << std::endl;
     }
 
-    /*if (biblio.EstaDisponivel(livro1))
+    if (biblio.EstaDisponivel(livro1, acervo))
     {
         std::cout << "Livro disponível" << std::endl;
     }
     else
     {
         std::cout << "Livro não disponível" << std::endl;
-    }*/
+    }
+
+    if (biblio.EstaDisponivel(livro3, acervo))
+    {
+        std::cout << "Livro disponível" << std::endl;
+    }
+    else
+    {
+        std::cout << "Livro não disponível" << std::endl;
+    }
+
+    biblio.EmprestaLivro(livro1);
+
+    if (biblio.EstaDisponivel(livro1, acervo))
+    {
+        std::cout << "Livro disponível" << std::endl;
+    }
+    else
+    {
+        std::cout << "Livro não disponível" << std::endl;
+    }
 
     livro4.setAvaliacao(5);
     livro4.setAvaliacao(4);
     livro4.setAvaliacao(5);
-    // (5 + 4 + 3)/3 = 12/3 = 4
-    std::cout << "Nota do livro: " << livro4.getAvaliacao() << std::endl;
+    std::cout << "Nota do livro: " << std::fixed << std::setprecision(2) << livro4.getAvaliacao() << std::endl;
 
     return 0;
 }

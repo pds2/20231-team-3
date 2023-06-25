@@ -3,7 +3,7 @@ CFLAGS = -std=c++17 -Wall -I./include -I./third-party -I./third-party/sqlite_mod
 SRCDIR = src
 BUILDDIR = build
 
-SRCS = $(SRCDIR)/entidadebase.cpp $(SRCDIR)/acervo.cpp $(SRCDIR)/adm.cpp $(SRCDIR)/livro.cpp $(SRCDIR)/usuario.cpp
+SRCS = $(SRCDIR)/entidadebase.cpp $(SRCDIR)/bibliotecario.cpp $(SRCDIR)/acervo.cpp $(SRCDIR)/adm.cpp $(SRCDIR)/livro.cpp $(SRCDIR)/usuario.cpp
 OBJDIR = $(BUILDDIR)
 OBJS = $(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.o,$(SRCS))
 

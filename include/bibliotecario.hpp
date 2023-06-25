@@ -10,14 +10,8 @@
 #include <string>
 #include <vector>
 
-//TODO: Implementar
 /**
-  * O ID desse tipo de usuario deve ser 3
-  * Decidir se serão necessários mais métodos
-*/
-
-/**
- * @brief Classe responsavel por criar um bibliotecario
+ * @brief Classe responsável por criar um bibliotecário
  */
 class Bibliotecario : public Entidadebase
 {
@@ -28,18 +22,43 @@ public:
         const std::string nome,
         const std::string senha,
         const std::string email,
-        unsigned int id = 3
+        int id = 3
     );
 
-    /**
-     * @brief Método deve retornar true se livro disponível e false se indisponivel
+    /*
+     * @brief Verifica se o livro está disponível no acervo
+     * @param livro O livro a ser verificado
+     * @return true se o livro está disponível, false caso contrário
      */
-    bool EstaDisponivel(Livro &livro);
+    bool EstaDisponivel(Livro &livro, Acervo &acervo);
 
-    /**
-     * @brief Se livro disponivel, emprestar, se nao, lancar erro
+    /*
+     * @brief Empréstimo de um livro
+     * @param livro O livro a ser emprestado
+     * @return O livro emprestado
+     * @throw LivroNaoEncontradoException se o livro não estiver disponível no acervo
+     * @throw LivroJaEmprestadoException se o livro já estiver emprestado
      */
     Livro EmprestaLivro(Livro &livro);
+
+    /*
+     * @brief Define o ID do usuário que pegou emprestado o livro
+     * @param idUsuario O ID do usuário
+     *//*
+    void setUsuarioEmprestimo(int idUsuario);
+
+    /**
+     * @brief Define a data de empréstimo do livro
+     * @param data A data de empréstimo
+     *//*
+    void setDataEmprestimo(const std::string& data);*/
 };
+
+/*
+ * @brief Obtém a data atual no formato de string
+ * @return A data atual no formato de string
+ */
+/*
+std::string obterDataAtual();*/
 
 #endif

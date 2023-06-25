@@ -1,36 +1,53 @@
 #include "../include/bibliotecario.hpp"
 #include "../include/usuario.hpp"
 
-// passar valor id
+#include <ctime>
 
 Bibliotecario::Bibliotecario(const std::string nome,
-                             const std::string senha, 
+                             const std::string senha,
                              const std::string email,
-                             unsigned int id = 3)
-    : _nome(nome), _email(email), _id(id), _senha(senha) {}
+                             int id
+) : Entidadebase(nome, senha, email, id) {}
 
-bool Bibliotecario::EstaDisponivel(Livro &livro) {
-    if (Acervo::buscar_livro(livro) == NULL)
+bool Bibliotecario::EstaDisponivel(Livro &livro, Acervo &acervo)
+{
+    Livro livroEncontrado = acervo.buscar_livro(livro.getId());
+
+    if (livroEncontrado.getId() == 0 || livroEncontrado.isEmprestado())
     {
-        throw busca_vazia();
+        return false;
     }
-    return Acervo::buscar_livro(livro);
+
+    return true;
 }
 
-Livro Bibliotecario::EmprestaLivro(Livro& livro) {
-    if (!Acervo::buscar_livro(livro)) {
-        throw LivroNaoEncontradoException(); // Lança exceção se o livro não estiver disponível
+Livro Bibliotecario::EmprestaLivro(Livro &livro)
+{
+    Acervo acervo; // Criar uma instância do objeto Acervo
+
+    Livro livroEncontrado = acervo.buscar_livro(livro.getId()); // Buscar o livro no acervo usando o ID
+
+    if (livroEncontrado.getId() == 0) // Verificar se o livro foi encontrado no acervo
+    {
+        //throw LivroNaoEncontradoException(); // Lança exceção se o livro não estiver disponível
     }
 
-    if (livro.isEmprestado()) {
-        throw LivroJaEmprestadoException(); // Lança exceção se o livro já estiver emprestado
+    if (livroEncontrado.isEmprestado())
+    {
+        //throw LivroJaEmprestadoException(); // Lança exceção se o livro já estiver emprestado
     }
 
     // Realiza o empréstimo
-    // livro.setEmprestado(true);
-    // ponteiro pro acervo
-    livro.setUsuarioEmprestimo(_id); // Define o usuário que pegou o livro (neste caso, o bibliotecário)
-    livro.setDataEmprestimo(obterDataAtual()); // Define a data de empréstimo (implementação fictícia)
+    livroEncontrado.setEmprestado(true); // Define o status do empréstimo como verdadeiro
 
-    return livro;
+    return livroEncontrado;
+}
+
+std::string obterDataAtual()
+{
+    std::time_t now = std::time(nullptr);
+    std::tm* ptm = std::localtime(&now);
+    char buffer[32];
+    std::strftime(buffer, 32, "%d/%m/%Y", ptm);
+    return std::string(buffer);
 }

@@ -9,10 +9,9 @@ void Acervo::adicionarLivro(
     unsigned int numpag,
     unsigned int ano,
     float avaliacao,
-    unsigned int id
-)
+    unsigned int id)
 {
-    Livro* livro = new Livro(titulo, autor, genero, resumo, idioma, numpag, ano, avaliacao, id);
+    Livro *livro = new Livro(titulo, autor, genero, resumo, idioma, numpag, ano, avaliacao, id);
     _livros[id] = livro;
     // verificar memory leak
 }
@@ -24,12 +23,15 @@ void Acervo::adicionarLivro(
     // possível memory leak
 }*/
 
-Livro Acervo::buscar_livro(const unsigned int& id)
+Livro Acervo::buscar_livro(const unsigned int &id)
 {
     auto it = _livros.find(id);
-    if (it != _livros.end()) {
+    if (it != _livros.end())
+    {
         return *(it->second); // Retorna o livro encontrado
-    } else {
+    }
+    else
+    {
         // Faça o tratamento caso o livro não seja encontrado
         // Por exemplo, lançar uma exceção ou retornar um livro padrão
         // Aqui, retornaremos um livro vazio
@@ -37,10 +39,11 @@ Livro Acervo::buscar_livro(const unsigned int& id)
     }
 }
 
-void Acervo::remover_livro(const unsigned int& id)
+void Acervo::remover_livro(const unsigned int &id)
 {
     auto it = _livros.find(id);
-    if (it != _livros.end()) {
+    if (it != _livros.end())
+    {
         delete it->second; // Libera a memória do objeto Livro
         _livros.erase(it); // Remove o livro do mapa
     }
