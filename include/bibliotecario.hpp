@@ -44,14 +44,16 @@ public:
     /*
      * @brief Define o ID do usuário que pegou emprestado o livro
      * @param idUsuario O ID do usuário
-     *//*
-    void setUsuarioEmprestimo(int idUsuario);
+     */
 
-    /**
+    //void setUsuarioEmprestimo(int idUsuario);
+
+    /*
      * @brief Define a data de empréstimo do livro
      * @param data A data de empréstimo
-     *//*
-    void setDataEmprestimo(const std::string& data);*/
+     */
+
+    //void setDataEmprestimo(const std::string& data);
 };
 
 /*

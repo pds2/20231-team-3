@@ -8,8 +8,9 @@ Livro::Livro(std::string titulo,
              unsigned int numpag,
              unsigned int ano,
              float avaliacao,
-             unsigned int id)
-    : _titulo(titulo), _autor(autor), _genero(genero), _resumo(resumo), _idioma(idioma), _numpag(numpag), _ano(ano), _avaliacao(avaliacao), _id(id){}
+             unsigned int id,
+             bool emprestado)
+    : _titulo(titulo), _autor(autor), _genero(genero), _resumo(resumo), _idioma(idioma), _numpag(numpag), _ano(ano), _avaliacao(avaliacao), _id(id), _emprestado(emprestado) {}
 
 std::string Livro::getTitulo() const {
     return _titulo;
@@ -57,9 +58,18 @@ void Livro::setAvaliacao(const float& useravaliacao) {
     _avaliacao = h / count;
 }
 
-bool Livro::isEmprestado() const {
+bool Livro::getEstado() {
+    // verdadeiro (1) se emprestado
     return _emprestado;
 }
+
+void Livro::setEstado(bool estado) {
+    _emprestado = estado;
+}
+
+/*bool Livro::isEmprestado() const {
+    return _emprestado;
+}*/
 
 /*void Livro::setEmprestado(bool status) {
     _emprestado = status;

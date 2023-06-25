@@ -29,7 +29,8 @@ public:
         unsigned int numpag,
         unsigned int ano,
         float avaliacao = 0,
-        unsigned int id = 1
+        unsigned int id = 1,
+        bool emprestado = 0
     );
 
     // Métodos de acesso para obter informações sobre o livro
@@ -43,13 +44,16 @@ public:
     float getAvaliacao() const;
     unsigned int getId();
 
+    bool getEstado();
+    void setEstado(bool estado);
+
     void setAvaliacao(const float& useravaliacao);
 
     float somatoria_avaliacao(float &av);
     float media_avaliacao(unsigned int &numavaliacoes);
 
-    void setEmprestado(bool status);
-    bool isEmprestado() const;
+    /*void setEmprestado(bool status);
+    bool isEmprestado() const;*/
 };
 
 #endif

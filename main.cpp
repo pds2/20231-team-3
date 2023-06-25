@@ -15,10 +15,10 @@ int main()
 
     Acervo acervo;
 
-    Livro livro1("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2022, 0.0, 123);
-    Livro livro2("Livro 2", "Autor 2", "Gênero 2", "Resumo 2", "Idioma 2", 150, 2021, 0.0, 125);
-    Livro livro3("Livro 3", "Autor 2", "Gênero 2", "Resumo 2", "Idioma 2", 150, 2021, 0.0, 132);
-    Livro livro4("Livro 3", "Autor 2", "Gênero 2", "Resumo 2", "Idioma 2", 150, 2021, 0.0, 133);
+    Livro livro1("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2022, 0.0, 123, 0);
+    Livro livro2("Livro 2", "Autor 2", "Gênero 2", "Resumo 2", "Idioma 2", 150, 2021, 0.0, 125, 0);
+    Livro livro3("Livro 3", "Autor 2", "Gênero 2", "Resumo 2", "Idioma 2", 150, 2021, 0.0, 132, 0);
+    Livro livro4("Livro 3", "Autor 2", "Gênero 2", "Resumo 2", "Idioma 2", 150, 2021, 0.0, 133, 0);
 
     Administrador adm("Admin", "senha123", "admin@example.com", 4);
 
@@ -63,26 +63,15 @@ int main()
     {
         std::cout << "Livro não disponível" << std::endl;
     }
-
-    if (biblio.EstaDisponivel(livro3, acervo))
+    
+    /*if (biblio.EstaDisponivel(livro1, acervo))
     {
         std::cout << "Livro disponível" << std::endl;
     }
     else
     {
         std::cout << "Livro não disponível" << std::endl;
-    }
-
-    biblio.EmprestaLivro(livro1);
-
-    if (biblio.EstaDisponivel(livro1, acervo))
-    {
-        std::cout << "Livro disponível" << std::endl;
-    }
-    else
-    {
-        std::cout << "Livro não disponível" << std::endl;
-    }
+    }*/
 
     livro4.setAvaliacao(5);
     livro4.setAvaliacao(4);

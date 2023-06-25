@@ -9,38 +9,40 @@ Bibliotecario::Bibliotecario(const std::string nome,
                              int id
 ) : Entidadebase(nome, senha, email, id) {}
 
-bool Bibliotecario::EstaDisponivel(Livro &livro, Acervo &acervo)
+bool Bibliotecario::EstaDisponivel(Livro& livro, Acervo& acervo)
 {
+    // Verificar se o livro foi apagado do acervo
     Livro livroEncontrado = acervo.buscar_livro(livro.getId());
-
-    if (livroEncontrado.getId() == 0 || livroEncontrado.isEmprestado())
+    if (livroEncontrado.getId() == 0)
     {
         return false;
     }
 
+    // Verificar se o livro foi emprestado
+    if (livro.getEstado())
+    {
+        return false;
+    }
+
+    // Se o livro não foi apagado nem emprestado, está disponível
     return true;
 }
 
 Livro Bibliotecario::EmprestaLivro(Livro &livro)
 {
-    Acervo acervo; // Criar uma instância do objeto Acervo
+    Acervo acervo; // Criar uma instância do objeto Acervo (supondo que ele seja necessário)
 
-    Livro livroEncontrado = acervo.buscar_livro(livro.getId()); // Buscar o livro no acervo usando o ID
-
-    if (livroEncontrado.getId() == 0) // Verificar se o livro foi encontrado no acervo
+    if (livro.getEstado())
     {
-        //throw LivroNaoEncontradoException(); // Lança exceção se o livro não estiver disponível
+        //throw LivroJaEmprestado();
+    }
+    else
+    {
+        livro.setEstado(true);
     }
 
-    if (livroEncontrado.isEmprestado())
-    {
-        //throw LivroJaEmprestadoException(); // Lança exceção se o livro já estiver emprestado
-    }
-
-    // Realiza o empréstimo
-    livroEncontrado.setEmprestado(true); // Define o status do empréstimo como verdadeiro
-
-    return livroEncontrado;
+    // Retorno padrão (caso necessário)
+    return livro; // Retorno de um objeto Livro padrão (pode ser necessário ajustar os argumentos do construtor conforme sua implementação)
 }
 
 std::string obterDataAtual()
