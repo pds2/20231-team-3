@@ -29,41 +29,6 @@ int main()
 
     Bibliotecario biblio("Biblio", "senha124", "biblio@example.com", 3);
 
-    std::cout << "Acervo contém " << acervo.tamanho() << " livros." << std::endl;
-
-    Livro livroEncontrado = acervo.buscar_livro(132);
-    if (!livroEncontrado.getTitulo().empty())
-    {
-        std::cout << "Livro encontrado: " << livroEncontrado.getTitulo() << std::endl;
-    }
-    else
-    {
-        std::cout << "Livro não encontrado." << std::endl;
-    }
-
-    adm.RemoverLivro(acervo, livro2);
-
-    std::cout << "Acervo contém " << acervo.tamanho() << " livros." << std::endl;
-
-    livroEncontrado = acervo.buscar_livro(133);
-    if (!livroEncontrado.getTitulo().empty())
-    {
-        std::cout << "Livro encontrado: " << livroEncontrado.getTitulo() << std::endl;
-    }
-    else
-    {
-        std::cout << "Livro não encontrado." << std::endl;
-    }
-
-    if (biblio.EstaDisponivel(livro1, acervo))
-    {
-        std::cout << "Livro disponível" << std::endl;
-    }
-    else
-    {
-        std::cout << "Livro não disponível" << std::endl;
-    }
-    
     /*if (biblio.EstaDisponivel(livro1, acervo))
     {
         std::cout << "Livro disponível" << std::endl;
@@ -73,10 +38,48 @@ int main()
         std::cout << "Livro não disponível" << std::endl;
     }*/
 
-    livro4.setAvaliacao(5);
-    livro4.setAvaliacao(4);
-    livro4.setAvaliacao(5);
-    std::cout << "Nota do livro: " << std::fixed << std::setprecision(2) << livro4.getAvaliacao() << std::endl;
+    std::vector<Livro> templivrosPegos;
+    std::vector<Livro> templivrosAvaliados;
+    std::vector<Livro> temp;
+    // Preencha os vetores livrosPegos e livrosAvaliados com os livros desejados
+
+    Usuario user("User", "40028922", "user@example.com", 1, templivrosPegos, templivrosAvaliados, 3);
+    Usuario user2("User2", "40028922", "user2@example.com", 1, templivrosPegos, templivrosAvaliados, 3);
+
+    std::cout << user.getqntdlivros() << std::endl;
+
+    if (biblio.EstaDisponivel(livro1, acervo))
+    {
+        std::cout << "Livro disponível" << std::endl;
+        user.pegar_livro(livro1);
+    }
+    else
+    {
+        std::cout << "Livro não disponível" << std::endl;
+    }
+
+    float a = 4.2;
+    user.avaliar_livro(livro1, a);
+    user.devolver_livro(livro1);
+
+    if (biblio.EstaDisponivel(livro1, acervo))
+    {
+        std::cout << "Livro disponível" << std::endl;
+        user2.pegar_livro(livro1);
+    }
+    else
+    {
+        std::cout << "Livro não disponível" << std::endl;
+    }
+
+    float b = 3.7;
+    user2.avaliar_livro(livro1, b);
+    user2.devolver_livro(livro1);
+
+    std::cout << user.getqntdlivros() << std::endl;
+    std::cout << user2.getqntdlivros() << std::endl;
+
+    std::cout << livro1.getAvaliacao() << std::endl;
 
     return 0;
 }

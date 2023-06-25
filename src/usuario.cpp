@@ -27,17 +27,36 @@ void Usuario::pegar_livro(Livro &u)
     _livrosPegos.push_back(u);
 }
 
-void Usuario::devolver_livro(Livro &u) const
+void Usuario::devolver_livro(Livro& u)
 {
+    bool livroEncontrado = false;
+
+    // Percorrer o vetor _livrosPegos e procurar o livro desejado
+    for (auto it = _livrosPegos.begin(); it != _livrosPegos.end(); ++it)
+    {
+        if (it->getId() == u.getId())
+        {
+            livroEncontrado = true;
+            _numerodelivros++;
+            _livrosPegos.erase(it);  // Remove o livro do vetor _livrosPegos
+            break;  // Encerra o loop, já que o livro foi encontrado
+        }
+    }
+
+    if (!livroEncontrado)
+    {
+        // Tratar o caso em que o livro não foi encontrado
+        // Lançar uma exceção ou retornar um código de erro, por exemplo
+    }
 }
 
-void Usuario::avaliar_livro(Livro &u) const
+void Usuario::avaliar_livro(Livro &u, float &avaliacaousuario) const
 {
-    
+    u.setAvaliacao(avaliacaousuario);
 }
 // calcular por media aritmética, fazendo uma soma dinâmica e contabilizando o número de avaliações para dividir depois
 
-int Usuario::getqntdlivros(std::vector<Livro> livrop)
+int Usuario::getqntdlivros()
 {
-    return livrop.size();
+    return _livrosPegos.size();
 }

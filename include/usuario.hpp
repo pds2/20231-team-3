@@ -36,11 +36,11 @@ public:
     );
 
     void pegar_livro(Livro &u);
-    void devolver_livro(Livro &u) const;
-    void avaliar_livro(Livro &u) const;
+    void devolver_livro(Livro &u);
+    void avaliar_livro(Livro &u, float &avaliacaousuario) const;
     // calcular por media aritmética, fazendo uma soma dinâmica e contabilizando o número de avaliações para dividir depois
 
-    int getqntdlivros(std::vector<Livro> livrop);
+    int getqntdlivros();
 };
 
 #endif
