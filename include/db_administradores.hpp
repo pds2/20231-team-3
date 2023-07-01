@@ -1,12 +1,12 @@
-#ifndef DB_USUARIOS
-#define DB_USUARIOS
+#ifndef DB_ADMINISTRADORES
+#define DB_ADMINISTRADORES
 
 #include "bbt_wrapper_sql.hpp"
-#include "usuario.hpp"
-#include "usuariovip.hpp"
+#include "bibliotecario.hpp"
+#include "adm.hpp"
 
 // classe que herda da classe base BbtWrapperSQL
-class DbUsuarios : public BbtWrapperSQL<Entidadebase>
+class DbAdministradores : public BbtWrapperSQL<Entidadebase>
 {
     protected:
         virtual void _diretriz(sqlite::database_binder& ps_binder, Entidadebase obj) override;
@@ -15,7 +15,9 @@ class DbUsuarios : public BbtWrapperSQL<Entidadebase>
             sqlite::row_iterator::value_type linha_binder) override;
 
     public:
-        DbUsuarios();        
+        DbAdministradores();
+        
+              
 };
 
 #endif

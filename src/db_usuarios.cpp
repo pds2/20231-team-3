@@ -1,15 +1,54 @@
+#include "definicoes.hpp"
 #include "db_usuarios.hpp"
 
-namespace sql_schema
+DbUsuarios::DbUsuarios() : BbtWrapperSQL(
+    bbt_def::sql::schema_usuarios::nome_tabela,
+    bbt_def::sql::schema_usuarios::colunas) {}
+
+void DbUsuarios::_diretriz(sqlite::database_binder& ps_binder, Entidadebase obj)
 {
-    const std::string nome_tabela = "usuarios";
-    const ColunaSQL&& nome = ColunaSQL("nome", TipoDadoSQL(""));
-    const ColunaSQL&& registro = ColunaSQL("registro", TipoDadoSQL(1), "unique");
-    const ColunaSQL&& is_vip = ColunaSQL("is_vip", TipoDadoSQL(1));
-    const ColunaSQL&& login = ColunaSQL("login", TipoDadoSQL(""), "unique");
-    const ColunaSQL&& senha = ColunaSQL("senha", TipoDadoSQL(""));
-    const ColunaSQL&& livros_posse = ColunaSQL("livros_posse", TipoDadoSQL(""));
-    const std::vector<ColunaSQL> colunas = {nome,registro,is_vip,login,senha,livros_posse};
+    try
+    {
+        ps_binder
+        << obj.getNome()
+        << obj.getEmail()
+        << obj.getSenha()
+        << obj.getId();    
+    }
+    catch(const std::exception& e)
+    {
+        _sql_excecao(std::current_exception());
+    }
 }
 
-DbUsuarios::DbUsuarios() : BbtWrapperSQL(sql_schema::nome_tabela,sql_schema::colunas) {}
+std::pair<Entidadebase, AdtDataSQL> DbUsuarios::_diretriz(
+    sqlite::row_iterator::value_type linha_binder)
+{
+    std::unique_ptr<std::string> nome, email, senha;
+    std::unique_ptr<unsigned int> id_categoria;
+    std::unique_ptr<unsigned int> num_livros;
+    AdtDataSQL adt_data = AdtDataSQL();
+    try
+    {
+        linha_binder
+        >> nome >> email >> senha >> id_categoria >> num_livros;
+
+        if(num_livros != nullptr) adt_data.long_data.push_back(*num_livros);
+        else adt_data.long_data.push_back(0);
+
+        if(*id_categoria == 1)
+        {
+            return {Usuario(*nome, *senha, *email), adt_data};
+        }
+        else if (*id_categoria == 2)
+        {
+            return {Usuariovip(*nome, *senha, *email), adt_data};
+        }
+        else throw std::logic_error("id da categoria não corresponde a nenhuma categoria\n");
+    }
+    catch(const std::exception& e)
+    {
+        _sql_excecao(std::current_exception());
+    }
+    return {};
+}

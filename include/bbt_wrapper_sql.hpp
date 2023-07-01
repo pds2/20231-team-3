@@ -3,19 +3,41 @@
 
 #include "sqlite_modern_cpp.h"
 #include "sqlite_modern_cpp/type_wrapper.h"
-#include "tipo_dado_sql.hpp"
+#include "definicoes.hpp"
 #include "coluna_sql.hpp"
+#include "usuario.hpp"
+#include "usuariovip.hpp"
+#include "adm.hpp"
+#include "bibliotecario.hpp"
+#include "livro.hpp"
 
-// classe de identificação de exceção no banco de dados
-class sql_wrapper_e{};
+// exceção para acesso negado
+class acesso_negado_e : public std::exception
+{
+    public:
+        acesso_negado_e(std::string msg) : std::exception()
+        {
+            std::cerr << msg << std::endl;
+        }
+};
+
+// struct com dados adicionais não presentes nos TADs
+struct AdtDataSQL
+{
+    std::vector<long> blob;
+    std::vector<std::string> text_data;
+    std::vector<long> long_data;
+    std::vector<double> double_data;
+};
 
 // classe wrapper do wrapper do SQLite
+template <typename TAD>
 class BbtWrapperSQL
 {
     private:
         // nome do arquivo do banco de dados
         // o banco de dados é único no sistema
-        const static std::string _NOME_DB;
+        const std::string _NOME_DB = bbt_def::sql::NOME_DB;
 
         // nome da tabela padrão
         const std::string _nome_tabela;
@@ -24,90 +46,342 @@ class BbtWrapperSQL
         // unique é preenchido com "unique" caso a coluna não admita valores repetidos
         // caso contrário, a coluna admite valores repetidos
         const std::vector<ColunaSQL> _colunas;
-        
+
         // referência para o acesso ao banco de dados
-        sqlite::database* _db_sqlite_ref;
+        sqlite::database _db_sqlite_ref;
 
-        // buffer auxiliar para inserir linha
-        std::vector<TipoDadoSQL> _inserir_buffer;
-
-        // método auxiliar para resetar o buffer _inserir_buffer
-        void _reset_inserir_buffer();
+    protected:
+        // método que lida com exceções genéricas
+        void _sql_excecao(std::exception_ptr ex)
+        {
+            try
+            {
+                std::rethrow_exception(ex);
+            }
+            catch(const sqlite::errors::busy& e)
+            {
+                std::cerr << e.get_code() << ": " << e.what() << " during:\n"
+                << e.get_sql()
+                << "\nÉ necessário fazer o commit ao operar funções de diferentes tabelas de forma cruzada"
+                << std::endl;
+                std::rethrow_exception(std::current_exception());
+            }
+            catch (const sqlite::errors::constraint_unique &e)
+            {
+                std::cerr << e.get_code() << ": " << e.what() << " during:\n"
+                << e.get_sql() << "\nInserção de item repetido em coluna unique"
+                << std::endl;
+                std::rethrow_exception(std::current_exception());
+            }
+            catch (const sqlite::sqlite_exception& e) {
+                std::cerr << e.get_code() << ": " << e.what() << " during:\n "
+                << e.get_sql() << "\n "
+                << "Erro desconhecido específico SQLite" << std::endl;
+                std::rethrow_exception(std::current_exception());
+            }
+            catch(const std::exception& e)
+            {
+                std::cerr << e.what() << '\n'
+                << "Erro desconhecido" << std::endl;
+                std::rethrow_exception(std::current_exception());
+            }
+        }
 
         // método auxiliar que retorna uma string de diretriz SQLite contendo as colunas
         // saída: (col1,col2,col3,...)
-        std::string _ps_colunas();
+        std::string _ps_colunas()
+        {
+            std::string ps_buffer = "";
+            for(auto col : _colunas)
+            {
+                if(col.get_nome_col() != bbt_def::sql::id) ps_buffer += col.get_nome_col() + ",";                
+            }
+            ps_buffer.pop_back();
+            return ps_buffer;
+        }
 
         // método auxiliar que retorna uma string genérica de diretriz SQLite para operação em linha
         // formato de saída: (?,?,?,...)
-        std::string _ps_linha();
+        std::string _ps_linha()
+        {
+            std::string ps_buffer = "(";
+            for(int i = 0; i < _colunas.size()-1; i++)
+            {
+                ps_buffer += "?,";
+            }
+            ps_buffer.pop_back();
+            return ps_buffer + ")";
+        }
 
-        // método auxiliar que verifica a compatibilidade entre tipo de coluna e tipo de dado
-        bool _compativel(ColunaSQL&& col, TipoDadoSQL&& tipo);
+        // método auxiliar para armazenar diretrizes específicas de cada tabela
+        // sobrecarga para o tipo database_binder
+        virtual void _diretriz(sqlite::database_binder& ps_binder, TAD obj) = 0;
 
-        // método auxiliar que verifica se os vetores tem o mesmo tamanho
-        bool _mesmo_tamanho(const std::vector<ColunaSQL>&& colunas, std::vector<TipoDadoSQL>&& tipos);
+        // método auxiliar para armazenar diretrizes específicas de cada tabela
+        // sobrecarga para o tipo row_iterator (retornos múltiplos)
+        virtual std::pair<TAD, AdtDataSQL> _diretriz(
+            sqlite::row_iterator::value_type linha_binder) = 0;
 
-        // método auxiliar que insere um dado na coluna
-        void _inserir_dado(sqlite::database_binder& ps, TipoDadoSQL&& item);
+        // getter ponteiro da coluna
+        const ColunaSQL* _get_coluna(std::string coluna)
+        {
+            for(auto col = _colunas.begin(); col != _colunas.end(); col++)
+            {
+                if(col->get_nome_col() == coluna) return &(*col);
+            }
 
-        // método auxiliar que retorna vetor com os dados de uma linha
-        template<class T>
-        void _armazena_linha(T&& ref, std::vector<TipoDadoSQL>& data_buffer);
-    
-    protected:
-        // método que insere uma linha inteira na tabela
-        // recebe um vetor de itens
-        void inserir_linha(std::vector<TipoDadoSQL>&& itens);
+            throw std::invalid_argument("A coluna " + coluna + " não existe\n");
+        }
     
     public:
         // construtor da classe
         // recebe uma string com o nome da tabela e um vetor de tipos de coluna
-        BbtWrapperSQL(std::string nome_tabela, std::vector<ColunaSQL> colunas);
+        BbtWrapperSQL(
+            std::string nome_tabela,
+            std::vector<ColunaSQL> colunas,
+            std::string clausula_adicional = "") :
 
-        // destrutor da classe
-        ~BbtWrapperSQL();
+            _nome_tabela(nome_tabela),
+            _colunas(colunas),
+            _db_sqlite_ref(sqlite::database(bbt_def::sql::NOME_DB))
+        {
+            try
+            {
+                _db_sqlite_ref << "pragma foreign_keys = on;";
+                _db_sqlite_ref << "begin;";
 
-        // método que sobrescreve itens em uma linha de diversas colunas, com base no id
-        void sobrescrever_em_id(std::vector<ColunaSQL>&& colunas,
-                             std::vector<TipoDadoSQL>&& itens,
-                             unsigned int id);
+                // registra o nome da coluna, o tipo, default null e condição de unique
+                std::string sql_exec_buffer = "";
+                for(auto col : colunas)
+                {
+                    std::string unique = "";
+                    std::string primary_key = "";
+                    std::string default_null = " not null ";
 
-        // método que realiza o commit, iniciando uma nova transaction em seguida
-        // por padrão, o commit é feito ao invocar o destrutor do objeto
-        void commit();
+                    if(col.get_unique_col() == "unique") unique = " unique ";
+                    if(col.get_primary_key_col() == "primary key") primary_key = " primary key autoincrement ";
+                    if(col.get_default_null_col() == "default null") default_null = " default null ";
+
+                    // adiciona ao buffer de comando do SQLite com nome e tipo das colunas
+                    sql_exec_buffer +=
+                        col.get_nome_col() + " " +
+                        col.get_tipo_col() + primary_key + default_null +
+                        unique + ",";
+                }
+
+                // remove vírgula excedente
+                sql_exec_buffer.pop_back();
+
+                // cria tabela, se não existir
+                _db_sqlite_ref <<
+                    "create table if not exists " + nome_tabela +
+                    "(" + sql_exec_buffer + clausula_adicional + ");";
+            
+                _db_sqlite_ref << "commit;";
+            }
+            catch(const std::exception& e)
+            {
+                _sql_excecao(std::current_exception());
+            }    
+        }
+
+        // método que sobrescreve itens fornecidos do TAD no banco de dados
+        void sobrescrever_em_id(TAD obj, unsigned int id)
+        {
+            try
+            {
+                std::string str_buffer = "update " + _nome_tabela + " set ";
+
+                // alimenta o str_buffer: "nome da coluna" = ?
+                for(auto col : _colunas)
+                {
+                    if(col.get_nome_col() == bbt_def::sql::id) continue;
+                    str_buffer += col.get_nome_col() + " = ?,";
+                }
+
+                // remove vírgula excedente
+                str_buffer.pop_back();
+
+                auto ps_binder = _db_sqlite_ref
+                << str_buffer + " where " + bbt_def::sql::id + " = ?;";
+                
+                // insere os dados no binder
+                _diretriz(ps_binder, obj);
+
+                ps_binder << id;
+            }
+            catch(const std::exception& e)
+            {
+                _sql_excecao(std::current_exception());
+            }
+        }
+
+        // método sobrecarga que sobrescreve item específico em coluna
+        template <typename tipo>
+        void sobrescrever_em_id(tipo item, std::string coluna, unsigned int id)
+        {
+            try
+            {
+                if(coluna == bbt_def::sql::id)
+                {
+                    throw std::invalid_argument("É proibido alterar a coluna " + bbt_def::sql::id);
+                }
+
+                _db_sqlite_ref
+                << "update " + _nome_tabela + " set "
+                + _get_coluna(coluna)->get_nome_col() + " = ? where " + bbt_def::sql::id + " = ?;"
+                << item << id;
+            }
+            catch(const std::exception& e)
+            {
+                _sql_excecao(std::current_exception());
+            }  
+        }
+
+        // método que insere uma linha com os dados do TAD
+        void inserir_linha(TAD obj)
+        {
+            try
+            {
+                auto&& ps_binder = _db_sqlite_ref <<
+                "insert into " + _nome_tabela + "(" + _ps_colunas() + ") values " + _ps_linha() + ";";
+
+                // insere de acordo com o tipo
+                _diretriz(ps_binder, obj);
+            }
+            catch(const std::exception& e)
+            {
+                _sql_excecao(std::current_exception());
+            }
+        }
 
         // método para tornar itens de uma linha em nulos de acordo com as colunas
         // não remove a linha da tabela
-        void remover_itens_id(std::vector<ColunaSQL> colunas, unsigned int id);
-
-        // método que deleta linha da tabela
-        void deletar_linhas_id(std::vector<unsigned int> ids);
-
-        // método que retorna um vetor de vetores com as linhas
-        // de acordo com a recorrência do valor fornecido e da coluna fornecida
-        std::vector<std::vector<TipoDadoSQL>> consulta(TipoDadoSQL&& item, ColunaSQL&& coluna);
-        
-        // método que retorna um vetor com os dados da linha
-        std::vector<TipoDadoSQL> consulta_por_id(unsigned int id);
-
-        // método que insere uma linha sem precisar declarar um objeto TipoDadoSQL
-        // passo base
-        template <class T>
-        void inserir_linha(T&& item)
+        void set_nulo_id(std::string coluna, unsigned int id)
         {
-            _inserir_buffer.push_back(TipoDadoSQL(item));
-            inserir_linha(std::move(_inserir_buffer));
-            _reset_inserir_buffer();
+            try
+            {
+                _db_sqlite_ref
+                << "update " + _nome_tabela + " set "
+                + _get_coluna(coluna)->get_nome_col()
+                + " = null where " + bbt_def::sql::id + " = ?;"
+                << id;
+            }
+            catch(const std::exception& e)
+            {
+                _sql_excecao(std::current_exception());
+            }
         }
 
-        // método que insere uma linha sem precisar declarar um objeto TipoDadoSQL
-        // passo recursivo
-        template <class T, class ... Ts>
-        void inserir_linha(T&& item, Ts&& ... itens)
+        // método que deleta linha da tabela fornecendo id
+        void deletar_linha_id(unsigned int id)
         {
-            _inserir_buffer.push_back(TipoDadoSQL(item));
-            inserir_linha(itens ...);
+            try
+            { 
+                _db_sqlite_ref
+                << "delete from " + _nome_tabela + " where " + bbt_def::sql::id + " = ?;" << id;
+            }
+            catch(const std::exception& e)
+            {
+                _sql_excecao(std::current_exception());
+            }
+        }
+
+        // método que retorna um vetor de pares
+        // <ids, TAD>
+        // ordena a coluna de acordo com o boolean fornecido
+        // ascendente: true, descendente: false
+        template <typename tipo>
+        std::vector<std::tuple<unsigned int, TAD, AdtDataSQL>>
+        consulta(tipo item, std::string coluna, bool ascendente = true)
+        {
+            auto ordem = [&]()
+            {
+                if(ascendente) return "order by " + _get_coluna(coluna)->get_nome_col() + " asc";
+                else return "order by " + _get_coluna(coluna)->get_nome_col() + " desc";
+            };
+
+            // inicialização do return
+            std::vector<std::tuple<unsigned int, TAD, AdtDataSQL>>&& vec_buffer = {};
+
+            try
+            {
+                for(auto&& linha : _db_sqlite_ref
+                    << "select " + bbt_def::sql::id + "," + _ps_colunas() + " from "
+                    + _nome_tabela + " where " + _get_coluna(coluna)->get_nome_col()
+                    + " = ? " + ordem() + ";" << item)
+                {
+                    unsigned int id_buffer;
+                    linha >> id_buffer; 
+
+                    std::pair<TAD, AdtDataSQL> pair_buffer = _diretriz(linha);
+
+                    vec_buffer.push_back
+                    (
+                        std::make_tuple(id_buffer, pair_buffer.first, pair_buffer.second)
+                    );
+                }
+
+                return vec_buffer;
+            }
+            catch(const std::exception& e)
+            {
+                _sql_excecao(std::current_exception());
+            }
+            return vec_buffer;
+        }
+        
+        // método para deletar todas as linhas
+        // apenas para teste
+        void del_linhas()
+        {
+            try
+            {
+                _db_sqlite_ref << "delete from " + _nome_tabela + ";";
+            }
+            catch(const std::exception& e)
+            {
+                _sql_excecao(std::current_exception());
+            }
+        }
+
+        // método que deleta tudo, menos o banco de dados
+        // apenas para teste
+        void reset()
+        {
+            try
+            {
+                _db_sqlite_ref << "drop table if exists " + _nome_tabela + ";";
+            }
+            catch(const std::exception& e)
+            {
+                _sql_excecao(std::current_exception());
+            }   
+        }
+        
+        // método para iniciar transaction
+        void transaction()
+        {
+            try
+            {
+                _db_sqlite_ref << "begin;";
+            }
+            catch (const std::exception& e) {
+                _sql_excecao(std::current_exception());
+            }
+        }
+
+        // método que realiza o commit, iniciando uma nova transaction em seguida
+        // por padrão, o commit é feito ao invocar o destrutor do objeto
+        void commit()
+        {
+            try
+            {
+                _db_sqlite_ref << "commit;";
+            }
+            catch (const std::exception& e) {
+                _sql_excecao(std::current_exception());
+            }
         }
 };
 
