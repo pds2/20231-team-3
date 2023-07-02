@@ -17,6 +17,7 @@
 /**
  * @brief Classe responsavel por criar um usuario vip.
  */
+
 class Uusariovip : public Entidadebase
 {
 private:

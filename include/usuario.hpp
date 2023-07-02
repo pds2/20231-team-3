@@ -40,6 +40,8 @@ public:
     void avaliar_livro(Livro &u, float &avaliacaousuario) const;
     // calcular por media aritmética, fazendo uma soma dinâmica e contabilizando o número de avaliações para dividir depois
 
+    bool checkvip(Usuario &user);
+
     int getqntdlivros();
 };
 
