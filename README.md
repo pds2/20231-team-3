@@ -1,4 +1,4 @@
-<title>Team 3</title>
+<h1>Team 3</h1>
 
 <h2>User Stories</h2>
 <ul>
