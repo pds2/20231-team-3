@@ -22,6 +22,7 @@ private:
     unsigned int _id;
 
 public:
+    Entidadebase();
     Entidadebase(
         const std::string nome,
         const std::string senha,

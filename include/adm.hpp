@@ -15,6 +15,7 @@ class Administrador : public Entidadebase
 private:
     
 public:
+    Administrador();
     Administrador(
         const std::string nome,
         const std::string senha,

@@ -25,6 +25,7 @@ private:
     unsigned int _numerodelivros;
 
 public:
+    Usuario();
     Usuario(
         const std::string nome,
         const std::string senha,

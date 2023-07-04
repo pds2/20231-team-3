@@ -18,6 +18,7 @@ class Bibliotecario : public Entidadebase
 private:
     
 public:
+    Bibliotecario();
     Bibliotecario(
         const std::string nome,
         const std::string senha,

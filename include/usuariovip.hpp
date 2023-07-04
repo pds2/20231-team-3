@@ -26,6 +26,7 @@ private:
     unsigned int _numerodelivros;
 
 public:
+    Uusariovip();
     Uusariovip(
         const std::string nome,
         const std::string senha,

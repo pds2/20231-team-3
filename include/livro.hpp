@@ -20,6 +20,7 @@ private:
     bool _emprestado; // indica se o livro está emprestado
 
 public:
+    Livro();
     Livro (
         std::string titulo,
         std::string autor,
@@ -41,7 +42,8 @@ public:
     std::string getIdioma() const;
     unsigned int getNumPaginas() const;
     unsigned int getAno() const;
-    float getAvaliacao() const;
+    float getAvaliacao();
+
     unsigned int getId();
 
     bool getEstado();

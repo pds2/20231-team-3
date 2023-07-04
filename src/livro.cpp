@@ -40,7 +40,7 @@ unsigned int Livro::getAno() const {
     return _ano;
 }
 
-float Livro::getAvaliacao() const {
+float Livro::getAvaliacao() {
     return _avaliacao;
 }
 
