@@ -31,7 +31,7 @@ public:
      * @param livro O livro a ser verificado
      * @return true se o livro está disponível, false caso contrário
      */
-    bool EstaDisponivel(Livro &livro, Acervo &acervo);
+    bool EstaDisponivel(Livro &livro);
 
     /*
      * @brief Empréstimo de um livro
@@ -40,7 +40,7 @@ public:
      * @throw LivroNaoEncontradoException se o livro não estiver disponível no acervo
      * @throw LivroJaEmprestadoException se o livro já estiver emprestado
      */
-    Livro EmprestaLivro(Livro &livro);
+    void EmprestaLivro(Livro &livro, Usuario& user);
 
     /*
      * @brief Define o ID do usuário que pegou emprestado o livro

@@ -23,8 +23,8 @@ public:
         int id = 4
     );
 
-    void InserirLivro(Acervo& acervo, Livro& livro);
-    void RemoverLivro(Acervo& acervo, Livro& livro);
+    void InserirLivro(Livro& livro);
+    void RemoverLivro(Livro& livro);
 };
 
 #endif

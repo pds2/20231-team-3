@@ -4,6 +4,9 @@
 #include <iostream>
 #include <string>
 
+#include "livro.hpp"
+#include "db_acervo.hpp"
+
 // TODO: Implementar
 /**
  * Decidir critérios para os nomes, emails e senhas
@@ -39,6 +42,11 @@ public:
     void setEmail(const std::string &email);
     void setId(unsigned int id);
     void setSenha(const std::string &senha);
+
+    std::vector<std::tuple<unsigned int, Livro, AdtDataSQL>>
+    consultaLivros(std::string valor, std::string coluna);
+
+    void imprimeConsulta(std::vector<std::tuple<unsigned int, Livro, AdtDataSQL>>& consulta);
 };
 
 #endif

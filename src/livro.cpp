@@ -67,6 +67,11 @@ void Livro::setEstado(bool estado) {
     _emprestado = estado;
 }
 
+void Livro::setId(unsigned int id)
+{
+    _id = id;
+}
+
 /*bool Livro::isEmprestado() const {
     return _emprestado;
 }*/

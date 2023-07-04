@@ -48,6 +48,7 @@ public:
 
     bool getEstado();
     void setEstado(bool estado);
+    void setId(unsigned int id);
 
     void setAvaliacao(const float& useravaliacao);
 
