@@ -4,6 +4,7 @@
 #include <iostream>
 #include <set>
 #include <string>
+#include <vector>
 
 class Livro
 {
@@ -18,6 +19,8 @@ private:
     float _avaliacao;
     unsigned int _id;
     bool _emprestado; // indica se o livro está emprestado
+
+    std::vector<float> _avaliacoes;
 
 public:
     Livro();

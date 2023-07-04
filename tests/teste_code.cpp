@@ -28,7 +28,6 @@ TEST_CASE("02 - Testando empréstimo de livro") {
     Usuario u1("User", "40028922", "user@example.com", 1, templivrosPegos, templivrosAvaliados, 3);
     Usuario u2("User2", "40028922", "user2@example.com", 1, templivrosPegos, templivrosAvaliados, 3);
     
-    // DestinationPackages pacotes;
     CHECK_NOTHROW(u1.pegar_livro(l1));
     CHECK_NOTHROW(u1.devolver_livro(l1));
     float avaliacao1 = 4.0f;
@@ -55,8 +54,6 @@ TEST_CASE("03 - Teste criando usuário") {
 
 TEST_CASE("04 - Teste criando livros") {
     Livro livro("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 1,  0);
-    //Livro livro2("Livro 2", "Autor 2", "Gênero 2", "Resumo 2", "Idioma 2", 300, 2022, 3.8f, 2);
-    //Livro livro3("Livro 3", "Autor 3", "Gênero 3", "Resumo 3", "Idioma 3", 250, 2020, 4.0f, 3);
     CHECK(livro.getTitulo() == "Livro 1");
     CHECK(livro.getAutor() == "Autor 1");
     CHECK(livro.getGenero() == "Gênero 1");
@@ -82,16 +79,16 @@ TEST_CASE("06 - Teste devolver livro") {
     Livro livro1("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 1,  0);
     usuario.devolver_livro(livro1);
     CHECK(usuario.getqntdlivros() == 0);
-    //CHECK(usuario.getLivrosPegos().empty());
 }
 
 TEST_CASE("07 - Teste Avaliar livro") {
     Usuario usuario("João", "senha123", "joao@example.com", 1, {}, {}, 0);
-    Livro livro2("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 0, 1,  0);
-    usuario.pegar_livro(livro2);
+    Livro livro15("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 0, 2,  0);
+    usuario.pegar_livro(livro15);
+    usuario.devolver_livro(livro15);
     float avaliacao = 4.2f;
-    usuario.avaliar_livro(livro2, avaliacao);
-    CHECK(livro2.getAvaliacao() == 4.2f);
+    usuario.avaliar_livro(livro15, avaliacao);
+    CHECK(livro15.getAvaliacao() == 4.2f);
 }
 
 TEST_CASE("08 - Teste de pegar e devolver múltiplos livros") {
@@ -103,18 +100,12 @@ TEST_CASE("08 - Teste de pegar e devolver múltiplos livros") {
     usuario.pegar_livro(livro3);
 
     CHECK(usuario.getqntdlivros() == 2);
-    //CHECK(usuario.getLivrosPegos().size() == 2);
-    //CHECK(usuario.getLivrosPegos()[0].getTitulo() == "Livro 1");
-    //CHECK(usuario.getLivrosPegos()[1].getTitulo() == "Livro 3");
 
     usuario.devolver_livro(livro1);
 
     CHECK(usuario.getqntdlivros() == 1);
-    //CHECK(usuario.getLivrosPegos().size() == 1);
-    //CHECK(usuario.getLivrosPegos()[0].getTitulo() == "Livro 3");
 
     usuario.devolver_livro(livro3);
 
     CHECK(usuario.getqntdlivros() == 0);
-    //CHECK(usuario.getLivrosPegos().empty());
 }

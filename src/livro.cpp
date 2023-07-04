@@ -49,13 +49,14 @@ unsigned int Livro::getId() {
 }
 
 void Livro::setAvaliacao(const float& useravaliacao) {
-    static unsigned int count = 0;
-    static float h = 0;
+    _avaliacoes.push_back(useravaliacao);
 
-    float temp = useravaliacao;  // Copia o valor para uma variável temporária
-    h += temp;
-    count++;
-    _avaliacao = h / count;
+        float sum = 0;
+        for (const auto& avaliacao : _avaliacoes) {
+            sum += avaliacao;
+        }
+
+        _avaliacao = sum / _avaliacoes.size();
 }
 
 bool Livro::getEstado() {
