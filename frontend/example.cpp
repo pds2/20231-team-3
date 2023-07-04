@@ -15,7 +15,7 @@ int main() {
         .name("index")
         ([]() {
         // Abre o arquivo HTML
-        std::ifstream t("index.html");
+        std::ifstream t("routes/index.html");
         if (!t.is_open()) {
         // Se ocorrer algum erro ao abrir o arquivo, retorne uma resposta de erro
         return crow::response(500, "Erro ao abrir o arquivo HTML");
@@ -34,7 +34,7 @@ int main() {
         .name("sobre")
         ([]{
         // Abre o arquivo HTML
-        std::ifstream t("sobre.html");
+        std::ifstream t("routes/sobre.html");
         if (!t.is_open()) {
         // Se ocorrer algum erro ao abrir o arquivo, retorne uma resposta de erro
         return crow::response(500, "Erro ao abrir o arquivo livro HTML");
@@ -52,7 +52,7 @@ int main() {
         .name("categoria/acao")
         ([]{
             // Abre o arquivo HTML
-        std::ifstream t("pag_acao.html");
+        std::ifstream t("routes/pag_acao.html");
         if (!t.is_open()) {
         // Se ocorrer algum erro ao abrir o arquivo, retorne uma resposta de erro
         return crow::response(500, "Erro ao abrir o arquivo livro HTML");
@@ -70,7 +70,7 @@ int main() {
         .name("livros")
         ([]() {
         // Abre o arquivo HTML
-        std::ifstream t("pag_livro.html");
+        std::ifstream t("routes/pag_livro.html");
         if (!t.is_open()) {
         // Se ocorrer algum erro ao abrir o arquivo, retorne uma resposta de erro
         return crow::response(500, "Erro ao abrir o arquivo livro HTML");
@@ -88,7 +88,7 @@ int main() {
         .name("categoria/romance")
         ([]() {
         // Abre o arquivo HTML
-        std::ifstream t("pag_romance.html");
+        std::ifstream t("routes/pag_romance.html");
         if (!t.is_open()) {
         // Se ocorrer algum erro ao abrir o arquivo, retorne uma resposta de erro
         return crow::response(500, "Erro ao abrir o arquivo HTML");
@@ -105,7 +105,7 @@ int main() {
         .name("categoria/suspense")
             ([]() {
             // Abre o arquivo HTML
-            std::ifstream t("pag_suspense.html");
+            std::ifstream t("routes/pag_suspense.html");
             if (!t.is_open()) {
             // Se ocorrer algum erro ao abrir o arquivo, retorne uma resposta de erro
             return crow::response(500, "Erro ao abrir o arquivo HTML");
