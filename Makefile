@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -std=c++17 -Wall -I./include -I./third_party -I./third_party/sqlite_modern_cpp -lsqlite3
+CFLAGS = -std=c++17 -Wall -I./include -I./third_party 
 SRCDIR = src
 TESTDIR = tests
 BUILDDIR = build
