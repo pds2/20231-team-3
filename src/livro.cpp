@@ -1,5 +1,7 @@
 #include "../include/livro.hpp"
 
+int Livro::_proximoid = 0;
+
 Livro::Livro(std::string titulo,
              std::string autor,
              std::string genero,
@@ -8,9 +10,12 @@ Livro::Livro(std::string titulo,
              unsigned int numpag,
              unsigned int ano,
              float avaliacao,
-             unsigned int id,
              bool emprestado)
-    : _titulo(titulo), _autor(autor), _genero(genero), _resumo(resumo), _idioma(idioma), _numpag(numpag), _ano(ano), _avaliacao(avaliacao), _id(id), _emprestado(emprestado) {}
+    : _titulo(titulo), _autor(autor), _genero(genero), _resumo(resumo), _idioma(idioma), _numpag(numpag), _ano(ano), _avaliacao(avaliacao), _emprestado(emprestado) 
+    {
+        _id = _proximoid;
+        _proximoid++;
+    }
 
 std::string Livro::getTitulo() const {
     return _titulo;
@@ -49,13 +54,18 @@ unsigned int Livro::getId() {
 }
 
 void Livro::setAvaliacao(const float& useravaliacao) {
-    static unsigned int count = 0;
-    static float h = 0;
+    if (!(useravaliacao >= 0 && useravaliacao <= 5)) {
+        throw AvaliacaoInvalida();
+    }
+    
+    _avaliacoes.push_back(useravaliacao);
 
-    float temp = useravaliacao;  // Copia o valor para uma variável temporária
-    h += temp;
-    count++;
-    _avaliacao = h / count;
+        float sum = 0;
+        for (const auto& avaliacao : _avaliacoes) {
+            sum += avaliacao;
+        }
+
+        _avaliacao = sum / _avaliacoes.size();
 }
 
 bool Livro::getEstado() {

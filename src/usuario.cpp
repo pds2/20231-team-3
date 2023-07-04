@@ -17,12 +17,19 @@ Usuario::Usuario(const std::string nome,
                  const std::string email,
                  unsigned int id,
                  std::vector<Livro> livrosPegos,
-                 std::vector<Livro> livrosAvaliados,
-                 unsigned int numerodelivros)
-    : Entidadebase(nome, senha, email, id), _livrosPegos(livrosPegos), _livrosAvaliados(livrosAvaliados), _numerodelivros(numerodelivros) {}
+                 std::vector<Livro> livrosAvaliados)
+    : Entidadebase(nome, senha, email, id), _livrosPegos(livrosPegos), _livrosAvaliados(livrosAvaliados) {
+        _numerodelivros = 3;
+    }
 
 void Usuario::pegar_livro(Livro &u)
 {
+    int tempnumberlivros = _numerodelivros;
+    if (getqntdlivros() == tempnumberlivros)
+    {
+        throw MaximoLivros();
+    }
+    
     _numerodelivros--;
     _livrosPegos.push_back(u);
 }
