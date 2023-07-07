@@ -19,6 +19,13 @@ private:
     
 public:
     Bibliotecario();
+    /**
+     * @brief Construtor da classe Bibliotecario.
+     * @param nome Nome do bibliotecário.
+     * @param senha Senha do bibliotecário.
+     * @param email Email do bibliotecário.
+     * @param id ID do bibliotecário.
+     */
     Bibliotecario(
         const std::string nome,
         const std::string senha,
@@ -26,19 +33,18 @@ public:
         int id = 3
     );
 
-    /*
-     * @brief Verifica se o livro está disponível no acervo
-     * @param livro O livro a ser verificado
-     * @return true se o livro está disponível, false caso contrário
+    /**
+     * @brief Verifica se um livro está disponível para empréstimo.
+     * @param livro Referência para o livro a ser verificado.
+     * @param acervo Referência para o acervo.
+     * @return Retorna true se o livro estiver disponível, false caso contrário.
      */
     bool EstaDisponivel(Livro &livro);
 
-    /*
-     * @brief Empréstimo de um livro
-     * @param livro O livro a ser emprestado
-     * @return O livro emprestado
-     * @throw LivroNaoEncontradoException se o livro não estiver disponível no acervo
-     * @throw LivroJaEmprestadoException se o livro já estiver emprestado
+    /**
+     * @brief Realiza o empréstimo de um livro.
+     * @param livro Referência para o livro a ser emprestado.
+     * @return Retorna o livro após o empréstimo (pode ser necessário ajustar os argumentos do construtor).
      */
     void EmprestaLivro(Livro &livro, Usuario& user);
 
