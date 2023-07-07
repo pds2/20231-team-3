@@ -35,17 +35,15 @@ public:
 
     /**
      * @brief Função para inserir um livro no acervo.
-     * @param acervo Referência para o acervo.
      * @param livro Referência para o livro a ser inserido.
      */
-    void InserirLivro(Acervo &acervo, Livro &livro);
+    void InserirLivro(Livro &livro);
 
     /**
      * @brief Função para remover um livro do acervo.
-     * @param acervo Referência para o acervo.
      * @param livro Referência para o livro a ser removido.
      */
-    void RemoverLivro(Acervo &acervo, Livro &livro);
+    void RemoverLivro(Livro &livro);
 };
 
 #endif

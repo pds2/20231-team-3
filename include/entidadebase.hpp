@@ -4,6 +4,9 @@
 #include <iostream>
 #include <string>
 
+#include "livro.hpp"
+#include "db_acervo.hpp"
+
 /**
  * @brief Classe base para entidades do sistema.
  */
@@ -78,6 +81,11 @@ public:
      * @param senha Nova senha da entidade.
      */
     void setSenha(const std::string &senha);
+
+    std::vector<std::tuple<unsigned int, Livro, AdtDataSQL>>
+    consultaLivros(std::string valor, std::string coluna);
+
+    void imprimeConsulta(std::vector<std::tuple<unsigned int, Livro, AdtDataSQL>>& consulta);
 };
 
 #endif

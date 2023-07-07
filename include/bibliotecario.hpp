@@ -39,14 +39,14 @@ public:
      * @param acervo Referência para o acervo.
      * @return Retorna true se o livro estiver disponível, false caso contrário.
      */
-    bool EstaDisponivel(Livro &livro, Acervo &acervo);
+    bool EstaDisponivel(Livro &livro);
 
     /**
      * @brief Realiza o empréstimo de um livro.
      * @param livro Referência para o livro a ser emprestado.
      * @return Retorna o livro após o empréstimo (pode ser necessário ajustar os argumentos do construtor).
      */
-    Livro EmprestaLivro(Livro &livro);
+    void EmprestaLivro(Livro &livro, Usuario& user);
 
     /*
      * @brief Define o ID do usuário que pegou emprestado o livro

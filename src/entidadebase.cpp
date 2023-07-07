@@ -45,3 +45,27 @@ void Entidadebase::setSenha(const std::string &senha)
 {
     _senha = senha;
 }
+
+std::vector<std::tuple<unsigned int, Livro, AdtDataSQL>>
+Entidadebase::consultaLivros(std::string valor, std::string coluna)
+{
+    auto db = DbAcervo();
+    auto livros = db.consulta(valor, coluna);
+    for(auto& livro : livros)
+    {
+        auto&& id = std::get<0>(livro);
+        std::get<1>(livro).setId(id);
+    }
+
+    return livros;
+}
+
+void Entidadebase::imprimeConsulta(std::vector<std::tuple<unsigned int, Livro, AdtDataSQL>>& consulta)
+{
+    for(auto& linha : consulta)
+    {
+        auto id = std::get<0>(linha);
+        auto livro = std::get<1>(linha);
+        std::cout << id << " - " << livro.getTitulo() << ". Autor: " << livro.getAutor() << std::endl;
+    }
+}

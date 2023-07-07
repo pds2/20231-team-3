@@ -124,6 +124,7 @@ public:
      * @param estado Novo estado de empréstimo do livro.
      */
     void setEstado(bool estado);
+    void setId(unsigned int id);
 
     /**
      * @brief Define a avaliação do livro.

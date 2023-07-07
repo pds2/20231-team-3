@@ -1,5 +1,6 @@
 #include "../include/adm.hpp"
 #include "entidadebase.hpp"
+#include "db_acervo.hpp"
 
 Administrador::Administrador(
     const std::string nome,
@@ -9,8 +10,9 @@ Administrador::Administrador(
 ) : Entidadebase(nome, senha, email, id) {}
 
 
-void Administrador::InserirLivro(Acervo& acervo, Livro& livro)
+void Administrador::InserirLivro(Livro& livro)
 {
+    /*
         acervo.adicionarLivro(
         livro.getTitulo(),
         livro.getAutor(),
@@ -22,10 +24,14 @@ void Administrador::InserirLivro(Acervo& acervo, Livro& livro)
         livro.getAvaliacao(),
         livro.getId()
     );
+    */
+   auto db = DbAcervo();
+   db.inserir_linha(livro);
 }
 
-void Administrador::RemoverLivro(Acervo& acervo, Livro& livro)
+void Administrador::RemoverLivro(Livro& livro)
 {
+    /*
     unsigned int id = livro.getId();
     Livro livroEncontrado = acervo.buscar_livro(id);
 
@@ -33,4 +39,7 @@ void Administrador::RemoverLivro(Acervo& acervo, Livro& livro)
         // Livro encontrado no acervo, remover
         acervo.remover_livro(id);
     }
+    */
+   auto db = DbAcervo();
+   db.deletar_linha_id(livro.getId());
 }
