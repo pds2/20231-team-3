@@ -2,7 +2,6 @@
 
 #include "../third_party/doctest.h"
 
-#include "../include/acervo.hpp"
 #include "../include/adm.hpp"
 #include "../include/bibliotecario.hpp"
 #include "../include/entidadebase.hpp"

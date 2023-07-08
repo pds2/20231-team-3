@@ -21,15 +21,6 @@ class acesso_negado_e : public std::exception
         }
 };
 
-// struct com dados adicionais não presentes nos TADs
-struct AdtDataSQL
-{
-    std::vector<long> blob;
-    std::vector<std::string> text_data;
-    std::vector<long> long_data;
-    std::vector<double> double_data;
-};
-
 // classe wrapper do wrapper do SQLite
 template <typename TAD>
 class BbtWrapperSQL
@@ -91,11 +82,16 @@ class BbtWrapperSQL
         // saída: (col1,col2,col3,...)
         std::string _ps_colunas()
         {
-            std::string ps_buffer = "";
+            std::ostringstream ostr_buffer;
+
             for(auto col : _colunas)
             {
-                if(col.get_nome_col() != bbt_def::sql::id) ps_buffer += col.get_nome_col() + ",";                
+                if(col.get_nome_col() != bbt_def::sql::id)
+                {
+                    ostr_buffer << col.get_nome_col() << ",";                
+                }
             }
+            auto ps_buffer = ostr_buffer.str();
             ps_buffer.pop_back();
             return ps_buffer;
         }
@@ -104,11 +100,14 @@ class BbtWrapperSQL
         // formato de saída: (?,?,?,...)
         std::string _ps_linha()
         {
-            std::string ps_buffer = "(";
+            std::ostringstream ostr_buffer
+            ostr_buffer << "(";
+
             for(int i = 0; i < _colunas.size()-1; i++)
             {
-                ps_buffer += "?,";
+                ostr_buffer << "?,";
             }
+            auto ps_buffer = ostr_buffer.str();
             ps_buffer.pop_back();
             return ps_buffer + ")";
         }
@@ -119,7 +118,7 @@ class BbtWrapperSQL
 
         // método auxiliar para armazenar diretrizes específicas de cada tabela
         // sobrecarga para o tipo row_iterator (retornos múltiplos)
-        virtual std::pair<TAD, AdtDataSQL> _diretriz(
+        virtual TAD _diretriz(
             sqlite::row_iterator::value_type linha_binder) = 0;
 
         // getter ponteiro da coluna
@@ -151,7 +150,7 @@ class BbtWrapperSQL
                 _db_sqlite_ref << "begin;";
 
                 // registra o nome da coluna, o tipo, default null e condição de unique
-                std::string sql_exec_buffer = "";
+                std::ostringstream ostr_buffer;
                 for(auto col : colunas)
                 {
                     std::string unique = "";
@@ -163,19 +162,22 @@ class BbtWrapperSQL
                     if(col.get_default_null_col() == "default null") default_null = " default null ";
 
                     // adiciona ao buffer de comando do SQLite com nome e tipo das colunas
-                    sql_exec_buffer +=
-                        col.get_nome_col() + " " +
-                        col.get_tipo_col() + primary_key + default_null +
-                        unique + ",";
+                    ostr_buffer
+                        << col.get_nome_col() << " "
+                        << col.get_tipo_col() << primary_key
+                        << default_null << unique << ",";
                 }
 
                 // remove vírgula excedente
+                auto sql_exec_buffer = ostr_buffer.str("");
                 sql_exec_buffer.pop_back();
 
+                ostr_buffer
+                    << "create table if not exists " << nome_tabela
+                    << "(" << sql_exec_buffer << clausula_adicional << ");";
+
                 // cria tabela, se não existir
-                _db_sqlite_ref <<
-                    "create table if not exists " + nome_tabela +
-                    "(" + sql_exec_buffer + clausula_adicional + ");";
+                _db_sqlite_ref << ostr_buffer.str();
             
                 _db_sqlite_ref << "commit;";
             }
@@ -190,17 +192,19 @@ class BbtWrapperSQL
         {
             try
             {
-                std::string str_buffer = "update " + _nome_tabela + " set ";
+                std::ostringstream ostr_buffer = "update " << _nome_tabela << " set ";
 
                 // alimenta o str_buffer: "nome da coluna" = ?
                 for(auto col : _colunas)
                 {
                     if(col.get_nome_col() == bbt_def::sql::id) continue;
-                    str_buffer += col.get_nome_col() + " = ?,";
+                    str_buffer << col.get_nome_col() + " = ?,";
                 }
 
                 // remove vírgula excedente
+                auto str_buffer = ostr_buffer.str();
                 str_buffer.pop_back();
+
 
                 auto ps_binder = _db_sqlite_ref
                 << str_buffer + " where " + bbt_def::sql::id + " = ?;";
@@ -227,10 +231,13 @@ class BbtWrapperSQL
                     throw std::invalid_argument("É proibido alterar a coluna " + bbt_def::sql::id);
                 }
 
-                _db_sqlite_ref
-                << "update " + _nome_tabela + " set "
-                + _get_coluna(coluna)->get_nome_col() + " = ? where " + bbt_def::sql::id + " = ?;"
-                << item << id;
+                std::ostringstream ostr_buffer;
+                ostr_buffer
+                    << "update " << _nome_tabela << " set "
+                    << _get_coluna(coluna)->get_nome_col() << " = ? where "
+                    << bbt_def::sql::id << " = ?;";
+
+                _db_sqlite_ref << ostr_buffer.str() << item << id;
             }
             catch(const std::exception& e)
             {
@@ -243,8 +250,12 @@ class BbtWrapperSQL
         {
             try
             {
-                auto&& ps_binder = _db_sqlite_ref <<
-                "insert into " + _nome_tabela + "(" + _ps_colunas() + ") values " + _ps_linha() + ";";
+                std::ostringstream ostr_buffer;
+                ostr_buffer
+                    << "insert into " << _nome_tabela << "("
+                    << _ps_colunas() << ") values " << _ps_linha() << ";";
+
+                auto&& ps_binder = _db_sqlite_ref << ostr_buffer.str();
 
                 // insere de acordo com o tipo
                 _diretriz(ps_binder, obj);
@@ -261,11 +272,13 @@ class BbtWrapperSQL
         {
             try
             {
-                _db_sqlite_ref
-                << "update " + _nome_tabela + " set "
-                + _get_coluna(coluna)->get_nome_col()
-                + " = null where " + bbt_def::sql::id + " = ?;"
-                << id;
+                std::ostringstream ostr_buffer;
+                ostr_buffer
+                    << "update " << _nome_tabela
+                    << " set " << _get_coluna(coluna)->get_nome_col()
+                    << " = null where " << bbt_def::sql::id << " = ?;";
+
+                _db_sqlite_ref << ostr_buffer.str() << id;
             }
             catch(const std::exception& e)
             {
@@ -277,9 +290,13 @@ class BbtWrapperSQL
         void deletar_linha_id(unsigned int id)
         {
             try
-            { 
-                _db_sqlite_ref
-                << "delete from " + _nome_tabela + " where " + bbt_def::sql::id + " = ?;" << id;
+            {
+                std::ostringstream ostr_buffer;
+                ostr_buffer
+                    << "delete from " << _nome_tabela << " where "
+                    << bbt_def::sql::id << " = ?;";
+
+                _db_sqlite_ref << ostr_buffer.str() << id;
             }
             catch(const std::exception& e)
             {
@@ -292,36 +309,38 @@ class BbtWrapperSQL
         // ordena a coluna de acordo com o boolean fornecido
         // ascendente: true, descendente: false
         template <typename tipo>
-        std::vector<std::tuple<unsigned int, TAD, AdtDataSQL>>
+        std::vector<TAD>
         consulta(tipo item, std::string coluna, bool ascendente = true)
         {
             auto ordem = [&]()
             {
-                if(ascendente) return "order by " + _get_coluna(coluna)->get_nome_col() + " asc";
-                else return "order by " + _get_coluna(coluna)->get_nome_col() + " desc";
+                if(ascendente)
+                {
+                    return "order by " + _get_coluna(coluna)->get_nome_col() + " asc";
+                }
+                else
+                {
+                    return "order by " + _get_coluna(coluna)->get_nome_col() + " desc";
+                }
             };
 
             // inicialização do return
-            std::vector<std::tuple<unsigned int, TAD, AdtDataSQL>>&& vec_buffer = {};
+            std::vector<TAD>&& vec_buffer = {};
 
             try
             {
-                for(auto&& linha : _db_sqlite_ref
-                    << "select " + bbt_def::sql::id + "," + _ps_colunas() + " from "
-                    + _nome_tabela + " where " + _get_coluna(coluna)->get_nome_col()
-                    + " = ? " + ordem() + ";" << item)
+                std::ostringstream ostr_buffer;
+                ostr_buffer
+                    << "select " << bbt_def::sql::id << ","
+                    << _ps_colunas() << " from " << _nome_tabela
+                    << " where " << _get_coluna(coluna)->get_nome_col()
+                    << " = ? " << ordem() << ";";
+
+                for(auto&& linha : _db_sqlite_ref << ostr_buffer.str() << item)
                 {
-                    unsigned int id_buffer;
-                    linha >> id_buffer; 
-
-                    std::pair<TAD, AdtDataSQL> pair_buffer = _diretriz(linha);
-
-                    vec_buffer.push_back
-                    (
-                        std::make_tuple(id_buffer, pair_buffer.first, pair_buffer.second)
-                    );
+                    TAD TAD_buffer = _diretriz(linha);
+                    vec_buffer.push_back(TAD_buffer);
                 }
-
                 return vec_buffer;
             }
             catch(const std::exception& e)
@@ -337,7 +356,10 @@ class BbtWrapperSQL
         {
             try
             {
-                _db_sqlite_ref << "delete from " + _nome_tabela + ";";
+                std::ostringstream ostr_buffer;
+                ostr_buffer << "delete from " << _nome_tabela << ";";
+
+                _db_sqlite_ref << ostr_buffer.str();
             }
             catch(const std::exception& e)
             {
@@ -351,7 +373,10 @@ class BbtWrapperSQL
         {
             try
             {
-                _db_sqlite_ref << "drop table if exists " + _nome_tabela + ";";
+                std::ostringstream ostr_buffer;
+                ostr_buffer << "drop table if exists " << _nome_tabela << ";";
+
+                _db_sqlite_ref << ostr_buffer.str();
             }
             catch(const std::exception& e)
             {

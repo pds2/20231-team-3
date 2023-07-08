@@ -33,7 +33,7 @@ public:
      * @param nome Nome do usuário.
      * @param senha Senha do usuário.
      * @param email Email do usuário.
-     * @param id ID do usuário.
+     * @param id_db ID do banco de dados.
      * @param livrosPegos Vetor de livros pegos pelo usuário.
      * @param livrosAvaliados Vetor de livros avaliados pelo usuário.
      * @param numerodelivros Número de livros que o usuário possui.
@@ -42,7 +42,7 @@ public:
         const std::string nome,
         const std::string senha,
         const std::string email,
-        unsigned int id = 1,
+        unsigned int id_db = 0,
         std::vector<Livro> livrosPegos = {},
         std::vector<Livro> livrosAvaliados = {}
     );

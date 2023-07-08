@@ -11,7 +11,7 @@ class DbAdministradores : public BbtWrapperSQL<Entidadebase>
     protected:
         virtual void _diretriz(sqlite::database_binder& ps_binder, Entidadebase obj) override;
         
-        virtual std::pair<Entidadebase, AdtDataSQL> _diretriz(
+        virtual Entidadebase _diretriz(
             sqlite::row_iterator::value_type linha_binder) override;
 
     public:

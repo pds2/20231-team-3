@@ -24,13 +24,9 @@ TEST_CASE("teste de inserção de um livro")
     db_ac.inserir_linha(livro1);
     db_ac.inserir_linha(livro2);
 
-    auto livro1_consulta = std::get<1>(
-        db_ac.consulta("titulo1", bbt_def::sql::schema_acervo::titulo).back()
-    );
+    auto livro1_consulta = db_ac.consulta("titulo1", bbt_def::sql::schema_acervo::titulo).back();
 
-    auto livro2_consulta = std::get<1>(
-        db_ac.consulta("titulo2", bbt_def::sql::schema_acervo::titulo).back()
-    );
+    auto livro2_consulta = db_ac.consulta("titulo2", bbt_def::sql::schema_acervo::titulo).back();
 
     CHECK_EQ(livro1.getTitulo(), livro1_consulta.getTitulo());
     CHECK_EQ(livro1.getAutor(), livro1_consulta.getAutor());

@@ -10,7 +10,7 @@ class DbAcervo : public BbtWrapperSQL<Livro>
     protected:
         virtual void _diretriz(sqlite::database_binder& ps_binder, Livro obj) override;
         
-        virtual std::pair<Livro, AdtDataSQL> _diretriz(
+        virtual Livro _diretriz(
             sqlite::row_iterator::value_type linha_binder) override;
 
     public:

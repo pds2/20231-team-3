@@ -15,10 +15,10 @@
 Usuario::Usuario(const std::string nome,
                  const std::string senha,
                  const std::string email,
-                 unsigned int id,
+                 unsigned int id_db,
                  std::vector<Livro> livrosPegos,
                  std::vector<Livro> livrosAvaliados)
-    : Entidadebase(nome, senha, email, id), _livrosPegos(livrosPegos), _livrosAvaliados(livrosAvaliados) {
+    : Entidadebase(nome, senha, email, 1, id_db), _livrosPegos(livrosPegos), _livrosAvaliados(livrosAvaliados) {
         _numerodelivros = 3;
     }
 

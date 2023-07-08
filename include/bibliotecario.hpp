@@ -24,13 +24,13 @@ public:
      * @param nome Nome do bibliotecário.
      * @param senha Senha do bibliotecário.
      * @param email Email do bibliotecário.
-     * @param id ID do bibliotecário.
+     * @param id_db ID do banco de dados.
      */
     Bibliotecario(
         const std::string nome,
         const std::string senha,
         const std::string email,
-        int id = 3
+        unsigned int id_db = 0
     );
 
     /**

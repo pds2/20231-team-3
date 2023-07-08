@@ -8,8 +8,8 @@
 Bibliotecario::Bibliotecario(const std::string nome,
                              const std::string senha,
                              const std::string email,
-                             int id
-) : Entidadebase(nome, senha, email, id) {}
+                             unsigned int id_db
+) : Entidadebase(nome, senha, email, 3, id_db) {}
 
 bool Bibliotecario::EstaDisponivel(Livro& livro)
 {

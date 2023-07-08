@@ -8,9 +8,23 @@
 #include <string>
 #include <vector>
 
+/**
+ * @brief Classe de exceção de avaliação inválida.
+ */
 class AvaliacaoInvalida : public std::runtime_error {
 public:
     AvaliacaoInvalida() : std::runtime_error("Avaliação inválido") {}
+};
+
+class DataInvalida : public std::runtime_error {
+public:
+    DataInvalida() : std::runtime_error("O formato de data deve ser DD/MM/AAAA") {}
+    DataInvalida(std::string msg) : std::runtime_error(msg) {}
+};
+
+class DataNaoSettada : public std::runtime_error {
+public:
+    DataNaoSettada() : std::runtime_error("Não há data") {}
 };
 
 /**
@@ -28,8 +42,9 @@ private:
     unsigned int _ano;
     float _avaliacao;
     unsigned int _id;
-    static int _proximoid;
-    bool _emprestado; // indica se o livro está emprestado
+    unsigned int _emprestado; // indica se o livro está emprestado
+    std::string _data_aluguel;
+    std::string _data_devolucao;
 
     std::vector<float> _avaliacoes;
 
@@ -45,7 +60,8 @@ public:
      * @param numpag Número de páginas do livro.
      * @param ano Ano de lançamento do livro.
      * @param avaliacao Avaliação média do livro.
-     * @param emprestado Estado de empréstimo do livro.
+     * @param id ID do livro.
+     * @param emprestado ID do usuário de empréstimo do livro.
      */
     Livro (
         std::string titulo,
@@ -56,7 +72,8 @@ public:
         unsigned int numpag,
         unsigned int ano,
         float avaliacao = 0,
-        bool emprestado = 0
+        unsigned int id,
+        unsigned int emprestado = 0
     );
 
     /**
@@ -115,15 +132,32 @@ public:
 
     /**
      * @brief Obtém o estado de empréstimo do livro.
-     * @return Retorna true se o livro estiver emprestado, caso contrário, retorna false.
+     * @return Retorna o ID de quem estiver emprestado, caso contrário, retorna zero.
      */
-    bool getEstado();
+    unsigned int getEstado();
+
+    /**
+     * @brief Obtém a data de aluguel do livro.
+     * @return Retorna uma string com a data de aluguel. Se não houver, retorna string vazia.
+     */
+    std::string getDataAluguel();   
+
+    /**
+     * @brief Obtém a data de devolução do livro.
+     * @return Retorna uma string com a data de devolução. Se não houver, retorna string vazia.
+     */
+    std::string getDataDevolucao(); 
 
     /**
      * @brief Define o estado de empréstimo do livro.
-     * @param estado Novo estado de empréstimo do livro.
+     * @param id Novo ID do usuário de empréstimo do livro.
      */
-    void setEstado(bool estado);
+    void setEstado(unsigned int id);
+
+    /**
+     * @brief Define o ID do livro.
+     * @param id ID do livro.
+     */
     void setId(unsigned int id);
 
     /**
@@ -132,8 +166,17 @@ public:
      */
     void setAvaliacao(const float& useravaliacao);
 
-    // float somatoria_avaliacao(float &av);
-    // float media_avaliacao(unsigned int &numavaliacoes);
+    /**
+     * @brief Define a data de aluguel do livro.
+     * @param data_aluguel Data de aluguel do livro.
+     */
+    void setDataAluguel(const std::string data_aluguel);    
+
+    /**
+     * @brief Define a data de devolução do livro.
+     * @param data_devolucao Data de devolução do livro.
+     */
+    void setDataDevolucao(const std::string data_devolucao);    
 };
 
 #endif

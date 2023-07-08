@@ -19,8 +19,29 @@ void DbAcervo::_diretriz(sqlite::database_binder& ps_binder, Livro obj)
         << obj.getIdioma()
         << obj.getNumPaginas()
         << obj.getAno()
-        << obj.getAvaliacao()
-        << nullptr << nullptr << nullptr;    
+        << obj.getAvaliacao();
+
+        if(obj.getEstado() == 0) ps_binder << nullptr;
+        else ps_binder << obj.getEstado();
+
+        try
+        {
+            ps_binder << obj.getDataAluguel();
+        }
+        catch(DataNaoSettada& e)
+        {
+            ps_binder << nullptr;
+        }
+
+        try
+        {
+            ps_binder << obj.getDataDevolucao();
+        }
+        catch(DataNaoSettada& e)
+        {
+            ps_binder << nullptr;
+        }
+           
     }
     catch(const std::exception& e)
     {
@@ -28,29 +49,40 @@ void DbAcervo::_diretriz(sqlite::database_binder& ps_binder, Livro obj)
     }
 }
 
-std::pair<Livro, AdtDataSQL> DbAcervo::_diretriz(
+Livro DbAcervo::_diretriz(
     sqlite::row_iterator::value_type linha_binder)
 {
     std::unique_ptr<std::string> titulo, autor, genero, resumo, idioma, data_aluguel, data_devolucao;
-    std::unique_ptr<unsigned int> numpag, ano, posse_id;
+    std::unique_ptr<unsigned int> numpag, ano, id, posse_id;
     std::unique_ptr<double> avaliacao;
     try
     {
-        linha_binder
+        linha_binder >> id
         >> titulo >> autor >> genero >> resumo
         >> idioma >> numpag >> ano >> avaliacao
         >> posse_id >> data_aluguel >> data_devolucao;
 
-        auto temp_obj = Livro(*titulo, *autor, *genero, *resumo, *idioma, *numpag, *ano, *avaliacao);
-        AdtDataSQL temp_adt_data;
+        if(posse_id == nullptr) *posse_id = 0;
 
-        if(posse_id != nullptr) temp_adt_data.long_data.push_back(*posse_id);
+        auto temp_obj = Livro
+        (
+            *titulo,
+            *autor,
+            *genero,
+            *resumo,
+            *idioma,
+            *numpag,
+            *ano,
+            *avaliacao,
+            *id,
+            *posse_id
+        );
 
-        if(data_aluguel != nullptr) temp_adt_data.text_data.push_back(*data_aluguel);
+        if(data_aluguel != nullptr) temp_obj.setDataAluguel(*data_aluguel);
 
-        if(data_devolucao != nullptr) temp_adt_data.text_data.push_back(*data_devolucao);
+        if(data_devolucao != nullptr) temp_obj.setDataDevolucao(*data_devolucao);
 
-        return {temp_obj, temp_adt_data};
+        return temp_obj;
     }
     catch(const std::exception& e)
     {

@@ -25,13 +25,13 @@ public:
      * @param nome Nome do administrador.
      * @param senha Senha do administrador.
      * @param email Email do administrador.
-     * @param id ID do administrador.
+     * @param id_sql ID do banco de dados.
      */
     Administrador(
         const std::string nome,
         const std::string senha,
         const std::string email,
-        int id = 4);
+        unsigned int id_db = 0);
 
     /**
      * @brief Função para inserir um livro no acervo.

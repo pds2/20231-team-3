@@ -41,7 +41,6 @@ namespace bbt_def
             const std::string email = "email";
             const std::string senha = "senha";
             const std::string id_categoria = "id_categoria";
-            const std::string num_livros = "num_livros";
 
             // definição das colunas: nome, tipo, unique, primary key, default null
             const std::vector<ColunaSQL> colunas =
@@ -51,7 +50,6 @@ namespace bbt_def
                 ColunaSQL(email, "text", "unique", "", "not null"),
                 ColunaSQL(senha, "text", "", "", "not null"),
                 ColunaSQL(id_categoria, "integer", "", "", "not null"),
-                ColunaSQL(num_livros, "integer", "", "", "default null")
             };
         }
 
