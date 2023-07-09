@@ -20,6 +20,9 @@ Usuario::Usuario(const std::string nome,
                  std::vector<Livro> livrosAvaliados)
     : Entidadebase(nome, senha, email, id), _livrosPegos(livrosPegos), _livrosAvaliados(livrosAvaliados) {
         _numerodelivros = 3;
+    if ((_nome.empty()) || (_senha.empty()) || (_email.empty())) {
+        throw std::invalid_argument("Todos os campos precisam ser preenchidos para prosseguir");
+    }
     }
 
 void Usuario::pegar_livro(Livro &u)

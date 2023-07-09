@@ -15,6 +15,10 @@ Livro::Livro(std::string titulo,
     {
         _id = _proximoid;
         _proximoid++;
+        // || (_numpag.empty()) || (_ano.empty()) || (_avaliacao.empty()) 
+        if ((_titulo.empty()) || (_autor.empty()) || (_genero.empty()) || (_resumo.empty()) || (_idioma.empty())) {
+            throw std::invalid_argument("Todos os campos precisam ser preenchidos para prosseguir");
+        }
     }
 
 std::string Livro::getTitulo() const {

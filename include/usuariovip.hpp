@@ -1,4 +1,4 @@
-#ifndef USUARIO_VIP_HPP
+/** #ifndef USUARIO_VIP_HPP
 #define USUARIO_VIP_HPP
 
 #include "entidadebase.hpp"
@@ -16,9 +16,9 @@
 
 /**
  * @brief Classe responsavel por criar um usuario vip.
- */
+ 
 
-class Uusariovip : public Entidadebase
+/class Uusariovip : public Entidadebase
 {
 private:
     std::vector<Livro> _livrosPegos(5);
@@ -43,4 +43,4 @@ public:
     // calcular por media aritmética, fazendo uma soma dinâmica e contabilizando o número de avaliações para dividir depois
 };
 
-#endif
+#endif */
