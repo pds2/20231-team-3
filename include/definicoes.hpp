@@ -3,11 +3,13 @@
 
 #include <string>
 #include <vector>
-#include "coluna_sql.hpp"
-#include "sqlite_modern_cpp.h"
+#include "../include/coluna_sql.hpp"
+#include "../third_party/sqlite_modern_cpp.h"
 
 namespace bbt_def
 {
+    const unsigned int max_livros_user = 3;
+    
     namespace sql
     {
         const std::string id = "id";

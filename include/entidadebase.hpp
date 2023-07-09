@@ -4,8 +4,9 @@
 #include <iostream>
 #include <string>
 
-#include "livro.hpp"
-#include "db_acervo.hpp"
+#include "../include/livro.hpp"
+
+//#include "db_acervo.hpp"
 
 /**
  * @brief Classe base para entidades do sistema.
@@ -20,7 +21,6 @@ private:
     unsigned int _id_sql;
 
 public:
-    Entidadebase();
     /**
      * @brief Construtor da classe Entidadebase.
      * @param nome Nome da entidade.
@@ -90,8 +90,8 @@ public:
      */
     void setSenha(const std::string &senha);
 
-    std::vector<Livro>
-    consultaLivros(std::string valor, std::string coluna);
+    
+    std::vector<Livro> consultaLivros(std::string valor, std::string coluna);
 
     void imprimeConsulta(std::vector<Livro>& consulta);
 };

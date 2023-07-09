@@ -1,6 +1,6 @@
-#include "definicoes.hpp"
-#include "db_acervo.hpp"
-#include "db_usuarios.hpp"
+#include "../include/definicoes.hpp"
+#include "../include/db_acervo.hpp"
+#include "../include/db_usuarios.hpp"
 
 DbAcervo::DbAcervo() : BbtWrapperSQL(
     bbt_def::sql::schema_acervo::nome_tabela,
@@ -28,7 +28,7 @@ void DbAcervo::_diretriz(sqlite::database_binder& ps_binder, Livro obj)
         {
             ps_binder << obj.getDataAluguel();
         }
-        catch(DataNaoSettada& e)
+        catch(const DataNaoSettada& e)
         {
             ps_binder << nullptr;
         }
@@ -53,16 +53,17 @@ Livro DbAcervo::_diretriz(
     sqlite::row_iterator::value_type linha_binder)
 {
     std::unique_ptr<std::string> titulo, autor, genero, resumo, idioma, data_aluguel, data_devolucao;
-    std::unique_ptr<unsigned int> numpag, ano, id, posse_id;
+    std::unique_ptr<unsigned int> numpag, ano, id, posse_id, n_avaliacoes;
     std::unique_ptr<double> avaliacao;
     try
     {
         linha_binder >> id
         >> titulo >> autor >> genero >> resumo
         >> idioma >> numpag >> ano >> avaliacao
-        >> posse_id >> data_aluguel >> data_devolucao;
+        >> posse_id >> data_aluguel >> data_devolucao >> n_avaliacoes;
 
-        if(posse_id == nullptr) *posse_id = 0;
+        if(posse_id == nullptr) posse_id = std::make_unique<unsigned int>(0);
+        if(n_avaliacoes == nullptr) n_avaliacoes = std::make_unique<unsigned int>(0);
 
         auto temp_obj = Livro
         (
@@ -75,7 +76,8 @@ Livro DbAcervo::_diretriz(
             *ano,
             *avaliacao,
             *id,
-            *posse_id
+            *posse_id,
+            *n_avaliacoes
         );
 
         if(data_aluguel != nullptr) temp_obj.setDataAluguel(*data_aluguel);
@@ -88,5 +90,5 @@ Livro DbAcervo::_diretriz(
     {
         _sql_excecao(std::current_exception());
     }
-    return {};
+    return Livro("","","","","",1,1,1);
 }

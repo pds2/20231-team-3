@@ -11,7 +11,8 @@ Livro::Livro(std::string titulo,
              unsigned int ano,
              float avaliacao,
              unsigned int id,
-             unsigned int emprestado) :
+             unsigned int emprestado,
+             unsigned int qtde_avaliacoes) :
 
              _titulo(titulo),
              _autor(autor),
@@ -24,7 +25,8 @@ Livro::Livro(std::string titulo,
              _id(id),
              _emprestado(emprestado),
              _data_aluguel(""),
-             _data_devolucao("") {}
+             _data_devolucao(""),
+             _qtde_avaliacoes(qtde_avaliacoes) {}
 
 std::string Livro::getTitulo() const {
     return _titulo;
@@ -75,6 +77,11 @@ std::string Livro::getDataAluguel() {
 std::string Livro::getDataDevolucao() {
     if(_data_devolucao == "") throw DataNaoSettada();
     return _data_devolucao;
+}
+
+unsigned int Livro::getQtdAvaliacoes()
+{
+    return _qtde_avaliacoes;
 }
 
 void Livro::setEstado(unsigned int id) {

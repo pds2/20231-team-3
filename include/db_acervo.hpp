@@ -1,8 +1,8 @@
 #ifndef DB_ACERVO
 #define DB_ACERVO
 
-#include "bbt_wrapper_sql.hpp"
-#include "livro.hpp"
+#include "../include/bbt_wrapper_sql.hpp"
+#include "../include/livro.hpp"
 
 // classe que herda da classe base BbtWrapperSQL
 class DbAcervo : public BbtWrapperSQL<Livro>

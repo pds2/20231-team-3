@@ -69,6 +69,7 @@ public:
      * @param avaliacao Avaliação média do livro.
      * @param id ID do livro.
      * @param emprestado ID do usuário de empréstimo do livro.
+     * @param qtde_avaliacoes Quantidade de avaliações feitas do livro.
      */
     Livro (
         std::string titulo,
@@ -79,8 +80,9 @@ public:
         unsigned int numpag,
         unsigned int ano,
         float avaliacao = 0,
-        unsigned int id,
-        unsigned int emprestado = 0
+        unsigned int id = 0,
+        unsigned int emprestado = 0,
+        unsigned int qtde_avaliacoes = 0
     );
 
     /**

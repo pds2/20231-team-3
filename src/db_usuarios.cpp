@@ -1,5 +1,5 @@
-#include "definicoes.hpp"
-#include "db_usuarios.hpp"
+#include "../include/definicoes.hpp"
+#include "../include/db_usuarios.hpp"
 
 DbUsuarios::DbUsuarios() : BbtWrapperSQL(
     bbt_def::sql::schema_usuarios::nome_tabela,
@@ -43,5 +43,5 @@ Usuario DbUsuarios::_diretriz(
     {
         _sql_excecao(std::current_exception());
     }
-    return {};
+    return Usuario("","","");
 }

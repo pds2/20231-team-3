@@ -1,8 +1,8 @@
 #ifndef DB_USUARIOS
 #define DB_USUARIOS
 
-#include "bbt_wrapper_sql.hpp"
-#include "usuario.hpp"
+#include "../include/bbt_wrapper_sql.hpp"
+#include "../include/usuario.hpp"
 
 // classe que herda da classe base BbtWrapperSQL
 class DbUsuarios : public BbtWrapperSQL<Usuario>

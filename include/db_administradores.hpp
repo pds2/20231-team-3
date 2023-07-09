@@ -1,9 +1,9 @@
 #ifndef DB_ADMINISTRADORES
 #define DB_ADMINISTRADORES
 
-#include "bbt_wrapper_sql.hpp"
-#include "bibliotecario.hpp"
-#include "adm.hpp"
+#include "../include/bbt_wrapper_sql.hpp"
+#include "../include/bibliotecario.hpp"
+#include "../include/adm.hpp"
 
 // classe que herda da classe base BbtWrapperSQL
 class DbAdministradores : public BbtWrapperSQL<Entidadebase>

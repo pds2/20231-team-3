@@ -1,8 +1,8 @@
 #ifndef USUARIO_HPP
 #define USUARIO_HPP
 
-#include "entidadebase.hpp"
-#include "livro.hpp"
+#include "../include/entidadebase.hpp"
+#include "../include/livro.hpp"
 
 #include <iostream>
 #include <set>
@@ -14,6 +14,11 @@
 class MaximoLivros : public std::runtime_error {
 public:
     MaximoLivros() : std::runtime_error("Você não pode pegar mais que 3 livros.") {}
+};
+
+class EmailJaCadastrado : public std::runtime_error {
+public:
+    EmailJaCadastrado() : std::runtime_error("E-mail já cadastrado") {}
 };
 
 /**
@@ -66,7 +71,7 @@ public:
      * @param u Livro a ser avaliado.
      * @param avaliacaousuario Avaliação atribuída pelo usuário.
      */
-    void avaliar_livro(Livro &u, float &avaliacaousuario) const;
+    void avaliar_livro(Livro &u, float avaliacaousuario);
 
     /**
      * @brief Obtém a quantidade de livros pegos pelo usuário.
@@ -79,6 +84,10 @@ public:
      * @return Retorna um vetor de livros alugados, se existirem.
      */
     std::vector<Livro> livros_alugados();
+
+    unsigned int get_max_livros();
+
+    void sign_in();
 };
 
 #endif

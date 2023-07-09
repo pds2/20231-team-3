@@ -7,7 +7,9 @@
 #include "../include/entidadebase.hpp"
 #include "../include/livro.hpp"
 #include "../include/usuario.hpp"
-// #include "usuariovip.hpp" - Não sabemos o que fazer com ela
+#include "../include/db_acervo.hpp"
+#include "../include/db_usuarios.hpp"
+#include "../include/db_administradores.hpp"
 
 #include <string>
 
@@ -20,34 +22,77 @@
     CHECK_NOTHROW(Usuario());
 }*/
 
-TEST_CASE("02 - Testando empréstimo de livro") {
-    std::vector<Livro> templivrosPegos;
-    std::vector<Livro> templivrosAvaliados;
-    Livro l1("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2022, 0.0, 0);
-    Usuario u1("User", "40028922", "user@example.com", 1, templivrosPegos, templivrosAvaliados);
-    Usuario u2("User2", "40028922", "user2@example.com", 1, templivrosPegos, templivrosAvaliados);
-    
-    CHECK_NOTHROW(u1.pegar_livro(l1));
-    CHECK_NOTHROW(u1.devolver_livro(l1));
-    float avaliacao1 = 4.0f;
-    CHECK_NOTHROW(u1.avaliar_livro(l1, avaliacao1));
+void reset_db()
+{
+    auto db_ac = DbAcervo();
+    db_ac.reset();
+    auto db_user = DbUsuarios();
+    db_user.reset();
+    auto db_adm = DbAdministradores();
+    db_adm.reset();
+}
 
-    CHECK_NOTHROW(u2.pegar_livro(l1));
-    CHECK_NOTHROW(u2.devolver_livro(l1));
+TEST_CASE("02 - Testando empréstimo de livro") {
+    reset_db();
+
+    auto db_user = DbUsuarios();
+    auto db_ac = DbAcervo();
+    auto db_adm = DbAdministradores();
+
+    Livro l1("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2022, 0.0);
+    Usuario u1("User", "40028922", "user@example.com", 1, 0);
+    Usuario u2("User2", "40028922", "user2@example.com", 1, 0);
+    Bibliotecario b1("Bbt1", "123123", "bbt1@example.com");
+
+    db_ac.inserir_linha(l1);
+    db_user.inserir_linha(u1);
+    db_user.inserir_linha(u2);
+    db_adm.inserir_linha(b1);
+
+    auto l1_db = db_ac.consulta(
+        l1.getTitulo(),
+        bbt_def::sql::schema_acervo::titulo).back();
+    
+    auto u1_db = db_user.consulta(
+        u1.getEmail(),
+        bbt_def::sql::schema_usuarios::email).back();
+
+    auto u2_db = db_user.consulta(
+        u2.getEmail(),
+        bbt_def::sql::schema_usuarios::email).back();
+    
+    CHECK_NOTHROW(b1.EmprestaLivro(l1_db, u1_db));
+    CHECK_NOTHROW(b1.DevolveLivro(l1_db, u1_db));
+    float avaliacao1 = 4.0f;
+    CHECK_NOTHROW(u1.avaliar_livro(l1_db, avaliacao1));
+
+    CHECK_NOTHROW(b1.EmprestaLivro(l1_db, u2_db));
+    CHECK_NOTHROW(b1.DevolveLivro(l1_db, u2_db));
     float avaliacao2 = 3.0f;
-    CHECK_NOTHROW(u2.avaliar_livro(l1, avaliacao2));
+    CHECK_NOTHROW(u2.avaliar_livro(l1_db, avaliacao2));
 
     float avaliacao3 = 3.50f;
-    float avaliacao = l1.getAvaliacao();
+    float avaliacao = db_ac.consulta(
+        l1_db.getId(),
+        bbt_def::sql::id).back().getAvaliacao();
+
     CHECK(avaliacao == avaliacao3);
 }
 
 TEST_CASE("03 - Teste criando usuário") {
-    Usuario usuario("João", "senha123", "joao@example.com", 1, {}, {});
+    reset_db();
+    auto db_user = DbUsuarios();
+    
+    Usuario usuario_cpp("João", "senha123", "joao@example.com", 1, 0, {}, {});
+    db_user.inserir_linha(usuario_cpp);
+
+    auto usuario = db_user.consulta(
+        usuario_cpp.getEmail(),
+        bbt_def::sql::schema_usuarios::email).back();
+
     CHECK(usuario.getNome() == "João");
     CHECK(usuario.getSenha() == "senha123");
     CHECK(usuario.getEmail() == "joao@example.com");
-    CHECK(usuario.getId() == 1);
     CHECK(usuario.getqntdlivros() == 0);
 }
 

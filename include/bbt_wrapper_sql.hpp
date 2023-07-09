@@ -1,14 +1,12 @@
 #ifndef DATABASE_BIBLIOTECA
 #define DATABASE_BIBLIOTECA
 
-#include "sqlite_modern_cpp.h"
-#include "sqlite_modern_cpp/type_wrapper.h"
-#include "definicoes.hpp"
-#include "coluna_sql.hpp"
-#include "usuario.hpp"
-#include "adm.hpp"
-#include "bibliotecario.hpp"
-#include "livro.hpp"
+#include <sstream>
+
+#include "../third_party/sqlite_modern_cpp.h"
+#include "../third_party/sqlite_modern_cpp/type_wrapper.h"
+#include "../include/definicoes.hpp"
+#include "../include/coluna_sql.hpp"
 
 // exceção para acesso negado
 class acesso_negado_e : public std::exception
@@ -99,10 +97,10 @@ class BbtWrapperSQL
         // formato de saída: (?,?,?,...)
         std::string _ps_linha()
         {
-            std::ostringstream ostr_buffer
+            std::ostringstream ostr_buffer;
             ostr_buffer << "(";
 
-            for(int i = 0; i < _colunas.size()-1; i++)
+            for(std::vector<ColunaSQL>::size_type i = 0; i < _colunas.size()-1; i++)
             {
                 ostr_buffer << "?,";
             }
@@ -168,9 +166,10 @@ class BbtWrapperSQL
                 }
 
                 // remove vírgula excedente
-                auto sql_exec_buffer = ostr_buffer.str("");
+                auto sql_exec_buffer = ostr_buffer.str();
                 sql_exec_buffer.pop_back();
 
+                ostr_buffer.str("");
                 ostr_buffer
                     << "create table if not exists " << nome_tabela
                     << "(" << sql_exec_buffer << clausula_adicional << ");";
@@ -191,13 +190,14 @@ class BbtWrapperSQL
         {
             try
             {
-                std::ostringstream ostr_buffer = "update " << _nome_tabela << " set ";
+                std::ostringstream ostr_buffer;
+                ostr_buffer << "update " << _nome_tabela << " set ";
 
                 // alimenta o str_buffer: "nome da coluna" = ?
                 for(auto col : _colunas)
                 {
                     if(col.get_nome_col() == bbt_def::sql::id) continue;
-                    str_buffer << col.get_nome_col() + " = ?,";
+                    ostr_buffer << col.get_nome_col() + " = ?,";
                 }
 
                 // remove vírgula excedente

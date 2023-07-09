@@ -1,9 +1,9 @@
 #include <iostream>
 
-#include "doctest.h"
-#include "definicoes.hpp"
-#include "db_acervo.hpp"
-#include "db_usuarios.hpp"
+#include "../third_party/doctest.h"
+#include "../include/definicoes.hpp"
+#include "../include/db_acervo.hpp"
+#include "../include/db_usuarios.hpp"
 
 TEST_CASE("teste de criação de banco de dados")
 {

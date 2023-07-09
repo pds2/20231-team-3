@@ -1,5 +1,5 @@
-#include "definicoes.hpp"
-#include "db_administradores.hpp"
+#include "../include/definicoes.hpp"
+#include "../include/db_administradores.hpp"
 
 DbAdministradores::DbAdministradores() : BbtWrapperSQL(
     bbt_def::sql::schema_administradores::nome_tabela,
@@ -44,6 +44,6 @@ Entidadebase DbAdministradores::_diretriz(
     catch(const std::exception& e)
     {
         _sql_excecao(std::current_exception());
-    }
-    return {};
+    };
+    return Entidadebase("", "", "", 0);
 }

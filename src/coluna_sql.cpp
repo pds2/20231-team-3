@@ -1,4 +1,4 @@
-#include "coluna_sql.hpp"
+#include "../include/coluna_sql.hpp"
 
 ColunaSQL::ColunaSQL(
     std::string nome_col,

@@ -1,4 +1,6 @@
 #include "../include/entidadebase.hpp"
+#include "../include/livro.hpp"
+#include "../include/db_acervo.hpp"
 
 Entidadebase::Entidadebase(std::string nome,
                            std::string senha,
@@ -52,8 +54,7 @@ void Entidadebase::setSenha(const std::string &senha)
     _senha = senha;
 }
 
-std::vector<Livro>
-Entidadebase::consultaLivros(std::string valor, std::string coluna)
+std::vector<Livro> Entidadebase::consultaLivros(std::string valor, std::string coluna)
 {
     auto db = DbAcervo();
     auto livros = db.consulta(valor, coluna);

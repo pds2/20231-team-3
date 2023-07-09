@@ -11,7 +11,9 @@
                 "-I",
                 "${workspaceFolder}/include",
                 "-I",
-                "${workspaceFolder}/third-party",
+                "${workspaceFolder}/third_party",
+                "-I",
+                "${workspaceFolder}/third_party/sqlite_modern_cpp",
                 "-lsqlite3",
                 "-o",
                 "${workspaceFolder}/main"

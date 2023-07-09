@@ -5,8 +5,9 @@
 
 #include "../include/livro.hpp"
 #include "../include/usuario.hpp"
-
-// TODO: Implementar
+#include "../include/bibliotecario.hpp"
+#include "../include/db_usuarios.hpp"
+#include "../include/db_acervo.hpp"
 
 /**
  * @brief Classe responsavel por criar um Usuario
@@ -23,12 +24,12 @@ Usuario::Usuario(const std::string nome,
     _livrosPegos(livrosPegos),
     _livrosAvaliados(livrosAvaliados),
     _n_livros_posse(n_livros) {
-        _numerodelivros = 3;
+        _numerodelivros = bbt_def::max_livros_user;
     }
 
 void Usuario::pegar_livro(Livro &u)
 {
-    int tempnumberlivros = _numerodelivros;
+    unsigned int tempnumberlivros = _numerodelivros;
     if (getqntdlivros() == tempnumberlivros)
     {
         throw MaximoLivros();
@@ -61,11 +62,14 @@ void Usuario::devolver_livro(Livro& u)
     }
 }
 
-void Usuario::avaliar_livro(Livro &u, float &avaliacaousuario) const
+void Usuario::avaliar_livro(Livro &u, float avaliacaousuario)
 {
     using namespace bbt_def;
     auto db_acervo = DbAcervo();
-    auto consulta = db_acervo.consulta(u.getTitulo(), sql::id);
+    auto consulta = db_acervo.consulta(
+        u.getTitulo(),
+        sql::schema_acervo::titulo);
+
     if(consulta.size() == 0) throw LivroIndisponivel();
 
     if(avaliacaousuario < 0 || avaliacaousuario > 5)
@@ -79,6 +83,7 @@ void Usuario::avaliar_livro(Livro &u, float &avaliacaousuario) const
 
     for(auto& livro : consulta)
     {
+        if(livro.getAutor() != u.getAutor()) continue;
         db_acervo.sobrescrever_em_id(
             avaliacao_nova,
             sql::schema_acervo::avaliacao,
@@ -93,14 +98,32 @@ void Usuario::avaliar_livro(Livro &u, float &avaliacaousuario) const
 
 unsigned int Usuario::getqntdlivros()
 {
-    return _livrosPegos.size();
+    return _n_livros_posse;
 }
 
 std::vector<Livro> Usuario::livros_alugados()
-{
+{/*
     using namespace bbt_def;
     auto db_acervo = DbAcervo();
     return db_acervo.consulta(
         this->getIdDb(), 
-        sql::schema_acervo::posse_id);
+        sql::schema_acervo::posse_id);*/
+    return {};
+}
+
+unsigned int Usuario::get_max_livros()
+{
+    return _numerodelivros;
+}
+
+void Usuario::sign_in()
+{
+    auto db_user = DbUsuarios();
+    auto consulta = db_user.consulta(
+        this->getEmail(),
+        bbt_def::sql::schema_usuarios::email);
+    
+    if(consulta.size() != 0) throw EmailJaCadastrado();
+
+    db_user.inserir_linha(*this);
 }

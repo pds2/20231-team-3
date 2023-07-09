@@ -1,13 +1,21 @@
 #ifndef ADM_HPP
 #define ADM_HPP
 
-#include "entidadebase.hpp"
-#include "livro.hpp"
+#include "../include/entidadebase.hpp"
+#include "../include/livro.hpp"
 
 #include <iostream>
 #include <set>
 #include <string>
 #include <vector>
+
+/**
+ * @brief Classe de exceção de livro alugado.
+ */
+class LivroAlugado : public std::runtime_error {
+public:
+    LivroAlugado() : std::runtime_error("Livro alugado") {}
+};
 
 /**
  * @brief Construtor da classe Administrador.
@@ -16,9 +24,8 @@
  */
 class Administrador : public Entidadebase
 {
-private:
 public:
-    Administrador();
+
     /**
      * @brief Construtor da classe Administrador.
      * @param nome Nome do administrador.
@@ -31,13 +38,7 @@ public:
         const std::string senha,
         const std::string email,
         unsigned int id_db = 0);
-    
-    /**
-     * @brief Função para verificar existência de livro no acervo.
-     * @param livro Referência para o livro a ser consultado.
-     */
-    bool EstaDisponivel(Livro &livro);
-
+        
     /**
      * @brief Função para inserir um livro no acervo.
      * @param livro Referência para o livro a ser inserido.
@@ -49,6 +50,8 @@ public:
      * @param livro Referência para o livro a ser removido.
      */
     void RemoverLivro(Livro &livro);
+
+    void sign_in();
 };
 
 #endif

@@ -1,8 +1,9 @@
 #ifndef BIBLIOTECARIO_HPP
 #define BIBLIOTECARIO_HPP
 
-#include "entidadebase.hpp"
-#include "livro.hpp"
+#include "../include/entidadebase.hpp"
+#include "../include/livro.hpp"
+#include "../include/usuario.hpp"
 
 #include <iostream>
 #include <set>
@@ -30,10 +31,7 @@ public:
  */
 class Bibliotecario : public Entidadebase
 {
-private:
-    
 public:
-    Bibliotecario();
 
     /**
      * @brief Construtor da classe Bibliotecario.
@@ -70,6 +68,10 @@ public:
      * @param usuario Usuario que tem a posse do livro.
      */
     void DevolveLivro(Livro& livro, Usuario& usuario);
+
+    Usuario BuscaUsuario(Usuario& user);
+
+    void sign_in();
 
     /*
      * @brief Define a data de empréstimo do livro

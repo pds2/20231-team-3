@@ -1,6 +1,7 @@
 #include "../include/adm.hpp"
-#include "entidadebase.hpp"
-#include "db_acervo.hpp"
+#include "../include/entidadebase.hpp"
+#include "../include/db_acervo.hpp"
+#include "../include/db_administradores.hpp"
 
 Administrador::Administrador(
     const std::string nome,
@@ -8,14 +9,6 @@ Administrador::Administrador(
     const std::string email,
     unsigned int id_db
 ) : Entidadebase(nome, senha, email, 4, id_db) {}
-
-bool Administrador::EstaDisponivel(Livro& livro)
-{
-    auto db = DbAcervo();
-    auto vec = db.consulta(livro.getTitulo(), bbt_def::sql::schema_acervo::titulo);
-    if(vec.size() == 0) return false;
-    else return true;
-}
 
 void Administrador::InserirLivro(Livro& livro)
 {
@@ -26,5 +19,19 @@ void Administrador::InserirLivro(Livro& livro)
 void Administrador::RemoverLivro(Livro& livro)
 {
    auto db = DbAcervo();
+   auto alugado = livro.getEstado();
+   if(alugado) throw LivroAlugado();
    db.deletar_linha_id(livro.getId());
+}
+
+void Administrador::sign_in()
+{
+    auto db_adm = DbAdministradores();
+    auto consulta = db_adm.consulta(
+        this->getEmail(),
+        bbt_def::sql::schema_administradores::email);
+    
+    if(consulta.size() != 0) throw EmailJaCadastrado();
+
+    db_adm.inserir_linha(*this);
 }
