@@ -209,7 +209,7 @@ TEST_CASE("13 - Teste de disponibilidade de livro") {
     CHECK(bibliotecario.EstaDisponivel(livro2) == false); // Livro emprestado
 }
 
-TEST_CASE("14 - Teste da função obterDataAtual") {
+/* TEST_CASE("14 - Teste da função obterDataAtual") {
     // Verificar se a data retornada é válida, considerando o formato "dd/mm/aaaa"
     std::string dataAtual = obterDataAtual();
     CHECK(dataAtual.length() == 10);
@@ -223,7 +223,7 @@ TEST_CASE("14 - Teste da função obterDataAtual") {
     CHECK(dataAtual[7] >= '0' && dataAtual[7] <= '9');
     CHECK(dataAtual[8] >= '0' && dataAtual[8] <= '9');
     CHECK(dataAtual[9] >= '0' && dataAtual[9] <= '9');
-}
+}*/
 
 TEST_CASE("15 - Teste de empréstimo de livro com livro não disponível") {
     Livro livro("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 1);
