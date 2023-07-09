@@ -3,15 +3,14 @@
 
 #include "bbt_wrapper_sql.hpp"
 #include "usuario.hpp"
-#include "usuariovip.hpp"
 
 // classe que herda da classe base BbtWrapperSQL
-class DbUsuarios : public BbtWrapperSQL<Entidadebase>
+class DbUsuarios : public BbtWrapperSQL<Usuario>
 {
     protected:
-        virtual void _diretriz(sqlite::database_binder& ps_binder, Entidadebase obj) override;
+        virtual void _diretriz(sqlite::database_binder& ps_binder, Usuario obj) override;
         
-        virtual Entidadebase _diretriz(
+        virtual Usuario _diretriz(
             sqlite::row_iterator::value_type linha_binder) override;
 
     public:

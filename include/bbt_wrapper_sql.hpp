@@ -6,7 +6,6 @@
 #include "definicoes.hpp"
 #include "coluna_sql.hpp"
 #include "usuario.hpp"
-#include "usuariovip.hpp"
 #include "adm.hpp"
 #include "bibliotecario.hpp"
 #include "livro.hpp"

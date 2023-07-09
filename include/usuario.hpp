@@ -25,6 +25,7 @@ private:
     std::vector<Livro> _livrosPegos;
     std::vector<Livro> _livrosAvaliados;
     unsigned int _numerodelivros;
+    unsigned int _n_livros_posse;
 
 public:
     Usuario();
@@ -34,15 +35,16 @@ public:
      * @param senha Senha do usuário.
      * @param email Email do usuário.
      * @param id_db ID do banco de dados.
+     * @param numerodelivros Número de livros que o usuário possui.
      * @param livrosPegos Vetor de livros pegos pelo usuário.
      * @param livrosAvaliados Vetor de livros avaliados pelo usuário.
-     * @param numerodelivros Número de livros que o usuário possui.
      */
     Usuario(
         const std::string nome,
         const std::string senha,
         const std::string email,
         unsigned int id_db = 0,
+        unsigned int n_livros = 0,
         std::vector<Livro> livrosPegos = {},
         std::vector<Livro> livrosAvaliados = {}
     );
@@ -70,9 +72,13 @@ public:
      * @brief Obtém a quantidade de livros pegos pelo usuário.
      * @return Retorna o número de livros pegos como um valor inteiro.
      */
-    int getqntdlivros();
+    unsigned int getqntdlivros();
 
-    bool checkvip(Usuario &user);
+    /**
+     * @brief Obtém os livros alugados pelo usuário.
+     * @return Retorna um vetor de livros alugados, se existirem.
+     */
+    std::vector<Livro> livros_alugados();
 };
 
 #endif

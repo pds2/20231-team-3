@@ -41,6 +41,7 @@ namespace bbt_def
             const std::string email = "email";
             const std::string senha = "senha";
             const std::string id_categoria = "id_categoria";
+            const std::string n_livros = "n_livros";
 
             // definição das colunas: nome, tipo, unique, primary key, default null
             const std::vector<ColunaSQL> colunas =
@@ -50,6 +51,7 @@ namespace bbt_def
                 ColunaSQL(email, "text", "unique", "", "not null"),
                 ColunaSQL(senha, "text", "", "", "not null"),
                 ColunaSQL(id_categoria, "integer", "", "", "not null"),
+                ColunaSQL(n_livros, "integer", "", "", "default null")
             };
         }
 
@@ -68,6 +70,7 @@ namespace bbt_def
             const std::string posse_id = "posse_id";
             const std::string data_aluguel = "data_aluguel";
             const std::string data_devolucao = "data_devolucao";
+            const std::string n_avaliacoes = "n_avaliacoes";
 
             const std::string clausula_adicional = 
             ", foreign key (" + posse_id +
@@ -88,7 +91,8 @@ namespace bbt_def
                 ColunaSQL(avaliacao, "real", "", "", "not null"),
                 ColunaSQL(posse_id, "integer", "", "", "default null"),
                 ColunaSQL(data_aluguel, "text", "", "", "default null"),
-                ColunaSQL(data_devolucao, "text", "", "", "default null")
+                ColunaSQL(data_devolucao, "text", "", "", "default null"),
+                ColunaSQL(n_avaliacoes, "integer", "", "", "default null")
             };
         }
     }

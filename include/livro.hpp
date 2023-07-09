@@ -16,12 +16,18 @@ public:
     AvaliacaoInvalida() : std::runtime_error("Avaliação inválido") {}
 };
 
+/**
+ * @brief Classe de exceção de data inválida.
+ */
 class DataInvalida : public std::runtime_error {
 public:
     DataInvalida() : std::runtime_error("O formato de data deve ser DD/MM/AAAA") {}
     DataInvalida(std::string msg) : std::runtime_error(msg) {}
 };
 
+/**
+ * @brief Classe de exceção de data não settada.
+ */
 class DataNaoSettada : public std::runtime_error {
 public:
     DataNaoSettada() : std::runtime_error("Não há data") {}
@@ -45,6 +51,7 @@ private:
     unsigned int _emprestado; // indica se o livro está emprestado
     std::string _data_aluguel;
     std::string _data_devolucao;
+    unsigned int _qtde_avaliacoes;
 
     std::vector<float> _avaliacoes;
 
@@ -146,7 +153,13 @@ public:
      * @brief Obtém a data de devolução do livro.
      * @return Retorna uma string com a data de devolução. Se não houver, retorna string vazia.
      */
-    std::string getDataDevolucao(); 
+    std::string getDataDevolucao();
+
+    /**
+     * @brief Obtém a quantidade de avaliações feitas.
+     * @return Retorna a quantidade de avaliações.
+     */
+    unsigned int getQtdAvaliacoes(); 
 
     /**
      * @brief Define o estado de empréstimo do livro.
@@ -176,7 +189,13 @@ public:
      * @brief Define a data de devolução do livro.
      * @param data_devolucao Data de devolução do livro.
      */
-    void setDataDevolucao(const std::string data_devolucao);    
+    void setDataDevolucao(const std::string data_devolucao);
+
+    /**
+     * @brief Define a quantidade de avaliações do livro.
+     * @param qtd Quantidade de avaliações.
+     */
+    void setQtdAvaliacoes(unsigned int qtd);
 };
 
 #endif

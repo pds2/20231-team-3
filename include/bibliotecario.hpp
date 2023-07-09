@@ -1,7 +1,6 @@
 #ifndef BIBLIOTECARIO_HPP
 #define BIBLIOTECARIO_HPP
 
-#include "acervo.hpp"
 #include "entidadebase.hpp"
 #include "livro.hpp"
 
@@ -9,6 +8,22 @@
 #include <set>
 #include <string>
 #include <vector>
+
+/**
+ * @brief Classe de exceção de livro indisponível.
+ */
+class LivroIndisponivel : public std::runtime_error {
+public:
+    LivroIndisponivel() : std::runtime_error("Livro indisponível") {}
+};
+
+/**
+ * @brief Classe de exceção de usuário não encontrado.
+ */
+class UsuarioNaoEncontrado : public std::runtime_error {
+public:
+    UsuarioNaoEncontrado() : std::runtime_error("Usuário não encontrado") {}
+};
 
 /**
  * @brief Classe responsável por criar um bibliotecário
@@ -19,6 +34,7 @@ private:
     
 public:
     Bibliotecario();
+
     /**
      * @brief Construtor da classe Bibliotecario.
      * @param nome Nome do bibliotecário.
@@ -37,23 +53,23 @@ public:
      * @brief Verifica se um livro está disponível para empréstimo.
      * @param livro Referência para o livro a ser verificado.
      * @param acervo Referência para o acervo.
-     * @return Retorna true se o livro estiver disponível, false caso contrário.
+     * @return Retorna o ID do livro se estiver disponível, zero caso contrário.
      */
-    bool EstaDisponivel(Livro &livro);
+    unsigned int EstaDisponivel(Livro &livro);
 
     /**
      * @brief Realiza o empréstimo de um livro.
      * @param livro Referência para o livro a ser emprestado.
      * @return Retorna o livro após o empréstimo (pode ser necessário ajustar os argumentos do construtor).
      */
-    void EmprestaLivro(Livro &livro, Usuario& user);
+    Livro EmprestaLivro(Livro &livro, Usuario& user);
 
-    /*
-     * @brief Define o ID do usuário que pegou emprestado o livro
-     * @param idUsuario O ID do usuário
+    /**
+     * @brief Registra a devolução de um livro.
+     * @param livro Livro a ser devolvido.
+     * @param usuario Usuario que tem a posse do livro.
      */
-
-    //void setUsuarioEmprestimo(int idUsuario);
+    void DevolveLivro(Livro& livro, Usuario& usuario);
 
     /*
      * @brief Define a data de empréstimo do livro

@@ -16,9 +16,13 @@ Usuario::Usuario(const std::string nome,
                  const std::string senha,
                  const std::string email,
                  unsigned int id_db,
+                 unsigned int n_livros,
                  std::vector<Livro> livrosPegos,
                  std::vector<Livro> livrosAvaliados)
-    : Entidadebase(nome, senha, email, 1, id_db), _livrosPegos(livrosPegos), _livrosAvaliados(livrosAvaliados) {
+    : Entidadebase(nome, senha, email, 1, id_db),
+    _livrosPegos(livrosPegos),
+    _livrosAvaliados(livrosAvaliados),
+    _n_livros_posse(n_livros) {
         _numerodelivros = 3;
     }
 
@@ -59,11 +63,44 @@ void Usuario::devolver_livro(Livro& u)
 
 void Usuario::avaliar_livro(Livro &u, float &avaliacaousuario) const
 {
-    u.setAvaliacao(avaliacaousuario);
-}
-// calcular por media aritmética, fazendo uma soma dinâmica e contabilizando o número de avaliações para dividir depois
+    using namespace bbt_def;
+    auto db_acervo = DbAcervo();
+    auto consulta = db_acervo.consulta(u.getTitulo(), sql::id);
+    if(consulta.size() == 0) throw LivroIndisponivel();
 
-int Usuario::getqntdlivros()
+    if(avaliacaousuario < 0 || avaliacaousuario > 5)
+    {
+        throw std::invalid_argument("Nota deve ser entre 0 e 5");
+    }
+
+    auto avaliacao_atual = consulta.back().getAvaliacao();
+    auto qtd_atual = consulta.back().getQtdAvaliacoes();
+    auto avaliacao_nova = (avaliacao_atual * qtd_atual + avaliacaousuario) / (qtd_atual + 1);
+
+    for(auto& livro : consulta)
+    {
+        db_acervo.sobrescrever_em_id(
+            avaliacao_nova,
+            sql::schema_acervo::avaliacao,
+            livro.getId());
+        
+        db_acervo.sobrescrever_em_id(
+            qtd_atual + 1,
+            sql::schema_acervo::n_avaliacoes,
+            livro.getId());
+    }
+}
+
+unsigned int Usuario::getqntdlivros()
 {
     return _livrosPegos.size();
+}
+
+std::vector<Livro> Usuario::livros_alugados()
+{
+    using namespace bbt_def;
+    auto db_acervo = DbAcervo();
+    return db_acervo.consulta(
+        this->getIdDb(), 
+        sql::schema_acervo::posse_id);
 }

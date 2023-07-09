@@ -1,5 +1,4 @@
 #include <iostream>
-#include "include/acervo.hpp"
 #include "include/livro.hpp"
 #include "include/adm.hpp"
 #include "include/bibliotecario.hpp"
@@ -13,7 +12,6 @@ using namespace std;
 // #include "database_biblioteca.hpp"
 
 int main() {
-    Acervo acervo;
     Usuario usuario("João", "123456", "joao@example.com", 1);
     Bibliotecario bibliotecario("Maria", "abcdef", "maria@example.com", 2);
     Administrador administrador("Admin", "admin123", "admin@example.com", 3);
@@ -66,7 +64,7 @@ int main() {
                 std::cin >> id;
 
                 Livro livro(titulo, autor, genero, resumo, idioma, numPaginas, ano, avaliacao, id);
-                administrador.InserirLivro(acervo, livro);
+                administrador.InserirLivro(livro);
 
                 std::cout << "Livro adicionado com sucesso!\n";
                 break;
@@ -78,7 +76,7 @@ int main() {
                 std::cin >> id;
 
                 Livro livroRemover = acervo.buscar_livro(id);
-                administrador.RemoverLivro(acervo, livroRemover);
+                administrador.RemoverLivro(livroRemover);
 
                 std::cout << "Livro removido com sucesso!\n";
                 break;
@@ -90,7 +88,7 @@ int main() {
                 std::cin >> id;
 
                 Livro livroEmprestar = acervo.buscar_livro(id);
-                if (bibliotecario.EstaDisponivel(livroEmprestar, acervo)) {
+                if (bibliotecario.EstaDisponivel(livroEmprestar)) {
                     Livro livroEmprestado = bibliotecario.EmprestaLivro(livroEmprestar);
                     usuario.pegar_livro(livroEmprestado);
                     std::cout << "Livro emprestado com sucesso!\n";

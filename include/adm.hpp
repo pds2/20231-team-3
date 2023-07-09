@@ -1,7 +1,6 @@
 #ifndef ADM_HPP
 #define ADM_HPP
 
-#include "acervo.hpp"
 #include "entidadebase.hpp"
 #include "livro.hpp"
 
@@ -32,6 +31,12 @@ public:
         const std::string senha,
         const std::string email,
         unsigned int id_db = 0);
+    
+    /**
+     * @brief Função para verificar existência de livro no acervo.
+     * @param livro Referência para o livro a ser consultado.
+     */
+    bool EstaDisponivel(Livro &livro);
 
     /**
      * @brief Função para inserir um livro no acervo.
