@@ -49,5 +49,7 @@ int main() {
 
     user1.avaliar_livro(l1, 2);
     user1.avaliar_livro(l1, 3);
+
+    std::cout << "Hello" << std::endl;
     return 0;
 }
