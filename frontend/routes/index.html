@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <style>
+      
+      /* Cabeçalho */
+      header {
+        background-color: #eeeeee;
+        padding: 20px;
+        color: #e76b5b;
+        text-align: left;
+        margin: 0 0 60px 0;
+          
+        .header-link {
+          color: #e76b5b;
+          text-decoration: none;
+          margin-right: 20px;
+          font-size: 25px;
+          font-family: Arial, Helvetica, sans-serif;
+          }
+          
+        .logo {
+            max-width: 5px;
+        }
+      }
+
+    section {
+      padding: 20px;
+    }
+  
+
+    nav {
+      background-color: #eeeeee;
+      padding: 10px 0;
+      text-align: right;
+    }
+    nav ul {
+      list-style-type: circle;
+      margin: 0;
+      padding: 0;
+    }
+    nav li {
+      display: inline-block;
+      margin-right: 20px;
+    }
+    nav li:last-child {
+      margin-right: 0;
+    }
+    nav a {
+      color: #e76b5b;
+      text-decoration: none;
+      padding: 5px 10px;
+    }
+    nav a:hover {
+      background-color: #ddd;
+    }
+
+    /* Design categoria */
+    h2 {
+      color: #e76b5b;
+      margin: 90px 0 60px 0;
+      font-size: 80px;
+      text-align: center;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 20px;
+    }
+
+
+    .link-acao {
+        color: #42415c;
+        text-decoration: none;
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+        margin: 10px 50px 20px 0;
+        font-size: 30px;
+    }
+
+    .link-romance {
+        text-decoration: none;
+        color: #42415c;
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+        font-size: 30px;
+    }
+    .link-suspense {
+        text-decoration: none;
+        color: #42415c;
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+        font-size: 30px;
+    }
+
+    .link-acao:hover,
+    .link-suspense:hover,
+    .link-romance:hover {
+    text-decoration: underline;
+    }
+    #image_box {
+      height: 682px;
+      display: grid;
+      text-align: center;
+      background-image: url('https://classic.exame.com/wp-content/uploads/2020/11/livros-2.jpg?quality=70&strip=info&w=1024');
+      width: 100%;
+      background-size: 100% auto;
+      background-repeat: no-repeat, no-repeat;
+    }
+    .saiba_mais {
+      font-family: Arial, sans-serif;
+      margin-top: 23%;
+      font-size: 38px;
+      color: #ffffff;
+  
+    }
+
+    .link_btn {
+      background-color: #eeeeee;
+      padding: 10px;
+      text-decoration: None;
+      border-radius: 7px;
+      font-size: 25px;
+      color:#e76b5b
+    }
+
+ </style>
+</head>
+<body>
+  <header>
+    <img src="https://i.ibb.co/JBzwJmw/image.jpg" alt="Logo da Biblioteca">
+    <nav>
+      <ul>
+        <li><a class="header-link" href="http://localhost:18080/livros">Livros</a></li>
+        <li><a class="header-link" href="http://localhost:18080/sobre">Sobre</a></li>
+      </ul>
+    </nav>
+  </style>
+  </header>
+
+<body>
+<html>
+    <div id="image_box">
+      <p class="saiba_mais">
+        Conheça mais sobre o nosso projeto!<br>
+        <br>
+        <a class="link_btn" href="http://localhost:18080/sobre"> Clique aqui</a>
+      </p>
+    </div>
+    <h2><a>Categorias</a></h2>
+    <ul>
+      <li><a class="link-acao" href="http://localhost:18080/categoria/acao">Ação</a></li><br>
+      <li><a class="link-romance" href="http://localhost:18080/categoria/romance">Romance</a></li><br>
+      <li><a class="link-suspense" href="http://localhost:18080/categoria/suspense">Suspense</a></li><br>
+    </ul>
+  </section>
+</body>
+</html>
+
+
+<footer>
+  <div class="footer-content">
+    <p>&copy; UFMG - Universidade Federal de Minas Gerais<br>
+      Alunos de PDS2 - 2023/1</p>
+  </div>
+</footer>
+<style>
+  footer {
+    background-color: #9899aa;
+    padding: 20px 0;
+    text-align: center;
+  }
+  
+  .footer-content {
+    color: #42415c;
+    font-size: 14px;
+  }
+</style>
