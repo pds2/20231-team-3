@@ -226,7 +226,21 @@ TEST_CASE("07 - Teste Avaliar livro") {
     usuario.devolver_livro(livro15);
     float avaliacao = 4.2f;
     usuario.avaliar_livro(livro15, avaliacao);
-    CHECK(livro15.getAvaliacao() == 4.2f);
+    auto consulta = usuario.consultaLivros(
+        livro15.getTitulo(),
+        bbt_def::sql::schema_acervo::titulo);
+
+    Livro* livro_consulta;
+    for(auto& livro : consulta)
+    {
+        if(livro15.getAutor() == livro.getAutor())
+        {
+            livro_consulta = &livro;
+            break;
+        }
+    }
+
+    CHECK(livro_consulta->getAvaliacao() == 4.2f);
 }
 
 TEST_CASE("08 - Teste de pegar e devolver múltiplos livros") {
@@ -257,7 +271,7 @@ TEST_CASE("09 - Teste de adicionar livros com nota inválida") {
     usuario.devolver_livro(livro15);
     float avaliacao = 6.0f;
 
-    CHECK_THROWS_AS(usuario.avaliar_livro(livro15, avaliacao), AvaliacaoInvalida());
+    CHECK_THROWS_AS(usuario.avaliar_livro(livro15, avaliacao), const AvaliacaoInvalida&);
 }
 
 /*TEST_CASE("09 - Teste de adicionar livros com nota inválida") {
@@ -323,23 +337,23 @@ TEST_CASE("10 - Testa nome de Usuario"){
 
 TEST_CASE("11 - Testa campos deixados em branco no preenchimento do Livro") {
     SUBCASE("Titulo não preenchido") {
-        CHECK_THROWS_AS(Livro(" ", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0), std::invalid_argument);
-        CHECK_THROWS_WITH(Livro(" ", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0), "Todos os campos precisam ser preenchidos para prosseguir");
+        CHECK_THROWS_AS(Livro("", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0), std::invalid_argument);
+        CHECK_THROWS_WITH(Livro("", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0), "Todos os campos precisam ser preenchidos para prosseguir");
     }
 
     SUBCASE("Autor não preenchido") {
-        CHECK_THROWS_AS(Livro("Titulo 1", " ", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0), std::invalid_argument);
-        CHECK_THROWS_WITH(Livro("Titulo 1", " ", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0), "Todos os campos precisam ser preenchidos para prosseguir");
+        CHECK_THROWS_AS(Livro("Titulo 1", "", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0), std::invalid_argument);
+        CHECK_THROWS_WITH(Livro("Titulo 1", "", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0), "Todos os campos precisam ser preenchidos para prosseguir");
     }
 
     SUBCASE("Genero não preenchido") {
-        CHECK_THROWS_AS(Livro("Titulo 1", "Autor 1", " ", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0), std::invalid_argument);
-        CHECK_THROWS_WITH(Livro("Titulo 1", "Autor 1", " ", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0), "Todos os campos precisam ser preenchidos para prosseguir");
+        CHECK_THROWS_AS(Livro("Titulo 1", "Autor 1", "", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0), std::invalid_argument);
+        CHECK_THROWS_WITH(Livro("Titulo 1", "Autor 1", "", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0), "Todos os campos precisam ser preenchidos para prosseguir");
     }
 
     SUBCASE("Resumo não preenchido") {
-        CHECK_THROWS_AS(Livro("Titulo 1", "Autor 1", "Gênero 1", " ", "Idioma 1", 200, 2021, 4.5f, 0), std::invalid_argument);
-        CHECK_THROWS_WITH(Livro("Titulo 1", "Autor 1", "Gênero 1", " ", "Idioma 1", 200, 2021, 4.5f, 0), "Todos os campos precisam ser preenchidos para prosseguir");
+        CHECK_THROWS_AS(Livro("Titulo 1", "Autor 1", "Gênero 1", "", "Idioma 1", 200, 2021, 4.5f, 0), std::invalid_argument);
+        CHECK_THROWS_WITH(Livro("Titulo 1", "Autor 1", "Gênero 1", "", "Idioma 1", 200, 2021, 4.5f, 0), "Todos os campos precisam ser preenchidos para prosseguir");
     }
 
     SUBCASE("Idioma não preenchido") {
@@ -351,23 +365,23 @@ TEST_CASE("11 - Testa campos deixados em branco no preenchimento do Livro") {
 
 TEST_CASE("12 - Testa Campos deixados em branco no preenchimento do Usuario"){
     SUBCASE("Nome não preenchido"){
-    CHECK_THROWS_AS(Usuario(" ", "senha123", "joao@example.com", 1, {}, {}), std::invalid_argument);
+    CHECK_THROWS_AS(Usuario("", "senha123", "joao@example.com", 1, {}, {}), std::invalid_argument);
     CHECK_THROWS_WITH(
-        Usuario(" ", "senha123", "joao@example.com", 1, {}, {}),
+        Usuario("", "senha123", "joao@example.com", 1, {}, {}),
         "Todos os campos precisam ser preenchidos para prosseguir"
         );
     }
     SUBCASE("Senha não preenchida"){
-    CHECK_THROWS_AS(Usuario("João", " ", "joao@example.com", 1, {}, {}), std::invalid_argument);
+    CHECK_THROWS_AS(Usuario("João", "", "joao@example.com", 1, {}, {}), std::invalid_argument);
     CHECK_THROWS_WITH(
-        Usuario("João", " ", "joao@example.com", 1, {}, {}),
+        Usuario("João", "", "joao@example.com", 1, {}, {}),
         "Todos os campos precisam ser preenchidos para prosseguir"
         );
     }
     SUBCASE("Email não preenchido"){
-    CHECK_THROWS_AS(Usuario("João", "senha123", " ", 1, {}, {}), std::invalid_argument);
+    CHECK_THROWS_AS(Usuario("João", "senha123", "", 1, {}, {}), std::invalid_argument);
     CHECK_THROWS_WITH(
-        Usuario("João", "senha123", " ", 1, {}, {}),
+        Usuario("João", "senha123", "", 1, {}, {}),
         "Todos os campos precisam ser preenchidos para prosseguir"
         );
     }
@@ -478,3 +492,5 @@ TEST_CASE("23 - Teste de obtenção do idioma do livro") {
     Livro livro("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, false);
     CHECK(livro.getIdioma() == "Idioma 1");
 }
+
+//Testar construtor das demais classes

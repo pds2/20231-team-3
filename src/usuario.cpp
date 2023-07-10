@@ -26,6 +26,9 @@ Usuario::Usuario(const std::string nome,
     _livrosAvaliados(livrosAvaliados),
     _n_livros_posse(n_livros)
     {
+        if((nome.empty()) || (senha.empty()) || (email.empty())){
+            throw std::invalid_argument("Todos os campos precisam ser preenchidos para prosseguir");
+        }
         _numerodelivros = bbt_def::max_livros_user;
     }
 
