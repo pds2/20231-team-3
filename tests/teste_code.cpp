@@ -218,8 +218,10 @@ TEST_CASE("06 - Teste devolver livro") {
 }
 
 TEST_CASE("07 - Teste Avaliar livro") {
+    Administrador administrador("Joaquim", "senha321", "joaquim@example.com", 2);
     Usuario usuario("João", "senha123", "joao@example.com", 1, {}, {});
     Livro livro15("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 0, 0);
+    administrador.InserirLivro(livro15);
     usuario.pegar_livro(livro15);
     usuario.devolver_livro(livro15);
     float avaliacao = 4.2f;

@@ -24,6 +24,7 @@ Usuario::Usuario(const std::string nome,
     _livrosPegos(livrosPegos),
     _livrosAvaliados(livrosAvaliados),
     _n_livros_posse(n_livros) {
+        _n_livros_posse = 0;
         _numerodelivros = bbt_def::max_livros_user;
     }
 
@@ -35,6 +36,7 @@ void Usuario::pegar_livro(Livro &u)
         throw MaximoLivros();
     }
     
+    _n_livros_posse++;
     _numerodelivros--;
     _livrosPegos.push_back(u);
 }
@@ -48,6 +50,7 @@ void Usuario::devolver_livro(Livro& u)
     {
         if (it->getId() == u.getId())
         {
+            _n_livros_posse--;
             livroEncontrado = true;
             _numerodelivros++;
             _livrosPegos.erase(it);  // Remove o livro do vetor _livrosPegos
