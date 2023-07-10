@@ -73,8 +73,6 @@ public:
 
     Usuario BuscaUsuario(Usuario& user);
 
-    std::string obterDataAtual();
-
     void sign_in();
 
     /**
