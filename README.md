@@ -37,6 +37,9 @@ In order to set your environment up to run the code here, first install all requ
 <p>First of all, clone this repository in your device. Then navigate to the project directory on your system.
 </p>
 
+<p>After that make sure you install the required programs (one of them will be taught how to download below). Also, follow the steps according to your operating system.
+</p>
+
 ### Linux Setup
 
 Ubuntu:
@@ -48,8 +51,7 @@ Arch:
 sudo pacman -S sqlite
 ```
 
-Then, with this library installed and making sure that the C++ dependencies are also on your computer, download the .zip of this project.
-In your terminal, access the project folder, after that type:
+Then, with this library installed and making sure that the C++ dependencies are also on your computer, go to your terminal, access the project folder, after that type:
 ```shell
 make
 ```
