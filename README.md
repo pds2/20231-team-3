@@ -2,6 +2,8 @@
 
 <p>The terminal-based library program is a command-line application for managing library operations. It allows tasks such as adding books, searching, checking out, and returning books, as well as managing user accounts. It provides an efficient interface for librarians and patrons to interact with the library system.</p>
 
+![Screenshot 2023-07-10 162532](https://github.com/pds2/20231-team-3/assets/66080424/8a08c329-aa66-40c5-b2b0-dc695c882187)
+
 <h3>User Stories</h3>
 <ul>
   <li>As a very eclectic reader, I want to be able to consult the books I want to rent by categories, so that I don't have to read description by description of the books until I find a book that I like.</li>
