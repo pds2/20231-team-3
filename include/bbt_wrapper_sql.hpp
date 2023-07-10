@@ -202,11 +202,12 @@ class BbtWrapperSQL
 
                 // remove vírgula excedente
                 auto str_buffer = ostr_buffer.str();
+                ostr_buffer.str("");
                 str_buffer.pop_back();
+                ostr_buffer << str_buffer << " where " << bbt_def::sql::id << " = ?;";
 
 
-                auto ps_binder = _db_sqlite_ref
-                << str_buffer + " where " + bbt_def::sql::id + " = ?;";
+                auto ps_binder = _db_sqlite_ref << ostr_buffer.str();
                 
                 // insere os dados no binder
                 _diretriz(ps_binder, obj);

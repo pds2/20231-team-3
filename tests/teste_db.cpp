@@ -4,8 +4,16 @@
 #include "../include/definicoes.hpp"
 #include "../include/db_acervo.hpp"
 #include "../include/db_usuarios.hpp"
+#include "../include/db_administradores.hpp"
 
-TEST_CASE("teste de criação de banco de dados")
+void reset()
+{
+    DbAcervo().reset();
+    DbUsuarios().reset();
+    DbAdministradores().reset();
+}
+
+TEST_CASE("DB01 - teste de criação de banco de dados")
 {
     remove(bbt_def::sql::NOME_DB.c_str());
 
@@ -13,11 +21,13 @@ TEST_CASE("teste de criação de banco de dados")
     auto db_ac = DbAcervo();
 }
 
-TEST_CASE("teste de inserção de um livro")
+TEST_CASE("DB02 - teste de inserção de um livro")
 {
+    reset();
+
     auto db_us = DbUsuarios();
     auto db_ac = DbAcervo();
-    db_ac.del_linhas();
+    
     auto livro1 = Livro("titulo1", "autor1", "genero1", "resumo1", "idioma1", 10, 2023, 5);
     auto livro2 = Livro("titulo2", "autor2", "genero2", "resumo2", "idioma2", 10, 2023, 5);
 
@@ -47,11 +57,12 @@ TEST_CASE("teste de inserção de um livro")
     CHECK_EQ(livro2.getAvaliacao(), livro2_consulta.getAvaliacao());
 }
 
-TEST_CASE("Teste de consulta")
+TEST_CASE("DB03 - Teste de consulta")
 {
+    reset();
+
     auto db_us = DbUsuarios();
     auto db_ac = DbAcervo();
-    db_ac.del_linhas();
 
     auto livro1 = Livro("titulo1", "autor1", "genero1", "resumo1", "idioma1", 10, 2023, 5);
     auto livro2 = Livro("titulo2", "autor1", "genero2", "resumo2", "idioma2", 10, 2023, 5);
@@ -69,24 +80,23 @@ TEST_CASE("Teste de consulta")
     }
 
     db_ac.sobrescrever_em_id(
-        std::string("29/06/2023"),
+        std::string("2023-06-29 00:00:00"),
         bbt_def::sql::schema_acervo::data_aluguel,
         id_livro_titulo1);
     
-    auto data_livro_titulo1 = db_ac.consulta("29/06/2023", bbt_def::sql::schema_acervo::data_aluguel)
+    auto data_livro_titulo1 = db_ac.consulta("2023-06-29 00:00:00", bbt_def::sql::schema_acervo::data_aluguel)
     .back()
     .getDataAluguel();
     
     CHECK_EQ("29/06/2023", data_livro_titulo1);
 }
 
-TEST_CASE("Teste da chave cruzada entre tabela usuários e tabela acervo")
+TEST_CASE("DB04 - Teste da chave cruzada entre tabela usuários e tabela acervo")
 {
-    auto db_ac = DbAcervo();
-    auto db_us = DbUsuarios();
+    reset();
 
-    db_ac.del_linhas();
-    db_us.del_linhas();
+    auto db_us = DbUsuarios();
+    auto db_ac = DbAcervo();
 
     auto livro1 = Livro("titulo1", "autor1", "genero1", "resumo1", "idioma1", 10, 2023, 5);
     auto livro2 = Livro("titulo2", "autor1", "genero2", "resumo2", "idioma2", 10, 2023, 5);
@@ -127,10 +137,12 @@ TEST_CASE("Teste da chave cruzada entre tabela usuários e tabela acervo")
     CHECK_EQ(livro1_posse, 0);
 }
 
-TEST_CASE("teste de sobrescrita de linhas")
+TEST_CASE("DB05 - teste de sobrescrita de linhas")
 {
+    reset();
+
+    auto db_us = DbUsuarios();
     auto db_ac = DbAcervo();
-    db_ac.del_linhas();
 
     auto livro1 = Livro("titulo1", "autor1", "genero1", "resumo1", "idioma1", 10, 2020, 0.0);
     auto livro2 = Livro("titulo2", "autor1", "genero1", "resumo2", "idioma1", 10, 2020, 0.0);

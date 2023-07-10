@@ -13,23 +13,19 @@
 
 std::string obterDataAtual(); // Declaração antecipada da função
 
-/*TEST_CASE("01 - Testando o construtor sem parâmetros") {
-    CHECK_NOTHROW(Acervo());
+TEST_CASE("01 - Testando o construtor sem parâmetros") {
     CHECK_NOTHROW(Administrador());
     CHECK_NOTHROW(Bibliotecario());
     CHECK_NOTHROW(Entidadebase());
     CHECK_NOTHROW(Livro());
     CHECK_NOTHROW(Usuario());
-}*/
+}
 
 void reset_db()
 {
-    auto db_ac = DbAcervo();
-    db_ac.reset();
-    auto db_user = DbUsuarios();
-    db_user.reset();
-    auto db_adm = DbAdministradores();
-    db_adm.reset();
+    DbAcervo().reset();
+    DbUsuarios().reset();
+    DbAdministradores().reset();
 }
 
 TEST_CASE("02 - Testando empréstimo de livro") {
@@ -79,7 +75,7 @@ TEST_CASE("02 - Testando empréstimo de livro") {
     CHECK(avaliacao == avaliacao3);
 }
 
- /*TEST_CASE("02 - Testando empréstimo de livro") {
+ TEST_CASE("02 - Testando empréstimo de livro") {
     reset_db();
 
     auto db_user = DbUsuarios();
@@ -158,7 +154,7 @@ TEST_CASE("02 - Testando empréstimo de livro") {
         bbt_def::sql::id).back().getAvaliacao();
 
     CHECK(avaliacao == avaliacao3);
-}*/ 
+}
 
 TEST_CASE("03 - Teste criando usuário") {
     reset_db();
@@ -178,7 +174,7 @@ TEST_CASE("03 - Teste criando usuário") {
 }
 
 TEST_CASE("04 - Teste criando livros") {
-    Livro livro("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f,  0);
+    Livro livro("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f,  1);
     CHECK(livro.getTitulo() == "Livro 1");
     CHECK(livro.getAutor() == "Autor 1");
     CHECK(livro.getGenero() == "Gênero 1");
@@ -187,10 +183,10 @@ TEST_CASE("04 - Teste criando livros") {
     CHECK(livro.getNumPaginas() == 200);
     CHECK(livro.getAno() == 2021);
     CHECK(livro.getAvaliacao() == 4.5f);
-    //CHECK(livro.getId() == 1);
+    CHECK(livro.getId() == 1);
     CHECK(livro.getEstado() == 0);
 
-    Livro livro2("Livro 2", "Autor 2", "Gênero 2", "Resumo 2", "Idioma 2", 200, 2021, 4.5f,  0);
+    Livro livro2("Livro 2", "Autor 2", "Gênero 2", "Resumo 2", "Idioma 2", 200, 2021, 4.5f, 2);
     CHECK(livro2.getTitulo() == "Livro 2");
     CHECK(livro2.getAutor() == "Autor 2");
     CHECK(livro2.getGenero() == "Gênero 2");
@@ -199,7 +195,7 @@ TEST_CASE("04 - Teste criando livros") {
     CHECK(livro2.getNumPaginas() == 200);
     CHECK(livro2.getAno() == 2021);
     CHECK(livro2.getAvaliacao() == 4.5f);
-    //CHECK(livro2.getId() == 2);
+    CHECK(livro2.getId() == 2);
     CHECK(livro2.getEstado() == 0);
 }
 
@@ -274,66 +270,49 @@ TEST_CASE("09 - Teste de adicionar livros com nota inválida") {
     CHECK_THROWS_AS(usuario.avaliar_livro(livro15, avaliacao), const AvaliacaoInvalida&);
 }
 
-/*TEST_CASE("09 - Teste de adicionar livros com nota inválida") {
-    Usuario usuario("João", "senha123", "joao@example.com", 1, {}, {});
-    Administrador administrador("Joaquim", "senha321", "joaquim@example.com", 2);
-    Livro livro15("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 0, 0);
-    administrador.InserirLivro(livro15);
-    usuario.pegar_livro(livro15);
-    usuario.devolver_livro(livro15);
-    float avaliacao = 6.0f;
-
-    CHECK_THROWS_AS(usuario.avaliar_livro(livro15, avaliacao), AvaliacaoInvalida);
-    CHECK_THROWS_WITH(
-        usuario.avaliar_livro(livro15, avaliacao),
-        "Nota deve ser entre 0 e 5"
-    );
-}*/
-
-
 TEST_CASE("10 - Testa nome de Usuario"){
     Usuario usuario("João", "senha123", "joao@example.com", 1, {}, {});
 
     CHECK(usuario.getNome() == "João");
 }
 
-/*TEST_CASE("11 - Testa campos deixados em branco no preenchimento do Livro"){
+TEST_CASE("11 - Testa campos deixados em branco no preenchimento do Livro"){
     SUBCASE("Titulo não preenchido"){
-        CHECK_THROWS_AS(Livro(" ", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0), std::invalid_argument);
+        CHECK_THROWS_AS(Livro("", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0), std::invalid_argument);
         CHECK_THROWS_WITH(
-            Livro(" ", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0),
+            Livro("", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0),
             "Todos os campos precisam ser preenchidos para prosseguir"
         );
     }
     SUBCASE("Autor não preenchido"){
-        CHECK_THROWS_AS(Livro("Titulo 1", " ", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0), std::invalid_argument);
+        CHECK_THROWS_AS(Livro("Titulo 1", "", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0), std::invalid_argument);
         CHECK_THROWS_WITH(
-            Livro("Titulo 1", " ", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0),
+            Livro("Titulo 1", "", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0),
             "Todos os campos precisam ser preenchidos para prosseguir"
         );
     }
     SUBCASE("Genero não preenchido"){
-        CHECK_THROWS_AS(Livro("Titulo 1", "Autor 1", " ", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0), std::invalid_argument);
+        CHECK_THROWS_AS(Livro("Titulo 1", "Autor 1", "", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0), std::invalid_argument);
         CHECK_THROWS_WITH(
-            Livro("Titulo 1", "Autor 1", " ", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0),
+            Livro("Titulo 1", "Autor 1", "", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0),
             "Todos os campos precisam ser preenchidos para prosseguir"
         );
     }
     SUBCASE("Resumo não preenchido"){
-        CHECK_THROWS_AS(Livro("Titulo 1", "Autor 1", "Gênero 1", " ", "Idioma 1", 200, 2021, 4.5f, 0), std::invalid_argument);
+        CHECK_THROWS_AS(Livro("Titulo 1", "Autor 1", "Gênero 1", "", "Idioma 1", 200, 2021, 4.5f, 0), std::invalid_argument);
         CHECK_THROWS_WITH(
-            Livro("Titulo 1", "Autor 1", "Gênero 1", " ", "Idioma 1", 200, 2021, 4.5f, 0),
+            Livro("Titulo 1", "Autor 1", "Gênero 1", "", "Idioma 1", 200, 2021, 4.5f, 0),
             "Todos os campos precisam ser preenchidos para prosseguir"
         );
     }
     SUBCASE("Idioma não preenchido"){
-        CHECK_THROWS_AS(Livro("Titulo 1", "Autor 1", "Gênero 1", "Resumo 1", " ", 200, 2021, 4.5f, 0), std::invalid_argument);
+        CHECK_THROWS_AS(Livro("Titulo 1", "Autor 1", "Gênero 1", "Resumo 1", "", 200, 2021, 4.5f, 0), std::invalid_argument);
         CHECK_THROWS_WITH(
-            Livro("Titulo 1", "Autor 1", "Gênero 1", "Resumo 1", " ", 200, 2021, 4.5f, 0),
+            Livro("Titulo 1", "Autor 1", "Gênero 1", "Resumo 1", "", 200, 2021, 4.5f, 0),
             "Todos os campos precisam ser preenchidos para prosseguir"
         );
     }
-}*/
+}
 
 TEST_CASE("11 - Testa campos deixados em branco no preenchimento do Livro") {
     SUBCASE("Titulo não preenchido") {
@@ -397,56 +376,78 @@ TEST_CASE("13 - Teste de disponibilidade de livro") {
     CHECK(bibliotecario.EstaDisponivel(livro2) == false); // Livro emprestado
 }
 
-/* TEST_CASE("14 - Teste da função obterDataAtual") {
+TEST_CASE("14 - Teste da função obterDataAtual") {
     // Verificar se a data retornada é válida, considerando o formato "dd/mm/aaaa"
-    std::string dataAtual = obterDataAtual();
+    std::string dataAtual = Bibliotecario().obterDataAtual();
     CHECK(dataAtual.length() == 10);
     CHECK(dataAtual[2] == '/');
     CHECK(dataAtual[5] == '/');
-    CHECK(dataAtual[0] >= '0' && dataAtual[0] <= '3');
-    CHECK(dataAtual[1] >= '0' && dataAtual[1] <= '9');
-    CHECK(dataAtual[3] >= '0' && dataAtual[3] <= '1');
-    CHECK(dataAtual[4] >= '0' && dataAtual[4] <= '9');
-    CHECK(dataAtual[6] >= '0' && dataAtual[6] <= '9');
-    CHECK(dataAtual[7] >= '0' && dataAtual[7] <= '9');
-    CHECK(dataAtual[8] >= '0' && dataAtual[8] <= '9');
-    CHECK(dataAtual[9] >= '0' && dataAtual[9] <= '9');
-} */
 
-/* TEST_CASE("15 - Teste de empréstimo de livro com livro não disponível") {
-    Livro livro("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 1);
-    Usuario usuario("João", "senha123", "joao@example.com", 1, {}, {});
+    auto&& logica = dataAtual[0] >= '0' && dataAtual[0] <= '3';
+    CHECK(logica);
 
-    Bibliotecario bibliotecario("Ana", "senha789", "ana@example.com", 2);
+    logica = dataAtual[1] >= '0' && dataAtual[1] <= '9';
+    CHECK(logica);
 
-    CHECK_THROWS_AS(bibliotecario.EmprestaLivro(livro, usuario), std::invalid_argument); // Livro não disponível
-    CHECK(usuario.getLivrosPegos().size() == 0); // Verificar se o livro não foi adicionado à lista de livros pegos pelo usuário
-} */
+    logica = dataAtual[3] >= '0' && dataAtual[3] <= '1';
+    CHECK(logica);
+
+    logica = dataAtual[4] >= '0' && dataAtual[4] <= '9';
+    CHECK(logica);
+
+    logica = dataAtual[6] >= '0' && dataAtual[6] <= '9';
+    CHECK(logica);
+
+    logica = dataAtual[7] >= '0' && dataAtual[7] <= '9';
+    CHECK(logica);
+
+    logica = dataAtual[8] >= '0' && dataAtual[8] <= '9';
+    CHECK(logica);
+
+    logica = dataAtual[9] >= '0' && dataAtual[9] <= '9';
+    CHECK(logica);
+}
 
 TEST_CASE("15 - Teste de empréstimo de livro com livro não disponível") {
     reset_db();
 
-    Livro livro("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 1);
+    Livro livro("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f);
     Usuario usuario("João", "senha123", "joao@example.com", 1, {}, {});
     Bibliotecario bibliotecario("Ana", "senha789", "ana@example.com", 2);
+    Livro livro_inexistente("Livro tal", "Autor tal", "Gênero tal", "R", "Idiom", 1,1,0);
 
-    auto db_ac = DbAcervo();
     auto db_user = DbUsuarios();
+    auto db_ac = DbAcervo();
+    
     db_ac.inserir_linha(livro);
     db_user.inserir_linha(usuario);
 
-    CHECK_THROWS_AS(bibliotecario.EmprestaLivro(livro, usuario), std::invalid_argument); // Livro não disponível
+    CHECK_THROWS_AS(bibliotecario.EmprestaLivro(livro_inexistente, usuario), const LivroIndisponivel&); // Livro não disponível
     CHECK(usuario.getqntdlivros() == 0); // Verificar se o livro não foi adicionado à lista de livros pegos pelo usuário
 }
 
 TEST_CASE("16 - Teste de disponibilidade de livro com livro excluído") {
+    reset_db();
+    auto db_us = DbUsuarios();
+    auto db_ac = DbAcervo();
+
     Livro livro1("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0);
     Livro livro2("Livro 2", "Autor 2", "Gênero 2", "Resumo 2", "Idioma 2", 300, 2022, 3.5f, 1);
 
     Bibliotecario bibliotecario("João", "senha123", "joao@example.com", 1);
+    Administrador adm("Fulano", "de", "tal");
+    adm.InserirLivro(livro1);
+    adm.InserirLivro(livro2);
 
-    CHECK(bibliotecario.EstaDisponivel(livro1) == true);  // Livro não excluído
-    CHECK(bibliotecario.EstaDisponivel(livro2) == false); // Livro excluído
+    auto livro1_db = adm.consultaLivros(livro1.getTitulo(), bbt_def::sql::schema_acervo::titulo).back();
+    auto livro2_db = adm.consultaLivros(livro2.getTitulo(), bbt_def::sql::schema_acervo::titulo).back();
+
+    CHECK(bibliotecario.EstaDisponivel(livro1_db) != 0);  // Livro não excluído
+    CHECK(bibliotecario.EstaDisponivel(livro2_db) != 0); // Livro não excluído
+
+    adm.RemoverLivro(livro2_db);
+
+    CHECK(bibliotecario.EstaDisponivel(livro2_db) == 0); // Livro excluído
 }
 
 TEST_CASE("17 - Teste de remoção de livro inexistente") {

@@ -43,6 +43,7 @@ void DbAcervo::_diretriz(sqlite::database_binder& ps_binder, Livro obj)
         {
             ps_binder << nullptr;
         }
+        ps_binder << obj.getQtdAvaliacoes();
            
     }
     catch(const std::exception& e)
