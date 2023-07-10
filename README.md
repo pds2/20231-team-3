@@ -23,9 +23,19 @@
   <li>Pedro Alexandria</li>
 </ul>
 
+### Requirements
+<ol>
+  <li>C++ compiler</li>
+  <li>SQLite3</li>
+  <li>Git</li>
+</ol>
+
 # :computer: Environment Setup
 In order to set your environment up to run the code here, first install all requirements.
-Obs: Use the command consistent with your operating system, the examples given were done in ubuntu and arch
+<p>Obs: Use the command consistent with your operating system, the examples given were done in ubuntu and arch</p>
+
+<p>First of all, clone this repository in your device. Then navigate to the project directory on your system.
+</p>
 
 ### Linux Setup
 
