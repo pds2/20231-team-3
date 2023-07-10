@@ -29,6 +29,7 @@
 In order to set your environment up to run the code here, first install all requirements.
 Obs: Use the command consistent with your operating system, the examples given were done in ubuntu and arch
 
+<h6>Linux setup</h6>
 Ubuntu:
 ```shell
 sudo apt-get install sqlite3 libsqlite3-dev
@@ -50,6 +51,7 @@ After that, the program will be compiled in a file called "biblioteca". Then, ty
 ```
 That way you can use the program and its features.
 
+<h6>Mac setup</h6>
 <p>macOS:</p>
 <p>Install Xcode: Download and install Xcode, which includes the Clang compiler and other tools required for C++ development. Xcode is available from the App Store or the Apple website.</p>
 
