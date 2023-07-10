@@ -43,5 +43,5 @@ Usuario DbUsuarios::_diretriz(
     {
         _sql_excecao(std::current_exception());
     }
-    return Usuario("","","");
+    return Usuario();
 }

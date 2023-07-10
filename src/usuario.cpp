@@ -9,9 +9,10 @@
 #include "../include/db_usuarios.hpp"
 #include "../include/db_acervo.hpp"
 
-/**
- * @brief Classe responsavel por criar um Usuario
- */
+Usuario::Usuario() : Entidadebase("", "", "", bbt_def::id_usuario, 0), _n_livros_posse(0)
+{
+    _numerodelivros = bbt_def::max_livros_user;
+}
 
 Usuario::Usuario(const std::string nome,
                  const std::string senha,

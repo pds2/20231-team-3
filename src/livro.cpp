@@ -2,6 +2,21 @@
 
 #include "../include/livro.hpp"
 
+Livro::Livro() :
+    _titulo(""),
+    _autor(""),
+    _genero(""),
+    _resumo(""),
+    _idioma(""),
+    _numpag(0),
+    _ano(0),
+    _avaliacao(0),
+    _id(0),
+    _emprestado(0),
+    _data_aluguel(""),
+    _data_devolucao(""),
+    _qtde_avaliacoes(0) {}
+
 Livro::Livro(std::string titulo,
              std::string autor,
              std::string genero,

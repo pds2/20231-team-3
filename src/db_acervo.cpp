@@ -92,7 +92,7 @@ Livro DbAcervo::_diretriz(
     {
         _sql_excecao(std::current_exception());
     }
-    return Livro("","","","","",1,1,1);
+    return Livro();
 }
 
 std::string DbAcervo::data_sql_para_padrao(std::string& data)

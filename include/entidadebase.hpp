@@ -22,6 +22,11 @@ private:
 
 public:
     /**
+     * @brief Construtor da classe Entidadebase sem parâmetros. Inicializa membros vazios.
+     */
+    Entidadebase();
+
+    /**
      * @brief Construtor da classe Entidadebase.
      * @param nome Nome da entidade.
      * @param senha Senha da entidade.

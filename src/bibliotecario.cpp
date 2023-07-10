@@ -50,7 +50,7 @@ Livro Bibliotecario::EmprestaLivro(Livro &livro, Usuario& user)
 
     db_users.sobrescrever_em_id(user_qtd_livros + 1, sql::schema_usuarios::n_livros, user_id);
 
-    Livro livro_temp("","","","","",1,1,0);
+    Livro livro_temp = Livro();
     livro_temp.setDataAluguel(obterDataAtual());
     livro_temp.setDataDevolucao(obterOffsetDataAtual(dias_aluguel));
 
