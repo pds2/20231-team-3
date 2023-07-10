@@ -170,3 +170,13 @@ void Livro::setQtdAvaliacoes(unsigned int qtd)
 {
     _qtde_avaliacoes = qtd;
 }
+
+
+
+
+LivroNaoEmprestado::LivroNaoEmprestado(const std::string& livro)
+    : mensagem("O livro '" + livro + "' não está emprestado.") {}
+
+const char* LivroNaoEmprestado::what() const noexcept {
+    return mensagem.c_str();
+}

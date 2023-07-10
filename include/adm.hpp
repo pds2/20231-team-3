@@ -33,6 +33,8 @@ public:
      * @param email Email do administrador.
      * @param id_sql ID do banco de dados.
      */
+    Administrador(); // Construtor sem argumentos
+    
     Administrador(
         const std::string nome,
         const std::string senha,

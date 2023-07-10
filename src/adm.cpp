@@ -3,6 +3,8 @@
 #include "../include/db_acervo.hpp"
 #include "../include/db_administradores.hpp"
 
+Administrador::Administrador() : Entidadebase() {}
+
 Administrador::Administrador(
     const std::string nome,
     const std::string senha,

@@ -9,7 +9,7 @@
 
 using namespace std;
 
-// #include "database_biblioteca.hpp"
+#include "database_biblioteca.hpp"
 
 int main() {
     Usuario usuario("João", "123456", "joao@example.com", 1);

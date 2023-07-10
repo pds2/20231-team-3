@@ -2,6 +2,8 @@
 #include "../include/livro.hpp"
 #include "../include/db_acervo.hpp"
 
+Entidadebase::Entidadebase() {}
+
 Entidadebase::Entidadebase(std::string nome,
                            std::string senha,
                            std::string email,

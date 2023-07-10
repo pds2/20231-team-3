@@ -13,6 +13,8 @@
  * @brief Classe responsavel por criar um Usuario
  */
 
+Usuario::Usuario() {}
+
 Usuario::Usuario(const std::string nome,
                  const std::string senha,
                  const std::string email,

@@ -200,4 +200,24 @@ public:
     void setQtdAvaliacoes(unsigned int qtd);
 };
 
+class LivroNaoEncontrado : public std::exception {
+public:
+    LivroNaoEncontrado() = default;
+
+    const char* what() const noexcept override {
+        return "Livro não encontrado";
+    }
+};
+
+
+class LivroNaoEmprestado : public std::exception {
+    private:
+        std::string mensagem;
+
+    public:
+        LivroNaoEmprestado(const std::string& livro);
+
+        const char* what() const noexcept override;
+};
+
 #endif

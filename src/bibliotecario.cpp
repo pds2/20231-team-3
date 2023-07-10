@@ -6,6 +6,8 @@
 
 #include <ctime>
 
+Bibliotecario::Bibliotecario() : Entidadebase() {}
+
 Bibliotecario::Bibliotecario(const std::string nome,
                              const std::string senha,
                              const std::string email,
