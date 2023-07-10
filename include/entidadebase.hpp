@@ -93,7 +93,7 @@ public:
     
     std::vector<Livro> consultaLivros(std::string valor, std::string coluna);
 
-    void imprimeConsulta(std::vector<Livro>& consulta);
+    virtual void imprimeConsulta(std::vector<Livro>& consulta);
 };
 
 #endif

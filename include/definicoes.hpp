@@ -9,6 +9,7 @@
 namespace bbt_def
 {
     const unsigned int max_livros_user = 3;
+    const int dias_aluguel = 14;
     
     namespace sql
     {

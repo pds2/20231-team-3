@@ -15,9 +15,7 @@ class DbAdministradores : public BbtWrapperSQL<Entidadebase>
             sqlite::row_iterator::value_type linha_binder) override;
 
     public:
-        DbAdministradores();
-        
-              
+        DbAdministradores();              
 };
 
 #endif

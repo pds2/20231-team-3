@@ -117,8 +117,8 @@ void Livro::setDataAluguel(const std::string data_aluguel) {
     }
 
     auto dia = std::stoi(data_aluguel.substr(0, 2));
-    auto mes = std::stoi(data_aluguel.substr(2, 2));
-    auto ano = std::stoi(data_aluguel.substr(4, 4));
+    auto mes = std::stoi(data_aluguel.substr(3, 2));
+    auto ano = std::stoi(data_aluguel.substr(6, 4));
     bool bissexto = ano % 400 == 0 || (ano % 4 == 0 && ano % 100 != 0);
     std::set<unsigned int> meses_30 = {2,4,6,9,11};
 
@@ -146,8 +146,8 @@ void Livro::setDataDevolucao(const std::string data_devolucao) {
     }
 
     auto dia = std::stoi(data_devolucao.substr(0, 2));
-    auto mes = std::stoi(data_devolucao.substr(2, 2));
-    auto ano = std::stoi(data_devolucao.substr(4, 4));
+    auto mes = std::stoi(data_devolucao.substr(3, 2));
+    auto ano = std::stoi(data_devolucao.substr(6, 4));
     bool bissexto = ano % 400 == 0 || (ano % 4 == 0 && ano % 100 != 0);
     std::set<unsigned int> meses_30 = {2,4,6,9,11};
 

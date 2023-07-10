@@ -50,6 +50,7 @@ int main() {
     user1.avaliar_livro(l1, 2);
     user1.avaliar_livro(l1, 3);
 
-    std::cout << "Hello" << std::endl;
+    adm.carregarLivros("import/livros.csv");
+    
     return 0;
 }

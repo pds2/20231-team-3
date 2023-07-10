@@ -8,12 +8,11 @@
                 "-std=c++20",
                 "-g",
                 "${workspaceFolder}/src/*.cpp",
+                "${workspaceFolder}/program/main.cpp",
                 "-I",
                 "${workspaceFolder}/include",
                 "-I",
                 "${workspaceFolder}/third_party",
-                "-I",
-                "${workspaceFolder}/third_party/sqlite_modern_cpp",
                 "-lsqlite3",
                 "-o",
                 "${workspaceFolder}/main"

@@ -18,6 +18,14 @@ public:
 };
 
 /**
+ * @brief Classe de exceção de importação de livros não concluída.
+ */
+class LivrosNaoImportados : public std::runtime_error {
+public:
+    LivrosNaoImportados() : std::runtime_error("A importação dos livros falhou") {}
+};
+
+/**
  * @brief Construtor da classe Administrador.
  * Recebe o nome, senha, email e id como parâmetros
  * e inicializa a classe base Entidadebase.
@@ -52,6 +60,8 @@ public:
     void RemoverLivro(Livro &livro);
 
     void sign_in();
+
+    void carregarLivros(std::string arq);
 };
 
 #endif
