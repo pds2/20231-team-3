@@ -79,7 +79,7 @@ TEST_CASE("02 - Testando empréstimo de livro") {
     CHECK(avaliacao == avaliacao3);
 }
 
-/* TEST_CASE("02 - Testando empréstimo de livro") {
+ /*TEST_CASE("02 - Testando empréstimo de livro") {
     reset_db();
 
     auto db_user = DbUsuarios();
@@ -158,7 +158,7 @@ TEST_CASE("02 - Testando empréstimo de livro") {
         bbt_def::sql::id).back().getAvaliacao();
 
     CHECK(avaliacao == avaliacao3);
-} */
+}*/ 
 
 TEST_CASE("03 - Teste criando usuário") {
     reset_db();
@@ -250,13 +250,32 @@ TEST_CASE("08 - Teste de pegar e devolver múltiplos livros") {
 
 TEST_CASE("09 - Teste de adicionar livros com nota inválida") {
     Usuario usuario("João", "senha123", "joao@example.com", 1, {}, {});
+    Administrador administrador("Joaquim", "senha321", "joaquim@example.com", 2);
     Livro livro15("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 0, 0);
+    administrador.InserirLivro(livro15);
+    usuario.pegar_livro(livro15);
+    usuario.devolver_livro(livro15);
+    float avaliacao = 6.0f;
+
+    CHECK_THROWS_AS(usuario.avaliar_livro(livro15, avaliacao), AvaliacaoInvalida());
+}
+
+/*TEST_CASE("09 - Teste de adicionar livros com nota inválida") {
+    Usuario usuario("João", "senha123", "joao@example.com", 1, {}, {});
+    Administrador administrador("Joaquim", "senha321", "joaquim@example.com", 2);
+    Livro livro15("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 0, 0);
+    administrador.InserirLivro(livro15);
     usuario.pegar_livro(livro15);
     usuario.devolver_livro(livro15);
     float avaliacao = 6.0f;
 
     CHECK_THROWS_AS(usuario.avaliar_livro(livro15, avaliacao), AvaliacaoInvalida);
-}
+    CHECK_THROWS_WITH(
+        usuario.avaliar_livro(livro15, avaliacao),
+        "Nota deve ser entre 0 e 5"
+    );
+}*/
+
 
 TEST_CASE("10 - Testa nome de Usuario"){
     Usuario usuario("João", "senha123", "joao@example.com", 1, {}, {});

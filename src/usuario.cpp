@@ -78,7 +78,7 @@ void Usuario::avaliar_livro(Livro &u, float avaliacaousuario)
 
     if(avaliacaousuario < 0 || avaliacaousuario > 5)
     {
-        throw std::invalid_argument("Nota deve ser entre 0 e 5");
+        throw AvaliacaoInvalida();
     }
 
     auto avaliacao_atual = consulta.back().getAvaliacao();

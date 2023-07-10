@@ -46,6 +46,9 @@ Livro::Livro(std::string titulo,
                 if ((_titulo.empty()) || (_autor.empty()) || (_genero.empty()) || (_resumo.empty()) || (_idioma.empty())) {
                     throw std::invalid_argument("Todos os campos precisam ser preenchidos para prosseguir");
                 }
+                if ((avaliacao < 0) && (avaliacao > 5)){
+                    throw AvaliacaoInvalida();
+                }
 }
 
 std::string Livro::getTitulo() const {
