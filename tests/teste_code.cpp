@@ -171,3 +171,161 @@ TEST_CASE("09 - Teste de adicionar livros com nota inválida") {
 
     CHECK_THROWS_AS(usuario.avaliar_livro(livro15, avaliacao), AvaliacaoInvalida);
 }
+
+TEST_CASE("10 - Testa nome de Usuario"){
+    Usuario usuario("João", "senha123", "joao@example.com", 1, {}, {});
+
+    CHECK(usuario.getNome() == "João");
+}
+
+TEST_CASE("11 - Testa campos deixados em branco no preenchimento do Livro"){
+    SUBCASE("Titulo não preenchido"){
+        CHECK_THROWS_AS(Livro(" ", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0), std::invalid_argument);
+        CHECK_THROWS_WITH(
+            Livro(" ", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0),
+            "Todos os campos precisam ser preenchidos para prosseguir"
+        );
+    }
+    SUBCASE("Autor não preenchido"){
+        CHECK_THROWS_AS(Livro("Titulo 1", " ", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0), std::invalid_argument);
+        CHECK_THROWS_WITH(
+            Livro("Titulo 1", " ", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0),
+            "Todos os campos precisam ser preenchidos para prosseguir"
+        );
+    }
+    SUBCASE("Genero não preenchido"){
+        CHECK_THROWS_AS(Livro("Titulo 1", "Autor 1", " ", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0), std::invalid_argument);
+        CHECK_THROWS_WITH(
+            Livro("Titulo 1", "Autor 1", " ", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0),
+            "Todos os campos precisam ser preenchidos para prosseguir"
+        );
+    }
+    SUBCASE("Resumo não preenchido"){
+        CHECK_THROWS_AS(Livro("Titulo 1", "Autor 1", "Gênero 1", " ", "Idioma 1", 200, 2021, 4.5f, 0), std::invalid_argument);
+        CHECK_THROWS_WITH(
+            Livro("Titulo 1", "Autor 1", "Gênero 1", " ", "Idioma 1", 200, 2021, 4.5f, 0),
+            "Todos os campos precisam ser preenchidos para prosseguir"
+        );
+    }
+    SUBCASE("Idioma não preenchido"){
+        CHECK_THROWS_AS(Livro("Titulo 1", "Autor 1", "Gênero 1", "Resumo 1", " ", 200, 2021, 4.5f, 0), std::invalid_argument);
+        CHECK_THROWS_WITH(
+            Livro("Titulo 1", "Autor 1", "Gênero 1", "Resumo 1", " ", 200, 2021, 4.5f, 0),
+            "Todos os campos precisam ser preenchidos para prosseguir"
+        );
+    }
+}
+
+TEST_CASE("12 - Testa Campos deixados em branco no preenchimento do Usuario"){
+    SUBCASE("Nome não preenchido"){
+    CHECK_THROWS_AS(usuario(" ", "senha123", "joao@example.com", 1, {}, {}), std::invalid_argument);
+    CHECK_THROWS_WITH(
+        Usuario(" ", "senha123", "joao@example.com", 1, {}, {}),
+        "Todos os campos precisam ser preenchidos para prosseguir"
+        );
+    }
+    SUBCASE("Senha não preenchida"){
+    CHECK_THROWS_AS(usuario("João", " ", "joao@example.com", 1, {}, {}), std::invalid_argument);
+    CHECK_THROWS_WITH(
+        Usuario("João", " ", "joao@example.com", 1, {}, {}),
+        "Todos os campos precisam ser preenchidos para prosseguir"
+        );
+    }
+    SUBCASE("Email não preenchido"){
+    CHECK_THROWS_AS(usuario("João", "senha123", " ", 1, {}, {}), std::invalid_argument);
+    CHECK_THROWS_WITH(
+        Usuario("João", "senha123", " ", 1, {}, {}),
+        "Todos os campos precisam ser preenchidos para prosseguir"
+        );
+    }
+}
+
+TEST_CASE("13 - Teste de disponibilidade de livro") {
+    Livro livro1("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0);
+    Livro livro2("Livro 2", "Autor 2", "Gênero 2", "Resumo 2", "Idioma 2", 300, 2022, 3.5f, 1);
+
+    Bibliotecario bibliotecario("João", "senha123", "joao@example.com", 1);
+
+    CHECK(bibliotecario.EstaDisponivel(livro1) == true);  // Livro não emprestado
+    CHECK(bibliotecario.EstaDisponivel(livro2) == false); // Livro emprestado
+}
+
+/* TEST_CASE("14 - Teste da função obterDataAtual") {
+    // Verificar se a data retornada é válida, considerando o formato "dd/mm/aaaa"
+    std::string dataAtual = obterDataAtual();
+    CHECK(dataAtual.length() == 10);
+    CHECK(dataAtual[2] == '/');
+    CHECK(dataAtual[5] == '/');
+    CHECK(dataAtual[0] >= '0' && dataAtual[0] <= '3');
+    CHECK(dataAtual[1] >= '0' && dataAtual[1] <= '9');
+    CHECK(dataAtual[3] >= '0' && dataAtual[3] <= '1');
+    CHECK(dataAtual[4] >= '0' && dataAtual[4] <= '9');
+    CHECK(dataAtual[6] >= '0' && dataAtual[6] <= '9');
+    CHECK(dataAtual[7] >= '0' && dataAtual[7] <= '9');
+    CHECK(dataAtual[8] >= '0' && dataAtual[8] <= '9');
+    CHECK(dataAtual[9] >= '0' && dataAtual[9] <= '9');
+}*/
+
+TEST_CASE("15 - Teste de empréstimo de livro com livro não disponível") {
+    Livro livro("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 1);
+    Usuario usuario("João", "senha123", "joao@example.com", 1, {}, {});
+
+    Bibliotecario bibliotecario("Ana", "senha789", "ana@example.com", 2);
+
+    CHECK_THROWS_AS(bibliotecario.EmprestaLivro(livro, usuario), std::invalid_argument); // Livro não disponível
+    CHECK(usuario.getLivrosPegos().size() == 0); // Verificar se o livro não foi adicionado à lista de livros pegos pelo usuário
+}
+
+TEST_CASE("16 - Teste de disponibilidade de livro com livro excluído") {
+    Livro livro1("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0);
+    Livro livro2("Livro 2", "Autor 2", "Gênero 2", "Resumo 2", "Idioma 2", 300, 2022, 3.5f, 1);
+
+    Bibliotecario bibliotecario("João", "senha123", "joao@example.com", 1);
+
+    CHECK(bibliotecario.EstaDisponivel(livro1) == true);  // Livro não excluído
+    CHECK(bibliotecario.EstaDisponivel(livro2) == false); // Livro excluído
+}
+
+TEST_CASE("17 - Teste de remoção de livro inexistente") {
+    Livro livro("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 0);
+    Administrador administrador("João", "senha123", "joao@example.com", 1);
+
+    // Verificar se não há exceções ao tentar remover um livro inexistente
+    CHECK_NOTHROW(administrador.RemoverLivro(livro));
+}
+
+TEST_CASE("18 - Teste de remoção de livro com livro emprestado") {
+    Livro livro("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, 1);
+    Administrador administrador("João", "senha123", "joao@example.com", 1);
+
+    // Adicionar o livro ao acervo antes de tentar removê-lo
+    // Implemente a adição ao acervo de acordo com a sua implementação
+
+    // Verificar se não há exceções ao tentar remover um livro emprestado
+    CHECK_NOTHROW(administrador.RemoverLivro(livro));
+}
+
+TEST_CASE("19 - Teste de obtenção do título do livro") {
+    Livro livro("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, false);
+    CHECK(livro.getTitulo() == "Livro 1");
+}
+
+TEST_CASE("20 - Teste de obtenção do autor do livro") {
+    Livro livro("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, false);
+    CHECK(livro.getAutor() == "Autor 1");
+}
+
+TEST_CASE("21 - Teste de obtenção do gênero do livro") {
+    Livro livro("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, false);
+    CHECK(livro.getGenero() == "Gênero 1");
+}
+
+TEST_CASE("22 - Teste de obtenção do resumo do livro") {
+    Livro livro("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, false);
+    CHECK(livro.getResumo() == "Resumo 1");
+}
+
+TEST_CASE("23 - Teste de obtenção do idioma do livro") {
+    Livro livro("Livro 1", "Autor 1", "Gênero 1", "Resumo 1", "Idioma 1", 200, 2021, 4.5f, false);
+    CHECK(livro.getIdioma() == "Idioma 1");
+}

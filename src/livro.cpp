@@ -25,23 +25,12 @@ Livro::Livro(std::string titulo,
              unsigned int numpag,
              unsigned int ano,
              float avaliacao,
-             unsigned int id,
-             unsigned int emprestado,
-             unsigned int qtde_avaliacoes) :
-
-             _titulo(titulo),
-             _autor(autor),
-             _genero(genero),
-             _resumo(resumo),
-             _idioma(idioma),
-             _numpag(numpag),
-             _ano(ano),
-             _avaliacao(avaliacao),
-             _id(id),
-             _emprestado(emprestado),
-             _data_aluguel(""),
-             _data_devolucao(""),
-             _qtde_avaliacoes(qtde_avaliacoes) {}
+             bool emprestado)
+    : _titulo(titulo), _autor(autor), _genero(genero), _resumo(resumo), _idioma(idioma), _numpag(numpag), _ano(ano), _avaliacao(avaliacao), _emprestado(emprestado) 
+    {
+        _id = _proximoid;
+        _proximoid++;
+    }
 
 std::string Livro::getTitulo() const {
     return _titulo;
