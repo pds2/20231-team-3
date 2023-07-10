@@ -1,3 +1,5 @@
+#include <regex>
+
 #include "../include/definicoes.hpp"
 #include "../include/db_acervo.hpp"
 #include "../include/db_usuarios.hpp"
@@ -80,9 +82,9 @@ Livro DbAcervo::_diretriz(
             *n_avaliacoes
         );
 
-        if(data_aluguel != nullptr) temp_obj.setDataAluguel(*data_aluguel);
+        if(data_aluguel != nullptr) temp_obj.setDataAluguel(data_sql_para_padrao(*data_aluguel));
 
-        if(data_devolucao != nullptr) temp_obj.setDataDevolucao(*data_devolucao);
+        if(data_devolucao != nullptr) temp_obj.setDataDevolucao(data_sql_para_padrao(*data_devolucao));
 
         return temp_obj;
     }
@@ -90,5 +92,37 @@ Livro DbAcervo::_diretriz(
     {
         _sql_excecao(std::current_exception());
     }
-    return Livro("","","","","",1,1,1);
+    return Livro();
+}
+
+std::string DbAcervo::data_sql_para_padrao(std::string& data)
+{
+    std::regex reg("\\d{4}-\\d{2}-\\d{2}");
+    std::smatch match;
+    std::regex_search(data, match, reg);
+    auto str_data_sql = match.str();
+
+    auto ano = str_data_sql.substr(0, 4);
+    auto mes = str_data_sql.substr(5, 2);
+    auto dia = str_data_sql.substr(8, 2);
+
+    std::ostringstream str_buffer;
+    str_buffer << dia << "/" << mes << "/" << ano;
+    return str_buffer.str();
+}
+
+std::string DbAcervo::data_padrao_para_sql(std::string& data)
+{
+    std::regex reg("\\d{2}\\/\\d{2}\\/\\d{4}");
+    std::smatch match;
+    std::regex_search(data, match, reg);
+    auto str_data_sql = match.str();
+//    30/04/1999
+    auto dia = str_data_sql.substr(0, 2);
+    auto mes = str_data_sql.substr(3, 2);
+    auto ano = str_data_sql.substr(6, 4);
+
+    std::ostringstream str_buffer;
+    str_buffer << ano << "-" << mes << "-" << dia << " 00:00:00";
+    return str_buffer.str();
 }

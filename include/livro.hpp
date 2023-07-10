@@ -56,7 +56,11 @@ private:
     std::vector<float> _avaliacoes;
 
 public:
+    /**
+     * @brief Construtor da classe Livro sem argumentos. Inicializa com membros vazios.
+     */
     Livro();
+
     /**
      * @brief Construtor da classe Livro.
      * @param titulo Título do livro.

@@ -34,12 +34,12 @@ Livro Bibliotecario::EmprestaLivro(Livro &livro, Usuario& user)
 
     if (!id_disponivel) throw LivroIndisponivel();
 
-    using namespace bbt_def::sql;
+    using namespace bbt_def;
     auto db_users = DbUsuarios();
     auto db_acervo = DbAcervo();
     auto user_consulta = db_users.consulta(
         user.getEmail(),
-        schema_usuarios::email)
+        sql::schema_usuarios::email)
         .back();
     
     auto&& user_id = user_consulta.getId();
@@ -47,12 +47,29 @@ Livro Bibliotecario::EmprestaLivro(Livro &livro, Usuario& user)
     if(user_qtd_livros >= user_consulta.get_max_livros()) throw MaximoLivros();
 
     db_acervo.sobrescrever_em_id(user_id,
-    schema_acervo::posse_id,
+    sql::schema_acervo::posse_id,
     id_disponivel);
 
-    db_users.sobrescrever_em_id(user_qtd_livros + 1, schema_usuarios::n_livros, user_id);
+    db_users.sobrescrever_em_id(user_qtd_livros + 1, sql::schema_usuarios::n_livros, user_id);
 
-    return db_acervo.consulta(id_disponivel, id).back();
+    Livro livro_temp = Livro();
+    livro_temp.setDataAluguel(obterDataAtual());
+    livro_temp.setDataDevolucao(obterOffsetDataAtual(dias_aluguel));
+
+    std::string data_aluguel = livro_temp.getDataAluguel();
+    std::string data_devolucao = livro_temp.getDataDevolucao();
+
+    db_acervo.sobrescrever_em_id(
+        db_acervo.data_padrao_para_sql(data_aluguel),
+        sql::schema_acervo::data_aluguel,
+        id_disponivel);
+
+    db_acervo.sobrescrever_em_id(
+        db_acervo.data_padrao_para_sql(data_devolucao),
+        sql::schema_acervo::data_devolucao,
+        id_disponivel);
+
+    return db_acervo.consulta(id_disponivel, sql::id).back();
 }
 
 void Bibliotecario::DevolveLivro(Livro &livro, Usuario& usuario)
@@ -79,6 +96,8 @@ void Bibliotecario::DevolveLivro(Livro &livro, Usuario& usuario)
             user_consulta.back().getId());
 
         db_ac.set_nulo_id(sql::schema_acervo::posse_id, livro_i.getId());
+        db_ac.set_nulo_id(sql::schema_acervo::data_aluguel, livro_i.getId());
+        db_ac.set_nulo_id(sql::schema_acervo::data_devolucao, livro_i.getId());
         devolvido = true;
         break;
     }
@@ -95,13 +114,24 @@ Usuario Bibliotecario::BuscaUsuario(Usuario& usuario)
     return consulta_user.back();
 }
 
-std::string obterDataAtual()
+std::string Bibliotecario::obterDataAtual()
 {
     std::time_t now = std::time(nullptr);
     std::tm* ptm = std::localtime(&now);
     char buffer[32];
     std::strftime(buffer, 32, "%d/%m/%Y", ptm);
     return std::string(buffer);
+}
+
+std::string Bibliotecario::obterOffsetDataAtual(int dias)
+{
+    std::time_t&& diaria = 24 * 60 * 60;
+    std::time_t now_offset = std::time(nullptr) + dias * diaria;
+    std::tm* ptm = std::localtime(&now_offset);
+    char buffer[32];
+    std::strftime(buffer, 32, "%d/%m/%Y", ptm);
+    auto retorno = std::string(buffer);
+    return retorno;
 }
 
 void Bibliotecario::sign_in()

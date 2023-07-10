@@ -15,6 +15,9 @@ class DbAcervo : public BbtWrapperSQL<Livro>
 
     public:
         DbAcervo();
+
+        std::string data_sql_para_padrao(std::string& data);
+        std::string data_padrao_para_sql(std::string& data);
 };
 
 #endif

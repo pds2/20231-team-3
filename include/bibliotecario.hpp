@@ -73,7 +73,22 @@ public:
 
     Usuario BuscaUsuario(Usuario& user);
 
+    std::string obterDataAtual();
+
     void sign_in();
+
+    /**
+    * @brief Obtém a data atual no formato de string
+    * @return A data atual no formato de string
+    */
+    std::string obterDataAtual();
+
+    /**
+    * @brief Obtém a data atual mais um offset em dias no formato de string
+    * @param dias Offset em dias, pode ser positivo ou negativo
+    * @return A data atual mais o offset no formato de string
+    */
+    std::string obterOffsetDataAtual(int dias);
 
     /*
      * @brief Define a data de empréstimo do livro
@@ -82,12 +97,5 @@ public:
 
     //void setDataEmprestimo(const std::string& data);
 };
-
-/*
- * @brief Obtém a data atual no formato de string
- * @return A data atual no formato de string
- */
-/*
-std::string obterDataAtual();*/
 
 #endif

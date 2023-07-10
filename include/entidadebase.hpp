@@ -22,6 +22,11 @@ private:
 
 public:
     /**
+     * @brief Construtor da classe Entidadebase sem parâmetros. Inicializa membros vazios.
+     */
+    Entidadebase();
+
+    /**
      * @brief Construtor da classe Entidadebase.
      * @param nome Nome da entidade.
      * @param senha Senha da entidade.
@@ -95,7 +100,7 @@ public:
     
     std::vector<Livro> consultaLivros(std::string valor, std::string coluna);
 
-    void imprimeConsulta(std::vector<Livro>& consulta);
+    virtual void imprimeConsulta(std::vector<Livro>& consulta);
 };
 
 #endif
