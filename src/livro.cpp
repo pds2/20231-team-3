@@ -1,4 +1,5 @@
 #include <regex>
+#include <stdexcept>
 
 #include "../include/livro.hpp"
 
@@ -26,7 +27,11 @@ Livro::Livro(std::string titulo,
              _emprestado(emprestado),
              _data_aluguel(""),
              _data_devolucao(""),
-             _qtde_avaliacoes(qtde_avaliacoes) {}
+             _qtde_avaliacoes(qtde_avaliacoes) {
+                if ((_titulo.empty()) || (_autor.empty()) || (_genero.empty()) || (_resumo.empty()) || (_idioma.empty())) {
+                    throw std::invalid_argument("Todos os campos precisam ser preenchidos para prosseguir");
+                }
+}
 
 std::string Livro::getTitulo() const {
     return _titulo;
