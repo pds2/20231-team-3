@@ -1,38 +1,41 @@
 CC = g++
-CFLAGS = -std=c++17 -Wall -I./include -I./third_party -I./third_party/sqlite_modern_cpp -lsqlite3
+CFLAGS = -std=c++20 -Wall -I./include -I./third_party
 SRCDIR = src
 TESTDIR = tests
-BUILDDIR = build
+OBJDIR = build
+BINDIR = bin
 
-SRCS = $(SRCDIR)/entidadebase.cpp $(SRCDIR)/bibliotecario.cpp $(SRCDIR)/acervo.cpp $(SRCDIR)/adm.cpp $(SRCDIR)/livro.cpp $(SRCDIR)/usuario.cpp
-TEST_SRCS = $(TESTDIR)/teste_code.cpp
-OBJDIR = $(BUILDDIR)
-OBJS = $(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.o,$(SRCS))
-TEST_OBJS = $(patsubst $(TESTDIR)/%.cpp,$(OBJDIR)/%.o,$(TEST_SRCS))
+SRCS = $(wildcard $(SRCDIR)/*.cpp)
+OBJS = $(patsubst $(SRCDIR)%.cpp,$(OBJDIR)%.o,$(SRCS))
+MAIN = program/main.cpp
+TARGET = bin/biblioteca
 
-MAIN = main.cpp
-TARGET = biblioteca
-TEST_TARGET = test
+TEST_SRCS = $(wildcard $(TESTDIR)/*.cpp)
+TEST_OBJS = $(patsubst $(TESTDIR)%.cpp,$(OBJDIR)%.o,$(TEST_SRCS))
+TEST_MAIN = program/tester.cpp
+TEST_TARGET = bin/test
 
 .PHONY: all clean test
 
 all: $(TARGET)
 
 $(TARGET): $(OBJS) $(MAIN)
-	$(CC) $(CFLAGS) -o $@ $^
+	@mkdir -p $(BINDIR)
+	$(CC) $(CFLAGS) -o $@ $^ -lsqlite3
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	@mkdir -p $(OBJDIR)
-	$(CC) $(CFLAGS) -c -o $@ $<
-
-test: $(TEST_TARGET)
-
-$(TEST_TARGET): $(OBJS) $(TEST_OBJS)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJDIR)/%.o: $(TESTDIR)/%.cpp
 	@mkdir -p $(OBJDIR)
-	$(CC) $(CFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c $< -o $@
+
+test: $(TEST_TARGET)
+
+$(TEST_TARGET): $(OBJS) $(TEST_OBJS) $(TEST_MAIN)
+	@mkdir -p $(BINDIR)
+	$(CC) $(CFLAGS) -o $@ $^ -lsqlite3
 
 clean:
-	rm -rf $(BUILDDIR) $(TARGET) $(TEST_TARGET)
+	rm -rf $(OBJDIR)/*.o $(TARGET) $(TEST_TARGET)

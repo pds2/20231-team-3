@@ -3,11 +3,15 @@
 
 #include <string>
 #include <vector>
-#include "coluna_sql.hpp"
-#include "sqlite_modern_cpp.h"
+#include "../include/coluna_sql.hpp"
+#include "../third_party/sqlite_modern_cpp.h"
 
 namespace bbt_def
 {
+    const unsigned int max_livros_user = 3;
+    const int dias_aluguel = 14;
+    const unsigned int id_usuario = 1;
+    
     namespace sql
     {
         const std::string id = "id";
@@ -41,7 +45,7 @@ namespace bbt_def
             const std::string email = "email";
             const std::string senha = "senha";
             const std::string id_categoria = "id_categoria";
-            const std::string num_livros = "num_livros";
+            const std::string n_livros = "n_livros";
 
             // definição das colunas: nome, tipo, unique, primary key, default null
             const std::vector<ColunaSQL> colunas =
@@ -51,7 +55,7 @@ namespace bbt_def
                 ColunaSQL(email, "text", "unique", "", "not null"),
                 ColunaSQL(senha, "text", "", "", "not null"),
                 ColunaSQL(id_categoria, "integer", "", "", "not null"),
-                ColunaSQL(num_livros, "integer", "", "", "default null")
+                ColunaSQL(n_livros, "integer", "", "", "default null")
             };
         }
 
@@ -70,6 +74,7 @@ namespace bbt_def
             const std::string posse_id = "posse_id";
             const std::string data_aluguel = "data_aluguel";
             const std::string data_devolucao = "data_devolucao";
+            const std::string n_avaliacoes = "n_avaliacoes";
 
             const std::string clausula_adicional = 
             ", foreign key (" + posse_id +
@@ -90,7 +95,8 @@ namespace bbt_def
                 ColunaSQL(avaliacao, "real", "", "", "not null"),
                 ColunaSQL(posse_id, "integer", "", "", "default null"),
                 ColunaSQL(data_aluguel, "text", "", "", "default null"),
-                ColunaSQL(data_devolucao, "text", "", "", "default null")
+                ColunaSQL(data_devolucao, "text", "", "", "default null"),
+                ColunaSQL(n_avaliacoes, "integer", "", "", "default null")
             };
         }
     }

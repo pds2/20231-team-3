@@ -22,11 +22,6 @@
                     "description": "Set Disassembly Flavor to Intel",
                     "text": "-gdb-set disassembly-flavor intel",
                     "ignoreFailures": true
-                },
-                {
-                    "description": "Enable break on all exceptions",
-                    "text": "catch throw",
-                    "ignoreFailures": true
                 }
             ],
             "preLaunchTask": "Tasks build PDS2-team3",

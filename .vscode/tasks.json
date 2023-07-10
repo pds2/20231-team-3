@@ -5,13 +5,14 @@
             "label": "Tasks build PDS2-team3",
             "command": "/usr/bin/g++",
             "args": [
-                "-std=c++17",
+                "-std=c++20",
                 "-g",
                 "${workspaceFolder}/src/*.cpp",
+                "${workspaceFolder}/program/main.cpp",
                 "-I",
                 "${workspaceFolder}/include",
                 "-I",
-                "${workspaceFolder}/third-party",
+                "${workspaceFolder}/third_party",
                 "-lsqlite3",
                 "-o",
                 "${workspaceFolder}/main"

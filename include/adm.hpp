@@ -1,14 +1,29 @@
 #ifndef ADM_HPP
 #define ADM_HPP
 
-#include "acervo.hpp"
-#include "entidadebase.hpp"
-#include "livro.hpp"
+#include "../include/entidadebase.hpp"
+#include "../include/livro.hpp"
 
 #include <iostream>
 #include <set>
 #include <string>
 #include <vector>
+
+/**
+ * @brief Classe de exceção de livro alugado.
+ */
+class LivroAlugado : public std::runtime_error {
+public:
+    LivroAlugado() : std::runtime_error("Livro alugado") {}
+};
+
+/**
+ * @brief Classe de exceção de importação de livros não concluída.
+ */
+class LivrosNaoImportados : public std::runtime_error {
+public:
+    LivrosNaoImportados() : std::runtime_error("A importação dos livros falhou") {}
+};
 
 /**
  * @brief Construtor da classe Administrador.
@@ -17,22 +32,21 @@
  */
 class Administrador : public Entidadebase
 {
-private:
 public:
-    Administrador();
+
     /**
      * @brief Construtor da classe Administrador.
      * @param nome Nome do administrador.
      * @param senha Senha do administrador.
      * @param email Email do administrador.
-     * @param id ID do administrador.
+     * @param id_sql ID do banco de dados.
      */
     Administrador(
         const std::string nome,
         const std::string senha,
         const std::string email,
-        int id = 4);
-
+        unsigned int id_db = 0);
+        
     /**
      * @brief Função para inserir um livro no acervo.
      * @param livro Referência para o livro a ser inserido.
@@ -44,6 +58,10 @@ public:
      * @param livro Referência para o livro a ser removido.
      */
     void RemoverLivro(Livro &livro);
+
+    void sign_in();
+
+    void carregarLivros(std::string arq);
 };
 
 #endif

@@ -4,8 +4,9 @@
 #include <iostream>
 #include <string>
 
-#include "livro.hpp"
-#include "db_acervo.hpp"
+#include "../include/livro.hpp"
+
+//#include "db_acervo.hpp"
 
 /**
  * @brief Classe base para entidades do sistema.
@@ -17,9 +18,14 @@ private:
     std::string _senha;
     std::string _email;
     unsigned int _id;
+    unsigned int _id_sql;
 
 public:
+    /**
+     * @brief Construtor da classe Entidadebase sem parâmetros. Inicializa membros vazios.
+     */
     Entidadebase();
+
     /**
      * @brief Construtor da classe Entidadebase.
      * @param nome Nome da entidade.
@@ -31,7 +37,8 @@ public:
         const std::string nome,
         const std::string senha,
         const std::string email,
-        unsigned int id
+        unsigned int id,
+        unsigned int id_db = 0
     );
 
     /**
@@ -51,6 +58,12 @@ public:
      * @return Retorna o ID da entidade como um valor inteiro.
      */
     unsigned int getId();
+
+    /**
+     * @brief Obtém o ID da entidade no banco de dados.
+     * @return Retorna o ID do banco de dados da entidade como um valor inteiro.
+     */
+    unsigned int getIdDb();
 
     /**
      * @brief Obtém a senha da entidade.
@@ -82,10 +95,10 @@ public:
      */
     void setSenha(const std::string &senha);
 
-    std::vector<std::tuple<unsigned int, Livro, AdtDataSQL>>
-    consultaLivros(std::string valor, std::string coluna);
+    
+    std::vector<Livro> consultaLivros(std::string valor, std::string coluna);
 
-    void imprimeConsulta(std::vector<std::tuple<unsigned int, Livro, AdtDataSQL>>& consulta);
+    virtual void imprimeConsulta(std::vector<Livro>& consulta);
 };
 
 #endif
