@@ -46,7 +46,7 @@ make
 
 After that, the program will be compiled in a file called "biblioteca". Then, type:
 ```shell
-./biblioteca
+./bin/biblioteca
 ```
 That way you can use the program and its features.
 
@@ -68,7 +68,7 @@ Compiling and Running the Program:
 g++ -o biblioteca main.cpp -lsqlite3
 ```
 ```shell
-./biblioteca
+./bin/biblioteca
 ```
 That way you can use the program and its features.
 
