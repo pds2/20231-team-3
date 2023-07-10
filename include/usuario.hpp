@@ -33,7 +33,11 @@ private:
     unsigned int _n_livros_posse;
 
 public:
+    /**
+     * @brief Construtor da classe Usuario sem argumentos. Inicializa membros vazios.
+     */
     Usuario();
+
     /**
      * @brief Construtor da classe Usuario.
      * @param nome Nome do usuário.

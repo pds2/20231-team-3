@@ -14,7 +14,7 @@ class DbUsuarios : public BbtWrapperSQL<Usuario>
             sqlite::row_iterator::value_type linha_binder) override;
 
     public:
-        DbUsuarios();        
+        DbUsuarios();  
 };
 
 #endif

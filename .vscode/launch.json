@@ -2,10 +2,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch debug PDS2-team3",
+            "name": "Launch biblioteca",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/main",
+            "program": "${workspaceFolder}/bin/biblioteca",
             "args": [],
             "stopAtEntry": true,
             "cwd": "${workspaceFolder}",
@@ -22,14 +22,61 @@
                     "description": "Set Disassembly Flavor to Intel",
                     "text": "-gdb-set disassembly-flavor intel",
                     "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Tasks build biblioteca",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "Launch test",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/test",
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
                 },
                 {
-                    "description": "Enable break on all exceptions",
-                    "text": "catch throw",
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "Tasks build PDS2-team3",
+            "preLaunchTask": "Tasks build tester",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "Launch main teste",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/main_teste",
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Tasks build main teste",
             "miDebuggerPath": "/usr/bin/gdb"
         }
     ]

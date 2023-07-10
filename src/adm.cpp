@@ -1,3 +1,5 @@
+#include <fstream>
+
 #include "../include/adm.hpp"
 #include "../include/entidadebase.hpp"
 #include "../include/db_acervo.hpp"
@@ -34,4 +36,46 @@ void Administrador::sign_in()
     if(consulta.size() != 0) throw EmailJaCadastrado();
 
     db_adm.inserir_linha(*this);
+}
+
+void Administrador::carregarLivros(std::string arq)
+{
+    std::fstream fin;
+    fin.open(arq, std::ios::in);
+
+    std::vector<std::string> linha;
+    std::string linha_str, palavra;
+
+    auto db_acervo = DbAcervo();
+
+    while(std::getline(fin, linha_str))
+    {
+        linha.clear();
+
+        std::stringstream s(linha_str);
+
+        while(std::getline(s, palavra, ';'))
+        {
+            linha.push_back(palavra);
+        }
+        
+        try
+        {
+            auto&& livro = Livro(
+                linha.at(0),
+                linha.at(1),
+                linha.at(2),
+                linha.at(3),
+                linha.at(4),
+                std::stoi(linha.at(5)),
+                std::stoi(linha.at(6)),
+                std::stoi(linha.at(7)));
+            
+            db_acervo.inserir_linha(livro);
+        }
+        catch(const std::exception& e)
+        {
+            throw LivrosNaoImportados();
+        }
+    }
 }

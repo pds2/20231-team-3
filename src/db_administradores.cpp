@@ -45,5 +45,5 @@ Entidadebase DbAdministradores::_diretriz(
     {
         _sql_excecao(std::current_exception());
     };
-    return Entidadebase("", "", "", 0);
+    return Entidadebase();
 }
