@@ -33,6 +33,8 @@ public:
      * @param email Email da entidade.
      * @param id ID da entidade.
      */
+    Entidadebase();
+    
     Entidadebase(
         const std::string nome,
         const std::string senha,

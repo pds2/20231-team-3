@@ -40,6 +40,8 @@ public:
      * @param email Email do bibliotecário.
      * @param id_db ID do banco de dados.
      */
+    Bibliotecario(); // Construtor sem argumentos
+
     Bibliotecario(
         const std::string nome,
         const std::string senha,

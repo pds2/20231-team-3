@@ -14,6 +14,8 @@ Usuario::Usuario() : Entidadebase("", "", "", bbt_def::id_usuario, 0), _n_livros
     _numerodelivros = bbt_def::max_livros_user;
 }
 
+Usuario::Usuario() {}
+
 Usuario::Usuario(const std::string nome,
                  const std::string senha,
                  const std::string email,
