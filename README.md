@@ -1,4 +1,4 @@
-<h1>Team 3</h1>
+# Team 3
 
 <p>The terminal-based library program is a command-line application for managing library operations. It allows tasks such as adding books, searching, checking out, and returning books, as well as managing user accounts. It provides an efficient interface for librarians and patrons to interact with the library system.</p>
 
@@ -21,7 +21,7 @@
   <li>Pedro Alexandria</li>
 </ul>
 
-# Environment Setup
+# :computer: Environment Setup
 In order to set your environment up to run the code here, first install all requirements.
 Obs: Use the command consistent with your operating system, the examples given were done in ubuntu and arch
 
@@ -35,3 +35,13 @@ sudo pacman -S sqlite
 ```
 
 Then, with this library installed and making sure that the C++ dependencies are also on your computer, download the .zip of this project.
+In your terminal, access the project folder, after that type:
+```shell
+make
+```
+
+After that, the program will be compiled in a file called "biblioteca". Then, type:
+```shell
+./biblioteca
+```
+That way you can use the program and its features.
