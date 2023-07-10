@@ -1,6 +1,4 @@
-# Team 3
-
-# Library System  
+# Team 3 | Library System  
 
 <p>The terminal-based library program is a command-line application for managing library operations. It allows tasks such as adding books, searching, checking out, and returning books, as well as managing user accounts. It provides an efficient interface for librarians and patrons to interact with the library system.</p>
 
