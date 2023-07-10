@@ -1,9 +1,9 @@
 #ifndef BIBLIOTECARIO_HPP
 #define BIBLIOTECARIO_HPP
 
-#include "acervo.hpp"
-#include "entidadebase.hpp"
-#include "livro.hpp"
+#include "../include/entidadebase.hpp"
+#include "../include/livro.hpp"
+#include "../include/usuario.hpp"
 
 #include <iostream>
 #include <set>
@@ -11,49 +11,82 @@
 #include <vector>
 
 /**
+ * @brief Classe de exceção de livro indisponível.
+ */
+class LivroIndisponivel : public std::runtime_error {
+public:
+    LivroIndisponivel() : std::runtime_error("Livro indisponível") {}
+};
+
+/**
+ * @brief Classe de exceção de usuário não encontrado.
+ */
+class UsuarioNaoEncontrado : public std::runtime_error {
+public:
+    UsuarioNaoEncontrado() : std::runtime_error("Usuário não encontrado") {}
+};
+
+/**
  * @brief Classe responsável por criar um bibliotecário
  */
 class Bibliotecario : public Entidadebase
 {
-private:
-    
 public:
-    Bibliotecario();
+
     /**
      * @brief Construtor da classe Bibliotecario.
      * @param nome Nome do bibliotecário.
      * @param senha Senha do bibliotecário.
      * @param email Email do bibliotecário.
-     * @param id ID do bibliotecário.
+     * @param id_db ID do banco de dados.
      */
+    Bibliotecario(); // Construtor sem argumentos
+
     Bibliotecario(
         const std::string nome,
         const std::string senha,
         const std::string email,
-        int id = 3
+        unsigned int id_db = 0
     );
 
     /**
      * @brief Verifica se um livro está disponível para empréstimo.
      * @param livro Referência para o livro a ser verificado.
      * @param acervo Referência para o acervo.
-     * @return Retorna true se o livro estiver disponível, false caso contrário.
+     * @return Retorna o ID do livro se estiver disponível, zero caso contrário.
      */
-    bool EstaDisponivel(Livro &livro, Acervo &acervo);
+    unsigned int EstaDisponivel(Livro &livro);
 
     /**
      * @brief Realiza o empréstimo de um livro.
      * @param livro Referência para o livro a ser emprestado.
      * @return Retorna o livro após o empréstimo (pode ser necessário ajustar os argumentos do construtor).
      */
-    Livro EmprestaLivro(Livro &livro);
+    Livro EmprestaLivro(Livro &livro, Usuario& user);
 
-    /*
-     * @brief Define o ID do usuário que pegou emprestado o livro
-     * @param idUsuario O ID do usuário
+    /**
+     * @brief Registra a devolução de um livro.
+     * @param livro Livro a ser devolvido.
+     * @param usuario Usuario que tem a posse do livro.
      */
+    void DevolveLivro(Livro& livro, Usuario& usuario);
 
-    //void setUsuarioEmprestimo(int idUsuario);
+    Usuario BuscaUsuario(Usuario& user);
+
+    void sign_in();
+
+    /**
+    * @brief Obtém a data atual no formato de string
+    * @return A data atual no formato de string
+    */
+    std::string obterDataAtual();
+
+    /**
+    * @brief Obtém a data atual mais um offset em dias no formato de string
+    * @param dias Offset em dias, pode ser positivo ou negativo
+    * @return A data atual mais o offset no formato de string
+    */
+    std::string obterOffsetDataAtual(int dias);
 
     /*
      * @brief Define a data de empréstimo do livro
@@ -62,12 +95,5 @@ public:
 
     //void setDataEmprestimo(const std::string& data);
 };
-
-/*
- * @brief Obtém a data atual no formato de string
- * @return A data atual no formato de string
- */
-/*
-std::string obterDataAtual();*/
 
 #endif

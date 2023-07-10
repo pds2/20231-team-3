@@ -4,6 +4,10 @@
 #include <iostream>
 #include <string>
 
+#include "../include/livro.hpp"
+
+//#include "db_acervo.hpp"
+
 /**
  * @brief Classe base para entidades do sistema.
  */
@@ -14,9 +18,14 @@ private:
     std::string _senha;
     std::string _email;
     unsigned int _id;
+    unsigned int _id_sql;
 
 public:
+    /**
+     * @brief Construtor da classe Entidadebase sem parâmetros. Inicializa membros vazios.
+     */
     Entidadebase();
+
     /**
      * @brief Construtor da classe Entidadebase.
      * @param nome Nome da entidade.
@@ -24,11 +33,13 @@ public:
      * @param email Email da entidade.
      * @param id ID da entidade.
      */
+    
     Entidadebase(
         const std::string nome,
         const std::string senha,
         const std::string email,
-        unsigned int id
+        unsigned int id,
+        unsigned int id_db = 0
     );
 
     /**
@@ -48,6 +59,12 @@ public:
      * @return Retorna o ID da entidade como um valor inteiro.
      */
     unsigned int getId();
+
+    /**
+     * @brief Obtém o ID da entidade no banco de dados.
+     * @return Retorna o ID do banco de dados da entidade como um valor inteiro.
+     */
+    unsigned int getIdDb();
 
     /**
      * @brief Obtém a senha da entidade.
@@ -78,6 +95,11 @@ public:
      * @param senha Nova senha da entidade.
      */
     void setSenha(const std::string &senha);
+
+    
+    std::vector<Livro> consultaLivros(std::string valor, std::string coluna);
+
+    virtual void imprimeConsulta(std::vector<Livro>& consulta);
 };
 
 #endif

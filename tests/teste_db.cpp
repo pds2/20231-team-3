@@ -1,9 +1,9 @@
 #include <iostream>
 
-#include "doctest.h"
-#include "definicoes.hpp"
-#include "db_acervo.hpp"
-#include "db_usuarios.hpp"
+#include "../third_party/doctest.h"
+#include "../include/definicoes.hpp"
+#include "../include/db_acervo.hpp"
+#include "../include/db_usuarios.hpp"
 
 TEST_CASE("teste de criação de banco de dados")
 {
@@ -24,13 +24,9 @@ TEST_CASE("teste de inserção de um livro")
     db_ac.inserir_linha(livro1);
     db_ac.inserir_linha(livro2);
 
-    auto livro1_consulta = std::get<1>(
-        db_ac.consulta("titulo1", bbt_def::sql::schema_acervo::titulo).back()
-    );
+    auto livro1_consulta = db_ac.consulta("titulo1", bbt_def::sql::schema_acervo::titulo).back();
 
-    auto livro2_consulta = std::get<1>(
-        db_ac.consulta("titulo2", bbt_def::sql::schema_acervo::titulo).back()
-    );
+    auto livro2_consulta = db_ac.consulta("titulo2", bbt_def::sql::schema_acervo::titulo).back();
 
     CHECK_EQ(livro1.getTitulo(), livro1_consulta.getTitulo());
     CHECK_EQ(livro1.getAutor(), livro1_consulta.getAutor());
@@ -67,23 +63,21 @@ TEST_CASE("Teste de consulta")
     CHECK_EQ(2, autor_consulta.size());
 
     unsigned int id_livro_titulo1;
-    for(auto tuple : autor_consulta)
+    for(auto livro : autor_consulta)
     {
-        auto livro = std::get<1>(tuple);
-        if(livro.getTitulo() == "titulo1") id_livro_titulo1 = std::get<0>(tuple);
+        if(livro.getTitulo() == "titulo1") id_livro_titulo1 = livro.getId();
     }
 
     db_ac.sobrescrever_em_id(
-        std::string("2023-06-29 00:00:00"),
+        std::string("29/06/2023"),
         bbt_def::sql::schema_acervo::data_aluguel,
         id_livro_titulo1);
     
-    auto data_livro_titulo1 = std::get<2>
-    (
-        db_ac.consulta("2023-06-29 00:00:00", bbt_def::sql::schema_acervo::data_aluguel).back()
-    ).text_data.back();
+    auto data_livro_titulo1 = db_ac.consulta("29/06/2023", bbt_def::sql::schema_acervo::data_aluguel)
+    .back()
+    .getDataAluguel();
     
-    CHECK_EQ("2023-06-29 00:00:00", data_livro_titulo1);
+    CHECK_EQ("29/06/2023", data_livro_titulo1);
 }
 
 TEST_CASE("Teste da chave cruzada entre tabela usuários e tabela acervo")
@@ -108,33 +102,29 @@ TEST_CASE("Teste da chave cruzada entre tabela usuários e tabela acervo")
     db_ac.inserir_linha(livro1);
     db_ac.inserir_linha(livro2);
 
-    auto id_livro1 = std::get<0>
-    (
-        db_ac.consulta("titulo1", bbt_def::sql::schema_acervo::titulo).back()
-    );
+    auto id_livro1 = db_ac.consulta("titulo1", bbt_def::sql::schema_acervo::titulo)
+    .back()
+    .getId();
 
-    auto id_user2 = std::get<0>
-    (
-        db_us.consulta("user2", bbt_def::sql::schema_usuarios::nome).back()
-    );
+    auto id_user2 = db_us.consulta("user2", bbt_def::sql::schema_usuarios::nome)
+    .back()
+    .getId();
 
     db_ac.sobrescrever_em_id(id_user2, bbt_def::sql::schema_acervo::posse_id, id_livro1);
 
-    auto id_posse_livro1 = std::get<2>
-    (
-        db_ac.consulta("titulo1", bbt_def::sql::schema_acervo::titulo).back()
-    ).long_data.at(0);
+    auto id_posse_livro1 = db_ac.consulta("titulo1", bbt_def::sql::schema_acervo::titulo)
+    .back()
+    .getEstado();
 
     CHECK_EQ(id_posse_livro1, id_user2);
 
     db_us.deletar_linha_id(id_user2);
 
-    auto livro1_adt_data = std::get<2>
-    (
-        db_ac.consulta("titulo1", bbt_def::sql::schema_acervo::titulo).back()
-    ).long_data;
+    auto livro1_posse = db_ac.consulta("titulo1", bbt_def::sql::schema_acervo::titulo)
+    .back()
+    .getEstado();
 
-    CHECK_EQ(livro1_adt_data.size(), 0);
+    CHECK_EQ(livro1_posse, 0);
 }
 
 TEST_CASE("teste de sobrescrita de linhas")
@@ -147,17 +137,13 @@ TEST_CASE("teste de sobrescrita de linhas")
 
     db_ac.inserir_linha(livro1);
 
-    auto id_livro1 = std::get<0>
-    (
-        db_ac.consulta("titulo1", bbt_def::sql::schema_acervo::titulo).back()
-    );
+    auto id_livro1 = db_ac.consulta("titulo1", bbt_def::sql::schema_acervo::titulo)
+    .back()
+    .getId();
 
     db_ac.sobrescrever_em_id(livro2, id_livro1);
 
-    auto livro_subst = std::get<1>
-    (
-        db_ac.consulta(id_livro1, bbt_def::sql::id).back()
-    );
+    auto livro_subst = db_ac.consulta(id_livro1, bbt_def::sql::id).back();
 
     CHECK_EQ("titulo2", livro_subst.getTitulo());
 }

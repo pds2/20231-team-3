@@ -4,12 +4,12 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/third-party/**",
-                "${workspaceFolder}/third-party/hdr/**"
+                "${workspaceFolder}/third_party/**",
+                "${workspaceFolder}/include/**"
             ],
             "defines": [],
             "cStandard": "c17",
-            "cppStandard": "gnu++17",
+            "cppStandard": "gnu++20",
             "intelliSenseMode": "linux-gcc-x64"
         }
     ],
