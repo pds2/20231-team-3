@@ -30,6 +30,7 @@ In order to set your environment up to run the code here, first install all requ
 Obs: Use the command consistent with your operating system, the examples given were done in ubuntu and arch
 
 <h6>Linux setup</h6>
+
 Ubuntu:
 ```shell
 sudo apt-get install sqlite3 libsqlite3-dev
