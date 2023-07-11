@@ -120,3 +120,51 @@ By following the menu options and instructions, you can effectively interact wit
 
   <li>Load Books: Administrator can load a list of books from a file. Books are read from the archive, information is extracted, and each book is added to the holding database.</li>
 </ul>
+
+### OBS: The part below is only visual, because our group could not connect the frontend and the backend, but feel free to see the webpage working!
+
+# Tutorial de Instalação da Biblioteca Crow em C++ :books: :hammer:
+### Instalação da biblioteca Crow :inbox_tray:
+
+<ul>
+  <li>Abra o terminal ou prompt de comando no seu sistema operacional.</li>
+  <li>Certifique-se de ter o CMake instalado. Você pode verificar digitando cmake --version no terminal. Se não estiver instalado, você pode baixá-lo em: https://cmake.org/download/.</li>
+  <li>Faça o download da biblioteca Crow. Você pode obtê-la no repositório oficial do Crow no GitHub: ipkn/crow.</li>
+  <li>Descompacte o arquivo que você baixou e acesse o diretório raiz do Crow.</li>
+  <li>Abra o terminal ou prompt de comando no seu sistema operacional.</li>
+</ul>  
+
+### Compilação e Construção do Projeto :wrench:
+
+<ul>
+  <li>Dentro do diretório raiz do Crow, crie um diretório chamado "build" (ou qualquer outro nome que você preferir) para realizar a construção.</li>
+  <li>Acesse o diretório "build" que você acabou de criar.</li>
+  <li>Execute o comando cmake .. para gerar os arquivos de construção do CMake.</li>
+  <li>Em seguida, execute o comando make (ou mingw32-make se estiver usando o MinGW no Windows) para compilar o projeto..</li>
+</ul>  
+
+### Executando o Arquivo Crow :arrow_forward:
+
+<ul>
+  <li>No terminal, Digite o seguinte comando no terminal: g++ frontend/example.cpp.</li>
+  <li>Após a conclusão da compilação, você terá um arquivo executável na pasta raíz, ou seja, dentro de pasta nenhuma :) . Neste caso, o arquivo será chamado a.out.</li>
+  <li>Depois digite o seguinte comando no terminal: ./a.out e assim você vai começar a estanciar o site.</li>
+  <li>O Crow usará um determinado endereço IP e porta para hospedar seu aplicativo da web. Por padrão, o endereço IP é "localhost" e a porta é "8080".</li>
+  <li>No terminal, será exibido um link que você pode clicar para acessar o aplicativo em seu navegador.</li>
+  <li>Clique no link exibido no terminal para abrir a página no seu navegador padrão.</li>
+</ul> 
+
+### Parando de Hospedar a Página :stop_button:
+
+<ul>
+  <li>Para parar de hospedar a página, volte ao terminal onde o Crow está sendo executado.</li>
+  <li>Pressione Control + C no terminal para interromper a execução do Crow.</li>
+  <li>Agora você instalou a biblioteca Crow, compilou o arquivo example.cpp localizado na pasta frontend, e executou o aplicativo usando o Crow em C++. Acesse a página clicando no link exibido no terminal e pare a execução pressionando Control + C no terminal.</li>
+</ul> 
+
+### Para ver as imagens do site 😙:
+
+<ul>
+  <li>Basta navegar até pasta frontend.</li>
+  <li>E acessar a pasta frontend images.</li>
+</ul> 
