@@ -31,32 +31,30 @@
 </ol>
 
 # :computer: Environment Setup
-In order to set your environment up to run the code here, first install all requirements.
-<p>Obs: Use the command consistent with your operating system.</p>
-
-<p>First of all, clone this repository in your device. Then navigate to the project directory on your system.
-</p>
-
-<p>After that make sure you install the required programs (one of them will be taught how to download below). Also, follow the steps according to your operating system.
-</p>
+To set up your environment and run the code, follow these steps:
+<ol>
+  <li>Clone this repository to your local machine.</li>
+  <li>Navigate to the project directory on your system.</li>
+</ol>
 
 ### Linux Setup
 
-Ubuntu:
+#### Ubuntu
+<p>Install the required dependencies by running the following command:</p>
 ```shell
 sudo apt-get install sqlite3 libsqlite3-dev
 ```
-Arch:
+#### Arch
+<p>Install the required dependencies by running the following command:</p>
 ```shell
 sudo pacman -S sqlite
 ```
 
-Then, with this library installed and making sure that the C++ dependencies are also on your computer, go to your terminal, access the project folder, after that type:
+Once the dependencies are installed, open your terminal, navigate to the project folder, and run the following commands:
 ```shell
 make
 ```
 
-After that, the program will be compiled in a file called "biblioteca". Then, type:
 ```shell
 ./bin/biblioteca
 ```
