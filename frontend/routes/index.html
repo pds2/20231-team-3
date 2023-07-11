@@ -2,33 +2,36 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <style>
-      
-      /* Cabeçalho */
-      header {
-        background-color: #eeeeee;
-        padding: 20px;
+
+    <style>
+
+    /* Cabeçalho */
+    header {
+      background-color: #eeeeee;
+      padding: 20px;
+      color: #e76b5b;
+      text-align: left;
+      margin: 0 0 60px 0;
+        
+      .header-link {
         color: #e76b5b;
-        text-align: left;
-        margin: 0 0 60px 0;
-          
-        .header-link {
-          color: #e76b5b;
-          text-decoration: none;
-          margin-right: 20px;
-          font-size: 25px;
-          font-family: Arial, Helvetica, sans-serif;
-          }
-          
-        .logo {
-            max-width: 5px;
+        text-decoration: none;
+        margin-right: 20px;
+        font-size: 25px;
+        font-family: Arial, Helvetica, sans-serif;
         }
+        
+      .logo {
+          max-width: 5px;
       }
+      
+    }
 
     section {
       padding: 20px;
     }
   
+    
 
     nav {
       background-color: #eeeeee;
@@ -56,7 +59,7 @@
       background-color: #ddd;
     }
 
-    /* Design categoria */
+    /* Design */
     h2 {
       color: #e76b5b;
       margin: 90px 0 60px 0;
@@ -71,42 +74,14 @@
       margin-bottom: 20px;
     }
 
-
-    .link-acao {
-        color: #42415c;
-        text-decoration: none;
-        padding: 5px 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        transition: background-color 0.3s ease;
-        margin: 10px 50px 20px 0;
-        font-size: 30px;
+    h3 {
+      color: #42415c;
+      margin: 90px 0 60px 0;
+      font-size: 15px;
+      text-align: left;
+      font-family: "Roboto";
     }
 
-    .link-romance {
-        text-decoration: none;
-        color: #42415c;
-        padding: 5px 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        transition: background-color 0.3s ease;
-        font-size: 30px;
-    }
-    .link-suspense {
-        text-decoration: none;
-        color: #42415c;
-        padding: 5px 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        transition: background-color 0.3s ease;
-        font-size: 30px;
-    }
-
-    .link-acao:hover,
-    .link-suspense:hover,
-    .link-romance:hover {
-    text-decoration: underline;
-    }
     #image_box {
       height: 682px;
       display: grid;
@@ -133,39 +108,67 @@
       color:#e76b5b
     }
 
- </style>
+</style>
 </head>
 <body>
   <header>
     <img src="https://i.ibb.co/JBzwJmw/image.jpg" alt="Logo da Biblioteca">
     <nav>
       <ul>
-        <li><a class="header-link" href="http://localhost:18080/livros">Livros</a></li>
-        <li><a class="header-link" href="http://localhost:18080/sobre">Sobre</a></li>
+        <li><a class="header-link" href="#livros-disponiveis">Livros</a></li>
+        <li><a class="header-link" href="#sobre-o-projeto">Sobre</a></li>
       </ul>
     </nav>
   </style>
   </header>
-
-<body>
-<html>
-    <div id="image_box">
-      <p class="saiba_mais">
-        Conheça mais sobre o nosso projeto!<br>
-        <br>
-        <a class="link_btn" href="http://localhost:18080/sobre"> Clique aqui</a>
-      </p>
-    </div>
-    <h2><a>Categorias</a></h2>
-    <ul>
-      <li><a class="link-acao" href="http://localhost:18080/categoria/acao">Ação</a></li><br>
-      <li><a class="link-romance" href="http://localhost:18080/categoria/romance">Romance</a></li><br>
-      <li><a class="link-suspense" href="http://localhost:18080/categoria/suspense">Suspense</a></li><br>
+  <body>
+    <html>
+      <div id="image_box">
+        <p class="saiba_mais">
+          Conheça mais sobre o nosso projeto!<br>
+          <br>
+          <a class="link_btn" href="#sobre-o-projeto"> Clique aqui</a>
+        </p>
+      </div>
     </ul>
+  </section>
+  <section id="livros-disponiveis">
+    <!-- Conteúdo da seção de livros disponíveis -->
+    <h2>Livros Disponíveis</h2>
+    <ul id="lista-livros"></ul>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $.get("/api/livros", function(data) {
+                var livros = JSON.parse(data);
+  
+                var listaLivros = document.getElementById("lista-livros");
+  
+                livros.forEach(function(livro) {
+                    var itemLivro = document.createElement("li");
+                    itemLivro.textContent = "ID: " + livro.id + ", Título: " + livro.titulo + ", Autor: " + livro.autor;
+                    listaLivros.appendChild(itemLivro);
+                });
+            });
+        });
+    </script>
+  </head>
+  </section>
+  
+  <section id="sobre-o-projeto">
+    <!-- Conteúdo da seção sobre o projeto -->
+    <h2>Sobre o Projeto</h2>
+  </header>
+  <h3><p>O trabalho foi desenvolvido com base nos conceitos e conhecimentos adquiridos em sala de aula durante o curso. Durante o processo de desenvolvimento, aplicamos diferentes elementos que aprendemos ao longo do curso para criar um sistema funcional e eficiente.
+    No contexto do trabalho, utilizamos a linguagem de programação C++ e a biblioteca Crow para construir uma aplicação web. A linguagem C++ é amplamente utilizada em ambientes de desenvolvimento de software devido à sua eficiência e flexibilidade. Com os conceitos aprendidos em sala de aula, pudemos aplicar os princípios da programação orientada a objetos, estruturas de controle e manipulação de dados para criar a lógica do sistema.
+    Além disso, incorporamos a biblioteca SQLite para trabalhar com o banco de dados. Através dos conhecimentos adquiridos em sala de aula sobre bancos de dados relacionais e SQL, pudemos criar consultas para recuperar dados do banco de dados SQLite e exibi-los no sistema.
+    Durante o desenvolvimento, também utilizamos conceitos de programação em rede e protocolos HTTP. Compreendendo esses conceitos, pudemos criar rotas e manipular solicitações e respostas HTTP para fornecer uma interface de usuário intuitiva e responsiva. 
+    Em resumo, o trabalho foi um exercício prático de aplicação dos conceitos e técnicas aprendidos em sala de aula. Ao utilizá-los, conseguimos construir uma aplicação web funcional que demonstra nossa compreensão dos conceitos-chave e nossa capacidade de aplicá-los em um projeto real.<br></p>
+    Link para o acesso ao github: https://github.com/pds2/20231-team-3/tree/main
+  </h3>
   </section>
 </body>
 </html>
-
 
 <footer>
   <div class="footer-content">
