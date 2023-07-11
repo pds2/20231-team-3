@@ -40,17 +40,23 @@ To set up your environment and run the code, follow these steps:
 ### Linux Setup
 
 #### Ubuntu
+
 <p>Install the required dependencies by running the following command:</p>
+
 ```shell
 sudo apt-get install sqlite3 libsqlite3-dev
 ```
+
 #### Arch
+
 <p>Install the required dependencies by running the following command:</p>
+
 ```shell
 sudo pacman -S sqlite
 ```
 
 Once the dependencies are installed, open your terminal, navigate to the project folder, and run the following commands:
+
 ```shell
 make
 ```
@@ -58,6 +64,7 @@ make
 ```shell
 ./bin/biblioteca
 ```
+
 That way you can use the program and its features.
 
 ### MacOS Setup
