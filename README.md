@@ -32,7 +32,7 @@
 
 # :computer: Environment Setup
 In order to set your environment up to run the code here, first install all requirements.
-<p>Obs: Use the command consistent with your operating system, the examples given were done in ubuntu and arch</p>
+<p>Obs: Use the command consistent with your operating system.</p>
 
 <p>First of all, clone this repository in your device. Then navigate to the project directory on your system.
 </p>
@@ -85,10 +85,33 @@ g++ -o biblioteca main.cpp -lsqlite3
 ```
 That way you can use the program and its features.
 
-<h3>Navegating the program</h3>
+# :pencil2: System features
 <ul>
   <li>Once the program starts, you will be presented with a menu that offers a variety of options to perform different tasks. These tasks include adding books, searching for specific books, renting books, returning books, and managing user accounts, among others.
 To interact with the program, simply use the corresponding keys or input commands for the menu options that correspond to the action you want to take. For example, if you want to add a book, you would select the option associated with adding books.
 As you navigate through the program, carefully follow the instructions that are displayed on the screen. These instructions will guide you on how to input data, make selections, and complete various operations within the program.
 By following the menu options and instructions, you can effectively interact with the program and perform the desired actions efficiently.</li>
+</ul>
+
+### User features
+<ul>
+  <li>Book Borrowing: Customers can borrow books from the library as long as they have not reached the maximum book limit and the books are available.</li>
+  <li>Book Return: Patrons can return borrowed books to the library when they are finished reading them.</li>
+  <li>Book Ratings: Customers can rate the books they have read, providing a score from 0 to 5. The rating contributes to the library's book rating average.</li>
+</ul>
+
+### Librarian features
+<ul>
+  <li>Book Loan: The librarian can loan a book to a user. It checks that the book is available and that the user has not reached the maximum borrowed book limit. It then records loan information such as the lease date and return date.</li>
+
+<li>Book Returns: The librarian can receive the return of a book borrowed by a user. It verifies that the book is associated with the user and updates the borrowing information, marking the book as available again.</li>
+</ul>
+
+### Administrator features
+<ul>
+  <li>Insert Book: The administrator can insert a new book in the library collection. It provides the book information such as title, author, genre, etc., and the book is added to the holding database.</li>
+
+  <li>Remove Book: The administrator can remove a book from the library's collection. Before removing the book, the administrator checks if the book is currently on loan. If the book is on loan, an exception is thrown to say that the book cannot be removed. Otherwise, the book is deleted from the holdings database.</li>
+
+  <li>Load Books: Administrator can load a list of books from a file. Books are read from the archive, information is extracted, and each book is added to the holding database.</li>
 </ul>
