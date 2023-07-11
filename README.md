@@ -68,7 +68,7 @@ make
 That way you can use the program and its features.
 
 ### MacOS Setup
-<p>macOS:</p>
+#### MacOS
 <p>Install Xcode: Download and install Xcode, which includes the Clang compiler and other tools required for C++ development. Xcode is available from the App Store or the Apple website.</p>
 
 Install Homebrew:
