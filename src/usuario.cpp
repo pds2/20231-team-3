@@ -69,7 +69,7 @@ void Usuario::devolver_livro(Livro& u)
     }
 }
 
-void Usuario::avaliar_livro(Livro &u, float avaliacaousuario)
+void Usuario::avaliar_livro(Livro &u, float const avaliacaousuario)
 {
     using namespace bbt_def;
     auto db_acervo = DbAcervo();

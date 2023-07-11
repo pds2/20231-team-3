@@ -75,7 +75,7 @@ public:
      * @param u Livro a ser avaliado.
      * @param avaliacaousuario Avaliação atribuída pelo usuário.
      */
-    void avaliar_livro(Livro &u, float avaliacaousuario);
+    void avaliar_livro(Livro &u, float const avaliacaousuario);
 
     /**
      * @brief Obtém a quantidade de livros pegos pelo usuário.

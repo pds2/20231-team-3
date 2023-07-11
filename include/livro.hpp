@@ -135,7 +135,7 @@ public:
      * @brief Obtém a avaliação média do livro.
      * @return Retorna a avaliação média do livro como um valor de ponto flutuante.
      */
-    float getAvaliacao();
+    float getAvaliacao() const;
 
     /**
      * @brief Obtém o ID do livro.

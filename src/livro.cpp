@@ -79,7 +79,7 @@ unsigned int Livro::getAno() const {
     return _ano;
 }
 
-float Livro::getAvaliacao() {
+float Livro::getAvaliacao() const {
     return _avaliacao;
 }
 
